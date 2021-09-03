@@ -1,5 +1,9 @@
 # NestContracts
-Deployed Polly-(PieDao) contracts
+Deployed Polly-(PieDao) contracts.<br/>
+All contracts are forked from the PieDao deployment on the Ethereum Mainnet, with some minor changes that to allow them to function on Pollygon.<br/>
+These changes are detailed below.<br/>
+<br/>
+In order to understand the smart contract setup and query the nests correctly you will have to familiarize yourself with the Diamond standard archectecture, with which these contracts where build https://eips.ethereum.org/EIPS/eip-2535.
 
 # Contract Changes
 
@@ -183,8 +187,8 @@ PProxy/Nest: <br />
 0:    Polly nDefi Nest (nDEFI): 		0xd3f07EA86DDf7BAebEfd49731D7Bbd207FedC53B  <br />
 		LendingManager:					 	0x3f323a6E3Bddff52529fA9ac94CFCc6E755A0242<br />
 			
-1:	  TBD:
-		LendingManager:
+1:	  TBD:<br />
+		LendingManager:<br />
 		
-1:	  TBD:
-LendingManager:
+2:	  TBD:<br />
+LendingManager:<br />
