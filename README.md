@@ -3,7 +3,7 @@ Deployed Polly-(PieDao) contracts.<br/>
 All contracts are forked from the PieDao deployment on the Ethereum Mainnet, with some minor changes that to allow them to function on Pollygon.<br/>
 These changes are detailed below.<br/>
 <br/>
-In order to understand the smart contract setup and query the nests correctly you will have to familiarize yourself with the Diamond standard archectecture, with which these contracts where build https://eips.ethereum.org/EIPS/eip-2535.
+In order to understand the smart contract setup and query the nests correctly you will have to familiarize yourself with the *Diamond Standard* architecture, with which these contracts where build https://eips.ethereum.org/EIPS/eip-2535.
 
 # Contract Changes
 
