@@ -6,11 +6,14 @@ These changes are detailed below.<br/>
 In order to understand the smart contract setup and query the nests correctly you will have to familiarize yourself with the *Diamond Standard* architecture, with which these contracts where build https://eips.ethereum.org/EIPS/eip-2535.
 
 # Contract Changes
+
 	The original contracts deployed by PieDao can be found here: <br />
-	https://docs.piedao.org/technical/deployed-smart-contracts <br />
+	https://docs.piedao.org/technical/deployed-smart-contracts 	 <br />
+	
 1.  The contracts where ported as is from the PieDaos implementation on Main net with a few exceptions:
 	On the Polygon network the Aave protocol requires the sender to state the address where the amTokens or underlying tokens should be send when depositing or withdrawing.
 	This required small changes in the following contracts:<br />
+	<br />
 	**ILendingLogic.so**
 	```
 		function lend(address _underlying, uint256 _amount, address _tokenHolder) external view returns(address[] memory targets, bytes[] memory data);
