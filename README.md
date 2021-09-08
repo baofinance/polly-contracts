@@ -6,20 +6,10 @@ These changes are detailed below.<br/>
 In order to understand the smart contract setup and query the nests correctly you will have to familiarize yourself with the *Diamond Standard* architecture, with which these contracts where build https://eips.ethereum.org/EIPS/eip-2535.
 
 # Contract Changes
-
-1. 	Originally the recipe always looks at Uniswap and SushiSwap to identify the best price. The new Recipe does not check the prices and only trades on SushiSwap.
-
-	```
-		function getBestPriceSushiUni(address _inputToken, address _outputToken, uint256 _outputAmount) internal returns(uint256, DexChoice) {
-			uint256 sushiAmount = getPriceUniLike(_inputToken, _outputToken, _outputAmount, sushiRouter);
-
-			return (sushiAmount, DexChoice.Sushi);
-		}
-	```
-	
-2.  The contracts where ported as is from the PieDaos implementation on Main net with a few exceptions:
+	The original contracts deployed by PieDao can be found here: <br />
+	https://docs.piedao.org/technical/deployed-smart-contracts <br />
+1.  The contracts where ported as is from the PieDaos implementation on Main net with a few exceptions:
 	On the Polygon network the Aave protocol requires the sender to state the address where the amTokens or underlying tokens should be send when depositing or withdrawing.
-
 	This required small changes in the following contracts:<br />
 	**ILendingLogic.so**
 	```
@@ -114,6 +104,9 @@ In order to understand the smart contract setup and query the nests correctly yo
 		return(targets, data);
 	}
 	```
+	The contracts listed above do not have any access to the funds that are held by the nest.
+	At worst errors in these contracts would result in user minting a wrong amount of a nest or the user would fail to mint the nest.
+	
 	**LendingManger.sol**
 		
 	Changing the LendingManager requires increased vigilance, as it has direct access to the Nests funds. 	
@@ -128,12 +121,20 @@ In order to understand the smart contract setup and query the nests correctly yo
 	```
         ) = lendingRegistry.getLendTXData(_underlying, amount, address(basket),_protocol);
 	```
-	The `basket` constant is set on deployment and cannot be changed retroactively. 
-	It is the address of the nest/index that the LendingManager is assigned to.
+	The `basket` constant is set on deployment and cannot be changed retroactively. <br />
+	```
+	constructor(address _lendingRegistry, address _basket) public {
+        require(_lendingRegistry != address(0), "INVALID_LENDING_REGISTRY");
+        require(_basket != address(0), "INVALID_BASKET");
+        lendingRegistry = LendingRegistry(_lendingRegistry);
+        basket = IExperiPie(_basket);
+    }
+	```
+	The basket address is the address of the nest that the LendingManager is assigned to.
 	
 	
 	
-3.	The "Recipe" contract is used to swap the users wETH for the index assets and lend them in a specific protocol when needed.
+2.	The "Recipe" contract is used to swap the users wETH for the index assets and lend them in a specific protocol when needed.
 	As the recipe does not have access to any funds deposited in the index, we felt like more liberties could be made adjusting the code.
 	The following is a change that allows us to take an entry fee that is exchanged for polly and then burned:
 	
@@ -147,6 +148,16 @@ In order to understand the smart contract setup and query the nests correctly yo
 		baoToken.burn(baoToken.balanceOf(address(this)));    
     }
 	```
+3. 	Originally the recipe always looks at Uniswap and SushiSwap to identify the best price. The new Recipe does not check the prices and only trades on SushiSwap.
+
+```
+	function getBestPriceSushiUni(address _inputToken, address _outputToken, uint256 _outputAmount) internal returns(uint256, DexChoice) {
+		uint256 sushiAmount = getPriceUniLike(_inputToken, _outputToken, _outputAmount, sushiRouter);
+
+		return (sushiAmount, DexChoice.Sushi);
+	}
+```
+
 	
 # Deployed Contract Addresses
 
