@@ -6,159 +6,105 @@ These changes are detailed below.<br/>
 In order to understand the smart contract setup and query the nests correctly you will have to familiarize yourself with the *Diamond Standard* architecture, with which these contracts where build https://eips.ethereum.org/EIPS/eip-2535.
 
 # Contract Changes
+The original contracts deployed by PieDao can be found here: <br />
+https://docs.piedao.org/technical/deployed-smart-contracts   <br />
+The contracts where ported as is from the PieDaos implementation on Main net with a few exceptions:
+On the Polygon network the Aave protocol requires the sender to state the address where the amTokens or underlying tokens should be send when depositing or withdrawing.
+This required small changes in the following contracts:<br />
+<br />
+**ILendingLogic.so**<br />
+```
+	function lend(address _underlying, uint256 _amount, address _tokenHolder) external view returns(address[] memory targets, bytes[] memory data);
 
-	The original contracts deployed by PieDao can be found here: <br />
-	https://docs.piedao.org/technical/deployed-smart-contracts 	 <br />
-	
-1.  The contracts where ported as is from the PieDaos implementation on Main net with a few exceptions:
-	On the Polygon network the Aave protocol requires the sender to state the address where the amTokens or underlying tokens should be send when depositing or withdrawing.
-	This required small changes in the following contracts:<br />
-	<br />
-	**ILendingLogic.so**
-	```
-		function lend(address _underlying, uint256 _amount, address _tokenHolder) external view returns(address[] memory targets, bytes[] memory data);
-	
-		function unlend(address _wrapped, uint256 _amount, address _tokenHolder) external view returns(address[] memory targets, bytes[] memory data);
-	```
-	
-	**LendingRegestry.sol**
-	```
-	function getLendTXData(address _underlying, uint256 _amount, address _tokenHolder, bytes32 _protocol) external view returns(address[] memory targets, bytes[] memory data) {
-		ILendingLogic lendingLogic = ILendingLogic(protocolToLogic[_protocol]);
-		require(address(lendingLogic) != address(0), "NO_LENDING_LOGIC_SET");
+	function unlend(address _wrapped, uint256 _amount, address _tokenHolder) external view returns(address[] memory targets, bytes[] memory data);
+```
 
-		return lendingLogic.lend(_underlying, _amount, _tokenHolder);
-	}
-	```
-	**AaveLendingLogic.sol**
-	```
-	function lend(address _underlying,uint256 _amount, address _tokenHolder) external view override returns(address[] memory targets, bytes[] memory data) {
-		IERC20 underlying = IERC20(_underlying);
+**LendingRegestry.sol**
+```
+function getLendTXData(address _underlying, uint256 _amount, address _tokenHolder, bytes32 _protocol) external view returns(address[] memory targets, bytes[] memory data) {
+	ILendingLogic lendingLogic = ILendingLogic(protocolToLogic[_protocol]);
+	require(address(lendingLogic) != address(0), "NO_LENDING_LOGIC_SET");
 
-		targets = new address[](3);
-		data = new bytes[](3);
+	return lendingLogic.lend(_underlying, _amount, _tokenHolder);
+}
+```
+**AaveLendingLogic.sol**
+```
+function lend(address _underlying,uint256 _amount, address _tokenHolder) external view override returns(address[] memory targets, bytes[] memory data) {
+[...]
+data[2] =  abi.encodeWithSelector(lendingPool.deposit.selector, _underlying, _amount, _tokenHolder, referralCode);
+}
 
-		// zero out approval to be sure
-		targets[0] = _underlying;
-		data[0] = abi.encodeWithSelector(underlying.approve.selector, address(lendingPool), 0);
+function unlend(address _wrapped, uint256 _amount,address _tokenHolder) external view override returns(address[] memory targets, bytes[] memory data) {
+[...]
+data[0] = abi.encodeWithSelector(
+	lendingPool.withdraw.selector,
+	wrapped.UNDERLYING_ASSET_ADDRESS(),
+	_amount,
+	_tokenHolder
+);
+}
+```
+**CREAMLendingLogic.sol**
+```
+function lend(address _underlying, uint256 _amount, address _tokenHolder) external view override returns(address[] memory targets, bytes[] memory data) {
+}
 
-		// Set approval
-		targets[1] = _underlying;
-		data[1] = abi.encodeWithSelector(underlying.approve.selector, address(lendingPool), _amount);
+function unlend(address _wrapped, uint256 _amount, address _tokenHolder) external view override returns(address[] memory targets, bytes[] memory data) {
+}
+```
+The contracts listed above do not have any access to the funds that are held by the nest.
+Worst case scenario, errors in these contracts would result in user minting a wrong amount of a nest or the user would fail to mint the nest.
 
-		// Deposit into Aave
-		targets[2] = address(lendingPool);
-		data[2] =  abi.encodeWithSelector(lendingPool.deposit.selector, _underlying, _amount, _tokenHolder, referralCode);
+**LendingManger.sol**
 
-		return(targets, data);
-	}
+Changing the LendingManager requires increased vigilance, as it has direct access to the Nests funds. 	
+This is the only change made to the LendingManager:
 
-	function unlend(address _wrapped, uint256 _amount,address _tokenHolder) external view override returns(address[] memory targets, bytes[] memory data) {
-		ATokenV2 wrapped = ATokenV2(_wrapped);
+BEFORE CHANGE	
+```
+) = lendingRegistry.getLendTXData(_underlying, amount, _protocol);
+```	
 
-		targets = new address[](1);
-		data = new bytes[](1);
-
-		targets[0] = address(lendingPool);
-		data[0] = abi.encodeWithSelector(
-			lendingPool.withdraw.selector,
-			wrapped.UNDERLYING_ASSET_ADDRESS(),
-			_amount,
-			_tokenHolder
-		);
-
-		return(targets, data);
-	}
-	```
-	**CREAMLendingLogic.sol**
-	```
-	function lend(address _underlying, uint256 _amount, address _tokenHolder) external view override returns(address[] memory targets, bytes[] memory data) {
-		IERC20 underlying = IERC20(_underlying);
-
-		targets = new address[](3);
-		data = new bytes[](3);
+AFTER CHANGE	
+```
+) = lendingRegistry.getLendTXData(_underlying, amount, address(basket),_protocol);
+```
+The `basket` constant is set on deployment and cannot be changed retroactively. <br />
+```
+constructor(address _lendingRegistry, address _basket) public {
+require(_lendingRegistry != address(0), "INVALID_LENDING_REGISTRY");
+require(_basket != address(0), "INVALID_BASKET");
+lendingRegistry = LendingRegistry(_lendingRegistry);
+basket = IExperiPie(_basket);
+}
+```
+The basket address is the address of the nest that the LendingManager is assigned to.
 
 
-		address cToken = lendingRegistry.underlyingToProtocolWrapped(_underlying, protocolKey);
 
-		// zero out approval to be sure
-		targets[0] = _underlying;
-		data[0] = abi.encodeWithSelector(underlying.approve.selector, cToken, 0);
-
-		// Set approval
-		targets[1] = _underlying;
-		data[1] = abi.encodeWithSelector(underlying.approve.selector, cToken, _amount);
-
-		// Deposit into Compound
-		targets[2] = cToken;
-
-		data[2] =  abi.encodeWithSelector(ICToken.mint.selector, _amount);
-
-		return(targets, data);
-	}
-
-	function unlend(address _wrapped, uint256 _amount, address _tokenHolder) external view override returns(address[] memory targets, bytes[] memory data) {
-		targets = new address[](1);
-		data = new bytes[](1);
-
-		targets[0] = _wrapped;
-		data[0] = abi.encodeWithSelector(ICToken.redeem.selector, _amount);
-
-		return(targets, data);
-	}
-	```
-	The contracts listed above do not have any access to the funds that are held by the nest.
-	At worst errors in these contracts would result in user minting a wrong amount of a nest or the user would fail to mint the nest.
-	
-	**LendingManger.sol**
-		
-	Changing the LendingManager requires increased vigilance, as it has direct access to the Nests funds. 	
-	This is the only change made to the LendingManager:
-	
-	BEFORE CHANGE	
-	```
-        ) = lendingRegistry.getLendTXData(_underlying, amount, _protocol);
-	```	
-	
-	AFTER CHANGE	
-	```
-        ) = lendingRegistry.getLendTXData(_underlying, amount, address(basket),_protocol);
-	```
-	The `basket` constant is set on deployment and cannot be changed retroactively. <br />
-	```
-	constructor(address _lendingRegistry, address _basket) public {
-        require(_lendingRegistry != address(0), "INVALID_LENDING_REGISTRY");
-        require(_basket != address(0), "INVALID_BASKET");
-        lendingRegistry = LendingRegistry(_lendingRegistry);
-        basket = IExperiPie(_basket);
-    }
-	```
-	The basket address is the address of the nest that the LendingManager is assigned to.
-	
-	
-	
-2.	The "Recipe" contract is used to swap the users wETH for the index assets and lend them in a specific protocol when needed.
-	As the recipe does not have access to any funds deposited in the index, we felt like more liberties could be made adjusting the code.
-	The following is a change that allows us to take an entry fee that is exchanged for polly and then burned:
-	
-	```
-	if(remainingInputBalance > 0 && feeAmount != 0) {
-		WETH.approve(address(sushiRouter), 0);
-		WETH.approve(address(sushiRouter), type(uint256).max);
-		address[] memory route = getRoute(address(WETH), baoAddress);
-		uint256 estimatedAmount = sushiRouter.getAmountsOut(feeAmount, route)[1];
-		sushiRouter.swapExactTokensForTokens(feeAmount, estimatedAmount, route, address(this), block.timestamp + 1);
-		baoToken.burn(baoToken.balanceOf(address(this)));    
-    }
-	```
-3. 	Originally the recipe always looks at Uniswap and SushiSwap to identify the best price. The new Recipe does not check the prices and only trades on SushiSwap.
+The "Recipe" contract is used to swap the users wETH for the index assets and lend them in a specific protocol when needed.
+As the recipe does not have access to any funds deposited in the index, we felt like more liberties could be made adjusting the code.
+The following is a change that allows us to take an entry fee that is exchanged for polly and then burned:
 
 ```
-	function getBestPriceSushiUni(address _inputToken, address _outputToken, uint256 _outputAmount) internal returns(uint256, DexChoice) {
-		uint256 sushiAmount = getPriceUniLike(_inputToken, _outputToken, _outputAmount, sushiRouter);
+if(remainingInputBalance > 0 && feeAmount != 0) {
+	WETH.approve(address(sushiRouter), 0);
+	WETH.approve(address(sushiRouter), type(uint256).max);
+	address[] memory route = getRoute(address(WETH), baoAddress);
+	uint256 estimatedAmount = sushiRouter.getAmountsOut(feeAmount, route)[1];
+	sushiRouter.swapExactTokensForTokens(feeAmount, estimatedAmount, route, address(this), block.timestamp + 1);
+	baoToken.burn(baoToken.balanceOf(address(this)));    
+}
+```
+Originally the recipe always looks at Uniswap and SushiSwap to identify the best price. The new Recipe does not check the prices and only trades on SushiSwap.
 
-		return (sushiAmount, DexChoice.Sushi);
-	}
+```
+function getBestPriceSushiUni(address _inputToken, address _outputToken, uint256 _outputAmount) internal returns(uint256, DexChoice) {
+	uint256 sushiAmount = getPriceUniLike(_inputToken, _outputToken, _outputAmount, sushiRouter);
+
+	return (sushiAmount, DexChoice.Sushi);
+}
 ```
 
 	
