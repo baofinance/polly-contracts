@@ -9,6 +9,7 @@ import "./LibERC20.sol";
 import "./ReentryProtection.sol";
 import "./CallProtection.sol";
 import "./LibBasketStorage.sol";
+import "hardhat/console.sol";
 
 contract BasketFacet is ReentryProtection, CallProtection, IBasketFacet {
     using SafeMath for uint256;
@@ -128,6 +129,9 @@ contract BasketFacet is ReentryProtection, CallProtection, IBasketFacet {
         for(uint256 i; i < bs.tokens.length; i ++) {
             IERC20 token = bs.tokens[i];
             uint256 tokenAmount = balance(address(token)).mul(_amount.add(feeAmount)).div(totalSupply);
+            console.log("Token address: ", address(token));
+            console.log("Token CURRENT NEST BALANCE: ", balance(address(token)));
+            console.log("TOKEN AMOUNT TO DEPOSIT: ", _amount);
             require(tokenAmount != 0, "AMOUNT_TOO_SMALL");
             token.safeTransferFrom(msg.sender, address(this), tokenAmount);
         }

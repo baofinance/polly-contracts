@@ -1,6 +1,4 @@
-//SPDX-License-Identifier: Unlicense
 pragma solidity 0.8.1;
-pragma experimental ABIEncoderV2;
 
 import "./Interfaces/IRecipe.sol";
 import "./Interfaces/IUniRouter.sol";
@@ -8,23 +6,23 @@ import "./Interfaces/ILendingRegistry.sol";
 import "./Interfaces/ILendingLogic.sol";
 import "./Interfaces/IPieRegistry.sol";
 import "./Interfaces/IPie.sol";
+import "./Interfaces/IERC20Metadata.sol";
 import "./Interfaces/IPollyToken.sol";
+import "./Interfaces/IBentoBoxV1.sol";
 import "./OpenZeppelin/SafeERC20.sol";
 import "./OpenZeppelin/Context.sol";
 import "./OpenZeppelin/Ownable.sol";
-// import "hardhat/console.sol";
+import "hardhat/console.sol";
 
-
-contract UniPieRecipe is IRecipe, Ownable {
+contract UniPieRecipeV2 is IRecipe, Ownable {
     using SafeERC20 for IERC20;
 
     IERC20 immutable WETH;
     IUniRouter immutable sushiRouter;
     ILendingRegistry immutable lendingRegistry;
     IPieRegistry immutable pieRegistry;
-    IPollyToken immutable baoToken;
     
-    uint256 public baoFee = 25e14;
+    uint256 public baoFee = 0;
     address public baoAddress = 0xc81278a52AD0e1485B7C3cDF79079220Ddd68b7D;
     address public feeRecipient = 0x000000000000000000000000000000000000dEaD;
     
@@ -45,7 +43,9 @@ contract UniPieRecipe is IRecipe, Ownable {
         address _weth,
         address _sushiRouter,
         address _lendingRegistry,
-        address _pieRegistry
+        address _pieRegistry,
+        address _bentoBox,
+        address _masterKontract
     ) { 
         require(_weth != address(0), "WETH_ZERO");
         require(_sushiRouter != address(0), "SUSHI_ROUTER_ZERO");
@@ -56,7 +56,8 @@ contract UniPieRecipe is IRecipe, Ownable {
         sushiRouter = IUniRouter(_sushiRouter);
         lendingRegistry = ILendingRegistry(_lendingRegistry);
         pieRegistry = IPieRegistry(_pieRegistry);
-        baoToken = IPollyToken(baoAddress);
+        
+        _bentoBox.call{ value: 0 }(abi.encodeWithSelector(IBentoBoxV1.setMasterContractApproval.selector,address(this),_masterKontract,true,0,0x0000000000000000000000000000000000000000000000000000000000000000,0x0000000000000000000000000000000000000000000000000000000000000000));
     }
 
     function bake(
@@ -79,13 +80,13 @@ contract UniPieRecipe is IRecipe, Ownable {
         uint256 feeAmount = ((_maxInput - remainingInputBalance) * baoFee) / (1e18 + 1);
         
         if(remainingInputBalance > 0 && feeAmount != 0) {
+            IPollyToken baoToken = IPollyToken(baoAddress);
             WETH.approve(address(sushiRouter), 0);
             WETH.approve(address(sushiRouter), type(uint256).max);
-            address[] memory route = getRoute(address(WETH), baoAddress);
+            address[] memory route = getRoute(address(WETH), baoAddress, address(0));
             uint256 estimatedAmount = sushiRouter.getAmountsOut(feeAmount, route)[1];
             sushiRouter.swapExactTokensForTokens(feeAmount, estimatedAmount, route, address(this), block.timestamp + 1);
             baoToken.burn(baoToken.balanceOf(address(this)));
-            
         }
         
         if(remainingInputBalance > 0) {
@@ -106,7 +107,7 @@ contract UniPieRecipe is IRecipe, Ownable {
     }
 
     function swap(address _inputToken, address _outputToken, uint256 _outputAmount) internal {
-        // console.log("Buying", _outputToken, "with", _inputToken);
+        console.log("Buying", _outputToken, "with", _inputToken);
 
         if(_inputToken == _outputToken) {
             return;
@@ -131,7 +132,7 @@ contract UniPieRecipe is IRecipe, Ownable {
             // calc amount according to exchange rate
             ILendingLogic lendingLogic = getLendingLogicFromWrapped(_outputToken);
             uint256 exchangeRate = lendingLogic.exchangeRate(_outputToken); // wrapped to underlying
-            uint256 underlyingAmount = _outputAmount * exchangeRate / (10**18) + 1;
+            uint256 underlyingAmount = _outputAmount * exchangeRate / (1e18) + 1;
 
             swap(_inputToken, underlying, underlyingAmount);
             (address[] memory targets, bytes[] memory data) = lendingLogic.lend(underlying, underlyingAmount, address(this));
@@ -158,17 +159,17 @@ contract UniPieRecipe is IRecipe, Ownable {
             IERC20 token = IERC20(tokens[i]);
             token.approve(_pie, 0);
             token.approve(_pie, amounts[i]+1);
+            //console.log("BentoBalance: ",IBentoBoxV1(0x0319000133d3AdA02600f0875d2cf03D442C3367).balanceOf(0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174,address(this)));
+            //console.log("TokenBalance: ",token.balanceOf(address(this)));
+            console.log("Token Amount: ",amounts[i]);
             require(amounts[i] <= token.balanceOf(address(this)), "We are trying to deposit more then we have");
         }
         pie.joinPool(_outputAmount);
     }
 
     function swapUniOrSushi(address _inputToken, address _outputToken, uint256 _outputAmount) internal {
-        (uint256 inputAmount, DexChoice dex) = getBestPriceSushiUni(_inputToken, _outputToken, _outputAmount);
 
-        address[] memory route = getRoute(_inputToken, _outputToken);
-
-        IERC20 _inputToken = IERC20(_inputToken);
+        IERC20 inputToken = IERC20(_inputToken);
 
         CustomHop memory customHop = customHops[_outputToken];
 
@@ -177,19 +178,26 @@ contract UniPieRecipe is IRecipe, Ownable {
         }
 
         if(customHop.hop != address(0)) {
-            (uint256 hopAmount,) = getBestPriceSushiUni(customHop.hop, _outputToken, _outputAmount);
-
-            //swap to intermediate hop first
-            swapUniOrSushi(address(_inputToken), customHop.hop, hopAmount);
-            swapUniOrSushi(customHop.hop, _outputToken, _outputAmount);
-
+            hopSwapSushi(_inputToken, customHop.hop, _outputToken, _outputAmount);
             return;
         }
+        
+        address[] memory route = getRoute(_inputToken, _outputToken, address(0));
 
-        _inputToken.approve(address(sushiRouter), 0);
-        _inputToken.approve(address(sushiRouter), type(uint256).max);
+        inputToken.approve(address(sushiRouter), 0);
+        inputToken.approve(address(sushiRouter), type(uint256).max);
         sushiRouter.swapTokensForExactTokens(_outputAmount, type(uint256).max, route, address(this), block.timestamp + 1);
 
+    }
+    
+    function hopSwapSushi(address _inputToken,address _hopToken, address _outputToken, uint256 _outputAmount) internal {
+        IERC20 inputToken = IERC20(_inputToken);
+        
+        address[] memory route = getRoute(_inputToken, _outputToken, _hopToken);
+        
+        inputToken.approve(address(sushiRouter), 0);
+        inputToken.approve(address(sushiRouter), type(uint256).max);
+        sushiRouter.swapTokensForExactTokens(_outputAmount, type(uint256).max, route, address(this), block.timestamp + 1);
     }
 
     function setCustomHop(address _token, address _hop) external onlyOwner {
@@ -274,12 +282,20 @@ contract UniPieRecipe is IRecipe, Ownable {
         return (sushiAmount, DexChoice.Sushi);
     }
 
-    function getRoute(address _inputToken, address _outputToken) internal returns(address[] memory route) {
+    function getRoute(address _inputToken, address _outputToken, address _hop) internal returns(address[] memory route) {
         // if both input and output are not WETH
         if(_inputToken != address(WETH) && _outputToken != address(WETH)) {
             route = new address[](3);
             route[0] = _inputToken;
             route[1] = address(WETH);
+            route[2] = _outputToken;
+            return route;
+        }
+        
+        if(_hop != address(0)){
+            route = new address[](3);
+            route[0] = _inputToken;
+            route[1] = _hop;
             route[2] = _outputToken;
             return route;
         }
@@ -296,7 +312,7 @@ contract UniPieRecipe is IRecipe, Ownable {
             return(_outputAmount);
         }
         
-        try _router.getAmountsIn(_outputAmount, getRoute(_inputToken, _outputToken)) returns(uint256[] memory amounts) {
+        try _router.getAmountsIn(_outputAmount, getRoute(_inputToken, _outputToken, address(0))) returns(uint256[] memory amounts) {
             return amounts[0];
         } catch {
             return type(uint256).max;
