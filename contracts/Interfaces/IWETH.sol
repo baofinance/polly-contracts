@@ -1,5 +1,5 @@
 //SPDX-License-Identifier: Unlicense
-pragma solidity 0.8.1;
+pragma solidity 0.7.1;
 pragma experimental ABIEncoderV2;
 
 import "./IERC20.sol";

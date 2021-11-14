@@ -1,6 +1,6 @@
-// SPDX-License-Identifier: MIT
-pragma experimental ABIEncoderV2;
 pragma solidity ^0.8.1;
+
+import "./IERC20.sol";
 
 interface IBentoBoxV1 {
     event LogDeploy(address indexed masterContract, bytes data, address indexed cloneAddress);
@@ -19,21 +19,17 @@ interface IBentoBoxV1 {
     event LogWhiteListMasterContract(address indexed masterContract, bool approved);
     event LogWithdraw(address indexed token, address indexed from, address indexed to, uint256 amount, uint256 share);
     event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
-
-    function balanceOf(IERC20, address) external view returns (uint256);
-
+    
+    struct AccrueInfo {
+        uint64 interestPerSecond;
+        uint64 lastAccrued;
+        uint128 feesEarnedFraction;
+    }
+    
     function batch(bytes[] calldata calls, bool revertOnFail) external payable returns (bool[] memory successes, bytes[] memory results);
 
-    function batchFlashLoan(
-        IBatchFlashBorrower borrower,
-        address[] calldata receivers,
-        IERC20[] calldata tokens,
-        uint256[] calldata amounts,
-        bytes calldata data
-    ) external;
-
     function claimOwnership() external;
-
+    
     function deploy(
         address masterContract,
         bytes calldata data,
@@ -48,13 +44,6 @@ interface IBentoBoxV1 {
         uint256 share
     ) external payable returns (uint256 amountOut, uint256 shareOut);
 
-    function flashLoan(
-        IFlashBorrower borrower,
-        address receiver,
-        IERC20 token,
-        uint256 amount,
-        bytes calldata data
-    ) external;
 
     function harvest(
         IERC20 token,
@@ -71,8 +60,6 @@ interface IBentoBoxV1 {
     function owner() external view returns (address);
 
     function pendingOwner() external view returns (address);
-
-    function pendingStrategy(IERC20) external view returns (IStrategy);
 
     function permitToken(
         IERC20 token,
@@ -96,11 +83,8 @@ interface IBentoBoxV1 {
         bytes32 s
     ) external;
 
-    function setStrategy(IERC20 token, IStrategy newStrategy) external;
 
     function setStrategyTargetPercentage(IERC20 token, uint64 targetPercentage_) external;
-
-    function strategy(IERC20) external view returns (IStrategy);
 
     function strategyData(IERC20)
         external
@@ -122,8 +106,6 @@ interface IBentoBoxV1 {
         uint256 amount,
         bool roundUp
     ) external view returns (uint256 share);
-
-    function totals(IERC20) external view returns (Rebase memory totals_);
 
     function transfer(
         IERC20 token,

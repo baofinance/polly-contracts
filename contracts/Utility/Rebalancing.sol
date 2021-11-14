@@ -1,9 +1,9 @@
 pragma solidity ^0.8.1;
 pragma abicoder v2;
 
-import "./OpenZeppelin/Ownable.sol";
-import "./Interfaces/IExperiPie.sol";
-import "./Interfaces/IUniRouter.sol";
+import "../Recipes/OpenZeppelin/Ownable.sol";
+import "../Recipes/Interfaces/IExperiPie.sol";
+import "../Recipes/Interfaces/IUniRouter.sol";
 
 contract rebalancer is Ownable{
     
