@@ -98,6 +98,8 @@ Deployed Nest- (PieDao) contracts
 	```
 	The `basket` constant is set on deployment and cannot be changed retroactively. 
 	It is the address of the nest/index that the LendingManager is assigned to.
+	
+	**Recipe.sol**
 
 	The "Recipe" contract is used to swap the users wETH for the index assets and lend them in a specific protocol when needed.
 	As the recipe does not have access to any funds deposited in the index, we felt like more liberties could be made adjusting the code.
@@ -112,6 +114,7 @@ Deployed Nest- (PieDao) contracts
 		baoToken.burn(baoToken.balanceOf(address(this)));    
     }
 	```
+	The recipe will likely see several adjustments in the future as the ecosystem changes and we have to adjust how we swap/lend assets.
 
 # Deployed Contract Addresses
 
@@ -157,50 +160,29 @@ PProxy/Nest: <br />
 0:    Polly nDefi Nest (nDEFI): 		0xd3f07EA86DDf7BAebEfd49731D7Bbd207FedC53B  <br />
 		LendingManager:					 	0x3f323a6E3Bddff52529fA9ac94CFCc6E755A0242 <br />
 
-0:    Polly nStable Nest (nSTBL): 	0x9Bf320bd1796a7495BB6187f9EB4Db2679b74eD3<br />
+1:    Polly nStable Nest (nSTBL): 	0x9Bf320bd1796a7495BB6187f9EB4Db2679b74eD3<br />
 		LendingManager:						0x8924F050699a15D33a34dD90215EBEe0aD72e9C3 <br />
 
 
 # Regarding LendingLogic:
 
-There is one central LendingRegestry which dictates to which protocol underlying assets are to be lend.<br />
+There is one central LendingRegistry which dictates to which protocol underlying assets are to be lend.<br />
 Each nest requires an individual LendingManger.<br />
-This LendingManager is used to change lending strategies for individual tokens.<br />
-There is only one AAVELendingLogic contract required for all nests.<br />
-There is only one CREAMLendingLogic contract required for all nests.<br />
-For each Lending strategy we have to generate a unique Protocol Hash that is saved in the LendingRegestry <br />
-The CREAMLendingLogic contract requires the protocol hash as input. This hash is used globaly for every asset that uses Cream lending<br />
+This LendingManager is used to change lending strategies for individual tokens within a nest.<br />
+There is only one AAVELendingLogic/CREAMLendingLogic/KashiLendingLogic contract required for all nests.<br />
+For each lending strategy we have to generate a unique Protocol Hash that is saved in the LendingRegistry <br />
 
 #KashiLending Notes: 
 
-You need to approve the master contract for each nest before being able to use kashi lending.... sigh <br />
+Before being able to use kashi lending the nest must be approved by the kashi master contract. <br />
 To do this we need to send calldata to the bentoBox via the nests callFacet. <br />
 To create the callData we can use the contract ./Utility/KashiLendingEncoder <br />
 LendingEncoder: 0xa59AdAA7b04324e43e768E8E2C1aCEAb592fa79E <br />
 MasterContract: 0xb527c5295c4bc348cbb3a2e96b2494fd292075a7 <br />
 
-# Rebalancing:
-
-We use the CallFacet to rebalance the Nests.<br />
-
-From the CallFacet we can perform any transaction we want, play crypto games, enter farms, send all index funds to 0x000000000000000000.......<br />
-
-We will mainly be using it to swap assets ony SushiSwap. This will be our method of rebalancing. 
-PieDao built a script that creates the function hash for a specified asset swap. This hash can be copy and pasted into a multisig in order to execute it. 
-The script utilizes a coingecko tokenlist, which we cannot use for the polygon assets as the token addresses are different.<br />
-Instead of creating our own token list, which we would have to maintain, i wrote a script in solidity that essentially does the same thing.
-We input: the token we want to sell, the amount of tokens we want to sell and the token we want to buy.<br />
-The script returns: the hashes that we can input into the multisig to perform the swap. <br />
-The script also returns the estimated amount of tokens we will receive from the swap. The hash that we received is configured in a way that we receive at least the estimated amount or the transaction reverts.<br />
-Potential ToDO is to add a parameter to configure an additional slippage tolerance in %.<br />
-
-An alternative to the script would be to simply call the approval and SushiSwap functions manualy.<br />
-
-During either the rebalancing process or whilst changing the lending strategy we could/should pause any interactions with the relevant nests.
-
 # Setting Up Facets
 
-The PieFactory includes a function called "addFacet()". With this function we add the functions of the Facets to the Diamond mappings so that it knows where to deligate certain function calls.<br />
+The PieFactory includes a method called "addFacet()". With this function we add the methods of the facets to the Diamond mappings so that it knows where to deligate certain function calls.<br />
 Formating the addFacet() inputs can be quite time consuming. <br />
 
 The following is a template where only the facet addresses have to be added:
@@ -211,6 +193,3 @@ The following is a template where only the facet addresses have to be added:
 ["CallFacetAddress",0,["0x747293fb","0xeef21cd2","0x30c9473c","0xbd509fd5","0x98a9884d","0xcb6e7a89","0xdd8d4c40","0xbf29b3a7"]]
 ["DiamondCutFacetAddress",0,["0x1f931c1c"]]
 ["DiamondLoupeFacetAddress",0,["0x7a0ed627","0xadfca15e","0x52ef6b2c","0xcdffacc6","0x01ffc9a7"]]```
-# BaoBurning Recipe
-The UniPieRecipeWithBaoFee.sol contract is a proposal on how one could implement the process of taking a small fee from the index purchase, using the fee to buy Bao/Polly and then burn said Bao/Polly. <br />
-Implementing this in the Recipe means that one could circumvent the fees by interacting directly with the diamond/Nest or simply deploying their own Recipe that does not have the fee function. 
