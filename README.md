@@ -99,7 +99,7 @@ Deployed Nest- (PieDao) contracts
 	The `basket` constant is set on deployment and cannot be changed retroactively. 
 	It is the address of the nest/index that the LendingManager is assigned to.
 	
-	**Recipe.sol**
+	**Recipe contracts**
 
 	The "Recipe" contract is used to swap the users wETH for the index assets and lend them in a specific protocol when needed.
 	As the recipe does not have access to any funds deposited in the index, we felt like more liberties could be made adjusting the code.
