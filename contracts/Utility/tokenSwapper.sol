@@ -16,14 +16,17 @@ contract swapper is Ownable {
         nest = IBasketFacet(_nest);
     }
 
-    //Need to give this contract approval for moving the InTokens before calling this function
+    //Exchange tokens in nest for tokens deposited in this contract
+    //(This function is called by the nest callFacet)
+    //(Nest needs to give this contract approval to transfer tokens out of the nest)
     function swapTokenForToken() public onlyOwner{
         
+        //Send all tokens saved in outTokens[] to the nest
         for (uint256 i = 0; i < outTokens.length; i++) {
-            //Send tokens out of this contract
             outTokens[i].transfer(address(nest),outTokenAmounts[i]);
         }
 
+        //Transfer all tokens saved in inTokens[] from the nest to this contract
         for (uint256 i = 0; i < inTokens.length; i++) {
             //Send tokens into this contract
             inTokens[i].transferFrom(address(nest), address(this), inTokenAmounts[i]);
