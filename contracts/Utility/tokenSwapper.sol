@@ -48,5 +48,10 @@ contract swapper is Ownable {
         nest = IBasketFacet(_nest);
     }
     
+    function withdrawAssets(address[] memory _tokens, uint[] memory _amounts) external onlyOwner{
+        for (uint256 i = 0; i < _tokens.length; i++) {
+            IERC20(_tokens[i]).transfer(owner(),_amounts[i]);
+        }
+    }
 }
 
