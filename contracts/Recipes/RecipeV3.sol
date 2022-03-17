@@ -195,10 +195,10 @@ contract RecipeV3 is IRecipe, Ownable {
         IPie pie = IPie(_pie);
         (address[] memory tokens, uint256[] memory amounts) = pie.calcTokensForAmount(_outputAmount);
         for(uint256 i = 0; i < tokens.length; i ++) {
-            swap(address(WETH), tokens[i], amounts[i]+1);
+            swap(address(WETH), tokens[i], amounts[i]);
             IERC20 token = IERC20(tokens[i]);
             token.approve(_pie, 0);
-            token.approve(_pie, amounts[i]+1);
+            token.approve(_pie, amounts[i]);
             require(amounts[i] <= token.balanceOf(address(this)), "We are trying to deposit more then we have");
         }
         pie.joinPool(_outputAmount);
