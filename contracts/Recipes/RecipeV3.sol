@@ -1,6 +1,7 @@
 pragma solidity 0.8.1;
 
 import "./Interfaces/IRecipe.sol";
+import "./Interfaces/IBalancer.sol";
 import "./Interfaces/IUniRouter.sol";
 import "./Interfaces/ILendingRegistry.sol";
 import "./Interfaces/ILendingLogic.sol";
@@ -9,83 +10,10 @@ import "./Interfaces/IPie.sol";
 import "./Interfaces/IERC20Metadata.sol";
 import "./Interfaces/IPollyToken.sol";
 import "./Interfaces/IBentoBoxV1.sol";
+import "./Interfaces/IUniV3Router.sol";
 import "./OpenZeppelin/SafeERC20.sol";
 import "./OpenZeppelin/Context.sol";
 import "./OpenZeppelin/Ownable.sol";
-import "hardhat/console.sol";
-
-interface unitOracle {
-   function quoteExactOutputSingle(
-    address tokenIn,
-    address tokenOut,
-    uint24 fee,
-    uint256 amountOut,
-    uint160 sqrtPriceLimitX96
-  ) external returns (uint256 amountIn);
-}
-
-interface uniV2router {
-    function getAmountsIn(uint amountIn, address[] calldata path) external view returns (uint[] memory amounts);
-}
-
-interface uniV3Router {
-    //UniV3 params
-    struct ExactOutputSingleParams {
-        address tokenIn;
-        address tokenOut;
-        uint24 fee;
-        address recipient;
-        uint256 deadline;
-        uint256 amountOut;
-        uint256 amountInMaximum;
-        uint160 sqrtPriceLimitX96;
-    }
-
-    function exactOutputSingle(ExactOutputSingleParams calldata params) external;
-}
-
-interface IBalancer{
-    enum SwapKind { GIVEN_IN, GIVEN_OUT }
-
-    struct BatchSwapStep {
-        bytes32 poolId;
-        uint256 assetInIndex;
-        uint256 assetOutIndex;
-        uint256 amount;
-        bytes userData;
-    }
-
-    //Balancer params
-    struct SingleSwap {
-        bytes32 poolId;
-        SwapKind kind;
-        address assetIn;
-        address assetOut;
-        uint256 amount;
-        bytes userData;
-    }
-
-    struct FundManagement {
-        address sender;
-        bool fromInternalBalance;
-        address payable recipient;
-        bool toInternalBalance;
-    }
-
-    function swap(
-        SingleSwap memory singleSwap,
-        FundManagement memory funds,
-        uint256 limit,
-        uint256 deadline
-    ) external payable returns (uint256);
-
-    function queryBatchSwap(
-        SwapKind kind,
-        BatchSwapStep[] memory swaps,
-        address[] memory assets,
-        FundManagement memory funds
-    ) external returns (int256[] memory assetDeltas);
-}
 
 contract RecipeV3 is IRecipe, Ownable {
     using SafeERC20 for IERC20;
@@ -105,7 +33,7 @@ contract RecipeV3 is IRecipe, Ownable {
     }
 
     IBalancer balancer = IBalancer(0xBA12222222228d8Ba445958a75a0704d566BF2C8);
-    unitOracle oracle = unitOracle(0xb27308f9F90D607463bb33eA1BeBb41C27CE5AB6);
+    uniOracle oracle = uniOracle(0xb27308f9F90D607463bb33eA1BeBb41C27CE5AB6);
     uniV3Router uniRouter = uniV3Router(0xE592427A0AEce92De3Edee1F18E0157C05861564);
     IUniRouter sushiRouter = IUniRouter(0x1b02dA8Cb0d097eB8D57A175b88c7D8b47997506);
 
@@ -123,7 +51,7 @@ contract RecipeV3 is IRecipe, Ownable {
         WETH = IERC20(_weth);
         lendingRegistry = ILendingRegistry(_lendingRegistry);
         pieRegistry = IPieRegistry(_pieRegistry);
-        
+    
         _bentoBox.call{ value: 0 }(abi.encodeWithSelector(IBentoBoxV1.setMasterContractApproval.selector,address(this),_masterContract,true,0,0x0000000000000000000000000000000000000000000000000000000000000000,0x0000000000000000000000000000000000000000000000000000000000000000));
     }
 
@@ -131,15 +59,13 @@ contract RecipeV3 is IRecipe, Ownable {
         address _inputToken,
         address _outputToken,
         uint256 _maxInput,
-        bytes memory _data
+        uint256 _mintAmount
     ) external override returns(uint256 inputAmountUsed, uint256 outputAmount) {
         IERC20 inputToken = IERC20(_inputToken);
         IERC20 outputToken = IERC20(_outputToken);
         inputToken.safeTransferFrom(_msgSender(), address(this), _maxInput);
-
-        (uint256 mintAmount) = abi.decode(_data, (uint256));
         
-        outputAmount = _bake(_inputToken, _outputToken, _maxInput, mintAmount);
+        outputAmount = _bake(_inputToken, _outputToken, _maxInput, _mintAmount);
 
         uint256 remainingInputBalance = inputToken.balanceOf(address(this));
         
@@ -440,10 +366,6 @@ contract RecipeV3 is IRecipe, Ownable {
                     )
                 )
         );
-    }
-
-    function encodeData(uint256 _outputAmount) external pure returns(bytes memory){
-        return abi.encode((_outputAmount));
     }
 
     //////////////////////////
