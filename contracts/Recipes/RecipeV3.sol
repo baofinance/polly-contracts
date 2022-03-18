@@ -259,7 +259,6 @@ abstract contract RecipeV3 is IRecipe, Ownable {
         uint sushiAmount;
         uint balancerAmount;
         uint curveAmount;
-        address bestPool; //curve variable
         BestPrice memory bestPrice;
 
         //GET UNI PRICE
@@ -318,7 +317,6 @@ abstract contract RecipeV3 is IRecipe, Ownable {
         //GET CURVE PRICE
         address[] memory excludePools;
         try curveRouter.get_best_rate(_assetIn, _assetOut, _amountOut, excludePools) returns (address _bestPool, uint256 amountOut) {
-            bestPool = _bestPool;
             curveAmount = amountOut; //expected amount received in swap
         } catch {
             curveAmount = type(uint256).max;
