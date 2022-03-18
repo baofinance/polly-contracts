@@ -9,6 +9,7 @@ import "./Interfaces/IPie.sol";
 import "./Interfaces/IERC20Metadata.sol";
 import "./Interfaces/IPollyToken.sol";
 import "./Interfaces/IBentoBoxV1.sol";
+import "./Interfaces/ICurveSwaps.sol"; //curve interface
 import "./OpenZeppelin/SafeERC20.sol";
 import "./OpenZeppelin/Context.sol";
 import "./OpenZeppelin/Ownable.sol";
@@ -108,6 +109,7 @@ contract RecipeV3 is IRecipe, Ownable {
     unitOracle oracle = unitOracle(0xb27308f9F90D607463bb33eA1BeBb41C27CE5AB6);
     uniV3Router uniRouter = uniV3Router(0xE592427A0AEce92De3Edee1F18E0157C05861564);
     IUniRouter sushiRouter = IUniRouter(0x1b02dA8Cb0d097eB8D57A175b88c7D8b47997506);
+    ICurveSwaps curveRouter = ICurveSwaps(0xD1602F68CC7C4c7B59D686243EA35a9C73B0c6a2);
 
     constructor(
         address _weth,
@@ -263,6 +265,16 @@ contract RecipeV3 is IRecipe, Ownable {
             type(uint256).max,
             block.timestamp + 1
         );
+
+        //CURVE
+        if(_ammIndex == 3){
+            IERC20(_assetIn).approve(address(curveRouter), 0);
+            IERC20(_assetIn).approve(address(curveRouter), type(uint256).max);
+            (address curvePool, uint256 expectedAmount) = curveRouter.get_best_rate(_assetIn, _assetOut, _amountOut); //analyze gas cost
+            curveRouter.exchange(curvePool, _assetIn, _assetOut, _amountOut, expectedAmount); //returns amount received in swap
+            return;
+        }
+
     }
 
     function swapPie(address _pie, uint256 _outputAmount) internal {
@@ -319,6 +331,8 @@ contract RecipeV3 is IRecipe, Ownable {
         uint uniAmount2;
         uint sushiAmount;
         uint balancerAmount;
+        uint curveAmount;
+        address bestPool; //curve variable
         BestPrice memory bestPrice;
 
         //GET UNI PRICE
@@ -397,7 +411,20 @@ contract RecipeV3 is IRecipe, Ownable {
                 bestPrice.price = balancerAmount;
                 bestPrice.ammIndex = 4;
             } 
-        }  
+        }
+
+        //GET CURVE PRICE
+        try curveRouter.get_best_rate(_assetIn, _assetOut, _amountOut) returns (address memory _bestPool, uint256 amountOut) {
+            bestPool = _bestPool;
+            curveAmount = amountOut; //expected amount received in swap
+        } catch {
+            curveAmount = type(uint256).max;
+        }
+        if(bestPrice.price > curveAmount) {
+            bestPrice.price = curveAmount;
+            bestPrice.ammIndex = 5;
+        }
+
         return bestPrice; 
     }
 
