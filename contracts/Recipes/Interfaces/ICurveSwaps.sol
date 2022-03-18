@@ -5,7 +5,7 @@ interface ICurveSwaps {
         address _from,
         address _to,
         uint256 _amount,
-        address[8] memory _exclude_pools
+        address[] memory _exclude_pools
     ) external view returns (address, uint256);
 
     function get_exchange_amount(

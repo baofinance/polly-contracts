@@ -1,4 +1,4 @@
-pragma solidity 0.8.1;
+pragma solidity ^0.8.1;
 
 import "./Interfaces/IRecipe.sol";
 import "./Interfaces/IBalancer.sol";
@@ -10,12 +10,13 @@ import "./Interfaces/IPie.sol";
 import "./Interfaces/IERC20Metadata.sol";
 import "./Interfaces/IPollyToken.sol";
 import "./Interfaces/IBentoBoxV1.sol";
-import "./Interfaces/ICurveSwaps.sol"; //curve interface
+import "./Interfaces/IUniV3Router.sol";
+import "./Interfaces/ICurveSwaps.sol";
 import "./OpenZeppelin/SafeERC20.sol";
 import "./OpenZeppelin/Context.sol";
 import "./OpenZeppelin/Ownable.sol";
 
-contract RecipeV3 is IRecipe, Ownable {
+abstract contract RecipeV3 is IRecipe, Ownable {
     using SafeERC20 for IERC20;
 
     IERC20 immutable WETH;
@@ -36,7 +37,7 @@ contract RecipeV3 is IRecipe, Ownable {
     uniOracle oracle = uniOracle(0xb27308f9F90D607463bb33eA1BeBb41C27CE5AB6);
     uniV3Router uniRouter = uniV3Router(0xE592427A0AEce92De3Edee1F18E0157C05861564);
     IUniRouter sushiRouter = IUniRouter(0x1b02dA8Cb0d097eB8D57A175b88c7D8b47997506);
-    ICurveSwaps curveRouter = ICurveSwaps(0xD1602F68CC7C4c7B59D686243EA35a9C73B0c6a2);
+    ICurveSwaps curveRouter = ICurveSwaps(0x04aAB3e45Aa6De7783D67FCfB21Bccf2401Ca31D);
 
     constructor(
         address _weth,
@@ -44,7 +45,7 @@ contract RecipeV3 is IRecipe, Ownable {
         address _pieRegistry,
         address _bentoBox,
         address _masterContract
-    ) { 
+    ) {
         require(_weth != address(0), "WETH_ZERO");
         require(_lendingRegistry != address(0), "LENDING_MANAGER_ZERO");
         require(_pieRegistry != address(0), "PIE_REGISTRY_ZERO");
@@ -52,7 +53,7 @@ contract RecipeV3 is IRecipe, Ownable {
         WETH = IERC20(_weth);
         lendingRegistry = ILendingRegistry(_lendingRegistry);
         pieRegistry = IPieRegistry(_pieRegistry);
-    
+
         _bentoBox.call{ value: 0 }(abi.encodeWithSelector(IBentoBoxV1.setMasterContractApproval.selector,address(this),_masterContract,true,0,0x0000000000000000000000000000000000000000000000000000000000000000,0x0000000000000000000000000000000000000000000000000000000000000000));
     }
 
@@ -61,20 +62,20 @@ contract RecipeV3 is IRecipe, Ownable {
         address _outputToken,
         uint256 _maxInput,
         uint256 _mintAmount
-    ) external override returns(uint256 inputAmountUsed, uint256 outputAmount) {
+    ) external returns(uint256 inputAmountUsed, uint256 outputAmount) {
         IERC20 inputToken = IERC20(_inputToken);
         IERC20 outputToken = IERC20(_outputToken);
         inputToken.safeTransferFrom(_msgSender(), address(this), _maxInput);
-        
+
         outputAmount = _bake(_inputToken, _outputToken, _maxInput, _mintAmount);
 
         uint256 remainingInputBalance = inputToken.balanceOf(address(this));
-        
+
         if(remainingInputBalance > 0) {
             inputToken.transfer(_msgSender(), inputToken.balanceOf(address(this)));
         }
 
-        outputToken.safeTransfer(_msgSender(), outputAmount);  
+        outputToken.safeTransfer(_msgSender(), outputAmount);
 
         return(inputAmountUsed, outputAmount);
     }
@@ -96,7 +97,7 @@ contract RecipeV3 is IRecipe, Ownable {
             swapPie(_outputToken, _outputAmount);
             return;
         }
-        
+
         address underlying = lendingRegistry.wrappedToUnderlying(_outputToken);
         if(underlying != address(0)) {
             // calc amount according to exchange rate
@@ -151,7 +152,7 @@ contract RecipeV3 is IRecipe, Ownable {
                 type(uint256).max,
                 0
             );
-            
+
             IERC20(_assetIn).approve(address(uniRouter), 0);
             IERC20(_assetIn).approve(address(uniRouter), type(uint256).max);
             uniRouter.exactOutputSingle(params);
@@ -162,6 +163,16 @@ contract RecipeV3 is IRecipe, Ownable {
             IERC20(_assetIn).approve(address(sushiRouter), 0);
             IERC20(_assetIn).approve(address(sushiRouter), type(uint256).max);
             sushiRouter.swapTokensForExactTokens(_amountOut,type(uint256).max,getRoute(_assetIn, _assetOut),address(this),block.timestamp + 1);
+            return;
+        }
+
+        //CURVE
+        if(_ammIndex == 3){
+            IERC20(_assetIn).approve(address(curveRouter), 0);
+            IERC20(_assetIn).approve(address(curveRouter), type(uint256).max);
+            address[] memory excludePools;
+            (address curvePool, uint256 expectedAmount) = curveRouter.get_best_rate(_assetIn, _assetOut, _amountOut, excludePools); //analyze gas cost
+            curveRouter.exchange(curvePool, _assetIn, _assetOut, _amountOut, expectedAmount, address(this)); //returns amount received in swap
             return;
         }
 
@@ -190,15 +201,6 @@ contract RecipeV3 is IRecipe, Ownable {
             type(uint256).max,
             block.timestamp + 1
         );
-
-        //CURVE
-        if(_ammIndex == 3){
-            IERC20(_assetIn).approve(address(curveRouter), 0);
-            IERC20(_assetIn).approve(address(curveRouter), type(uint256).max);
-            (address curvePool, uint256 expectedAmount) = curveRouter.get_best_rate(_assetIn, _assetOut, _amountOut); //analyze gas cost
-            curveRouter.exchange(curvePool, _assetIn, _assetOut, _amountOut, expectedAmount); //returns amount received in swap
-            return;
-        }
 
     }
 
@@ -251,7 +253,7 @@ contract RecipeV3 is IRecipe, Ownable {
         return bestPrice.price;
     }
 
-    function getBestPrice(address _assetIn, address _assetOut, uint _amountOut) public returns (BestPrice memory){  
+    function getBestPrice(address _assetIn, address _assetOut, uint _amountOut) public returns (BestPrice memory){
         uint uniAmount1;
         uint uniAmount2;
         uint sushiAmount;
@@ -261,7 +263,7 @@ contract RecipeV3 is IRecipe, Ownable {
         BestPrice memory bestPrice;
 
         //GET UNI PRICE
-        //(Uni provides pools with different fees. The most popular being 0.05% and 0.3%)   
+        //(Uni provides pools with different fees. The most popular being 0.05% and 0.3%)
         //Unfortunately they have to be specified
         if(uniFee[_assetOut] == 500){
             try oracle.quoteExactOutputSingle(_assetIn,_assetOut,500,_amountOut,0) returns(uint256 returnAmount) {
@@ -277,7 +279,7 @@ contract RecipeV3 is IRecipe, Ownable {
                 uniAmount2 = returnAmount;
             } catch {
                 uniAmount2 = type(uint256).max;
-            }    
+            }
             bestPrice.price = uniAmount2;
             bestPrice.ammIndex = 1;
         }
@@ -286,7 +288,7 @@ contract RecipeV3 is IRecipe, Ownable {
                 uniAmount1 = returnAmount;
             } catch {
                 uniAmount1 = type(uint256).max;
-            }    
+            }
             bestPrice.price = uniAmount1;
             bestPrice.ammIndex = 0;
             try oracle.quoteExactOutputSingle(_assetIn,_assetOut,3000,_amountOut,0) returns(uint256 returnAmount) {
@@ -297,20 +299,33 @@ contract RecipeV3 is IRecipe, Ownable {
             if(bestPrice.price>uniAmount2){
                 bestPrice.price = uniAmount2;
                 bestPrice.ammIndex = 1;
-                
+
             }
-            
+
         }
-        
+
         //GET SUSHI PRICE
         try sushiRouter.getAmountsIn(_amountOut, getRoute(_assetIn, _assetOut)) returns(uint256[] memory amounts) {
             sushiAmount = amounts[0];
         } catch {
             sushiAmount = type(uint256).max;
-        }    
+        }
         if(bestPrice.price>sushiAmount){
             bestPrice.price = sushiAmount;
             bestPrice.ammIndex = 2;
+        }
+
+        //GET CURVE PRICE
+        address[] memory excludePools;
+        try curveRouter.get_best_rate(_assetIn, _assetOut, _amountOut, excludePools) returns (address _bestPool, uint256 amountOut) {
+            bestPool = _bestPool;
+            curveAmount = amountOut; //expected amount received in swap
+        } catch {
+            curveAmount = type(uint256).max;
+        }
+        if(bestPrice.price > curveAmount) {
+            bestPrice.price = curveAmount;
+            bestPrice.ammIndex = 3;
         }
 
         //GET BALANCER PRICE
@@ -335,22 +350,10 @@ contract RecipeV3 is IRecipe, Ownable {
             if(bestPrice.price>balancerAmount){
                 bestPrice.price = balancerAmount;
                 bestPrice.ammIndex = 4;
-            } 
+            }
         }
 
-        //GET CURVE PRICE
-        try curveRouter.get_best_rate(_assetIn, _assetOut, _amountOut) returns (address memory _bestPool, uint256 amountOut) {
-            bestPool = _bestPool;
-            curveAmount = amountOut; //expected amount received in swap
-        } catch {
-            curveAmount = type(uint256).max;
-        }
-        if(bestPrice.price > curveAmount) {
-            bestPrice.price = curveAmount;
-            bestPrice.ammIndex = 5;
-        }
-
-        return bestPrice; 
+        return bestPrice;
     }
 
     function getRoute(address _inputToken, address _outputToken) internal returns(address[] memory route) {
@@ -409,7 +412,8 @@ contract RecipeV3 is IRecipe, Ownable {
     function saveToken(address _token, address _to, uint256 _amount) external onlyOwner {
         IERC20(_token).transfer(_to, _amount);
     }
-  
+
     function saveEth(address payable _to, uint256 _amount) external onlyOwner {
         _to.call{value: _amount}("");
     }
+}

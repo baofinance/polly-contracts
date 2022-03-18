@@ -1,7 +1,7 @@
-pragma solidity ^0.8.1;
+pragma solidity ^0.7.1;
 
-import "../interfaces/IERC20.sol";
-import "../interfaces/IBasketFacet.sol";
+import "../Interfaces/IERC20.sol";
+import "../Interfaces/IBasketFacet.sol";
 import "../OpenZeppelin/Ownable.sol";
 
 contract swapper is Ownable {
@@ -20,7 +20,7 @@ contract swapper is Ownable {
     //(This function is called by the nest callFacet)
     //(Nest needs to give this contract approval to transfer tokens out of the nest)
     function swapTokenForToken() public onlyOwner{
-        
+
         //Send all tokens saved in outTokens[] to the nest
         for (uint256 i = 0; i < outTokens.length; i++) {
             outTokens[i].transfer(address(nest),outTokenAmounts[i]);
@@ -34,7 +34,7 @@ contract swapper is Ownable {
             //Remove tokens from basket
             nest.removeToken(address(inTokens[i]));
         }
-        
+
     }
 
     function setInToken(IERC20[] memory _newInTokens, uint[] memory _tokenAmounts) external onlyOwner{
@@ -50,7 +50,7 @@ contract swapper is Ownable {
     function setNest(address _nest) external onlyOwner{
         nest = IBasketFacet(_nest);
     }
-    
+
     function withdrawAssets(address[] memory _tokens, uint[] memory _amounts) external onlyOwner{
         for (uint256 i = 0; i < _tokens.length; i++) {
             IERC20(_tokens[i]).transfer(owner(),_amounts[i]);

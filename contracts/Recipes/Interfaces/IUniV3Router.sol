@@ -40,11 +40,11 @@ interface uniV3Router {
         uint256 amountInMaximum;
     }
 
-    function exactInputSingle(struct ISwapRouter.ExactInputSingleParams params) external returns (uint256 amountOut);
+    function exactInputSingle(ExactInputSingleParams memory params) external returns (uint256 amountOut);
 
     function exactOutputSingle(ExactOutputSingleParams calldata params) external;
 
-    function exactOutput(struct ISwapRouter.ExactOutputParams params) external returns (uint256 amountIn);
+    function exactOutput(ExactOutputParams memory params) external returns (uint256 amountIn);
 }
 
 interface uniOracle {
