@@ -2,12 +2,12 @@
 pragma experimental ABIEncoderV2;
 pragma solidity ^0.7.1;
 
-import "./OpenZeppelin/Ownable.sol";
-import "./OpenZeppelin/SafeMath.sol";
-import "./Interfaces/IERC20.sol";
-import "./Interfaces/ILendingLogic.sol";
-import "./LendingRegistry.sol";
-import "./Interfaces/ICToken.sol";
+import "../OpenZeppelin/Ownable.sol";
+import "../OpenZeppelin/SafeMath.sol";
+import "../Interfaces/IERC20.sol";
+import "../Interfaces/ILendingLogic.sol";
+import "../LendingRegistry.sol";
+import "../Interfaces/ICToken.sol";
 
 contract LendingLogicCream is Ownable, ILendingLogic {
     using SafeMath for uint256;
