@@ -19,6 +19,14 @@ interface IsKLIMA {
 }
 
 interface IKlimaStaking {
+
+    struct Epoch {
+        uint length;
+        uint number;
+        uint endBlock;
+        uint distribute;
+    }
+
     function stake(uint amount, address recipient) external returns (uint256);
 
     function unstake(uint amount, bool trigger) external view returns (uint256);
@@ -28,18 +36,21 @@ interface IKlimaStaking {
 contract LendingLogicKLIMA is ILendingLogic {
 
     IKlimaStaking klimaStakingPool;
+    address klima;
 
-    constructor(address _klimaStakingPool) {
-        IKlimaStaking klimaStakingPool = IKlimaStaking(_klimaStakingPool)
+    constructor(address _klimaStakingPool, address _klima) {
+        IKlimaStaking klimaStakingPool = IKlimaStaking(_klimaStakingPool);
+        klima = _klima;
     }
 
     function getAPRFromWrapped(address _token) external view override returns(uint256) {
         return getAPRFromUnderlying(_token);
     }
 
-    function getAPRFromUnderlying(address _token) public view override returns(uint256) {
-        //ToDo: Calc APR from Staking contract info
-        return(0)
+    function getAPRFromUnderlying(address _token) public view override returns(uint256) {       
+        Epoch epoch = klimaStakingPool.epoch()
+        epoch.distribute / IERC20().balanceOf(address(klimaStakingPool))
+        return(0);
     }
 
     function lend(address _underlying,uint256 _amount, address _tokenHolder) external view override returns(address[] memory targets, bytes[] memory data) {
