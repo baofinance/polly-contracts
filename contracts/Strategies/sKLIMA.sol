@@ -27,30 +27,35 @@ interface IKlimaStaking {
         uint distribute;
     }
 
+    //Not actually a function but a struct
+    function epoch() external view returns(uint256,uint256,uint256,uint256);
+
     function stake(uint amount, address recipient) external returns (uint256);
 
     function unstake(uint amount, bool trigger) external view returns (uint256);
 }
 
-
 contract LendingLogicKLIMA is ILendingLogic {
 
-    IKlimaStaking klimaStakingPool;
-    address klima;
-
-    constructor(address _klimaStakingPool, address _klima) {
-        IKlimaStaking klimaStakingPool = IKlimaStaking(_klimaStakingPool);
-        klima = _klima;
-    }
+    //using base 1e9
+    uint blockTime = 22e8; //2.2 seconds per block
+    uint secondsPerYear = 31536000e9;
+    IKlimaStaking klimaStakingPool = IKlimaStaking(0x25d28a24Ceb6F81015bB0b2007D795ACAc411b4d);
+    IERC20 klima = IERC20(0x4e78011Ce80ee02d2c3e649Fb657E45898257815);
+    
 
     function getAPRFromWrapped(address _token) external view override returns(uint256) {
         return getAPRFromUnderlying(_token);
     }
 
     function getAPRFromUnderlying(address _token) public view override returns(uint256) {       
-        Epoch epoch = klimaStakingPool.epoch()
-        epoch.distribute / IERC20().balanceOf(address(klimaStakingPool))
-        return(0);
+        (uint epoch, , ,uint distribute) = klimaStakingPool.epoch();
+        epoch = epoch*1e9;
+        uint secondsPerEpoch = fmul(epoch,blockTime,1e9);
+        uint epochsPerYear = fdiv(secondsPerYear,secondsPerEpoch,1e9);
+        uint distributionPerEpoch = fdiv(distribute,klima.balanceOf(address(klimaStakingPool)),1e9); 
+        //Returning value with base 1e18
+        return(fmul(distributionPerEpoch,epochsPerYear,1e9)*1e9);
     }
 
     function lend(address _underlying,uint256 _amount, address _tokenHolder) external view override returns(address[] memory targets, bytes[] memory data) {
@@ -101,6 +106,28 @@ contract LendingLogicKLIMA is ILendingLogic {
 
     function exchangeRateView(address) external pure override returns(uint256) {
         return 10**9;
+    }
+
+    function fmul(
+        uint256 x,
+        uint256 y,
+        uint256 baseUnit
+    ) internal pure returns (uint256 z) {
+        assembly {
+            if iszero(eq(div(mul(x,y),x),y)) {revert(0,0)}
+            z := div(mul(x,y),baseUnit)
+        }
+    }
+
+    function fdiv(
+        uint256 x,
+        uint256 y,
+        uint256 baseUnit
+    ) internal pure returns (uint256 z) {
+        assembly {
+            if iszero(eq(div(mul(x,baseUnit),x),baseUnit)) {revert(0,0)}
+            z := div(mul(x,baseUnit),y)
+        }
     }
 
 }
