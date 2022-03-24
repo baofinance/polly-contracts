@@ -19,14 +19,14 @@ async function main() {
 
     const admin = await ethers.getSigner("0xab0C9BC6bcBaad9391C530f33f9294DEc38ae189");
     */
-    const recipeContract = await ethers.getContractAt("contracts/Recipes/RecipeV3.sol:RecipeV3","0xCF53dbB8ecBAc4F4776504fC0d984a3467bE4c6e");
+    const recipeContract = await ethers.getContractAt("contracts/Recipes/RecipeV3.sol:RecipeV3","0x606dC2ab9672eF70704BC3B3A9654B2136796754");
     
    
-    console.log("deploying....");
+    /*console.log("deploying....");
     //Deploy Recipe
-    //const recipeFactory = await ethers.getContractFactory("contracts/Recipes/RecipeV3.sol:RecipeV3");
-    //recipeContract = await recipeFactory.deploy(weth,lendingRegistry,nestRegistry,bentoBox,masterContract);
-    //await recipeContract.deployTransaction.wait();
+    const recipeFactory = await ethers.getContractFactory("contracts/Recipes/RecipeV3.sol:RecipeV3");
+    recipeContract = await recipeFactory.deploy(weth,lendingRegistry,nestRegistry,bentoBox,masterContract);
+    await recipeContract.deployTransaction.wait();
 
     console.log("Recipe Deployed at: ", recipeContract.address);
 
@@ -59,7 +59,7 @@ async function main() {
     transaction = await recipeContract.setCustomHop("0xFbdd194376de19a88118e84E279b977f165d01b8", "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174");
     await transaction.wait();
     transaction = await recipeContract.setCustomHop("0x4e78011Ce80ee02d2c3e649Fb657E45898257815", "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174");
-    await transaction.wait();
+    await transaction.wait();*/
     /*
     //console.log("baking....");
     //Weth approval
@@ -71,7 +71,7 @@ async function main() {
     transaction = await recipeContract.connect(admin).bake("0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619","0x14bbe7D3826B5f257B7dde0852036BC94C323ccA","5000000000000000","1000000000000000000");
     await transaction.wait()*/
     //console.log("Getting nest price")
-    //console.log((await recipeContract.callStatic.getPrice("0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619", "0x14bbe7D3826B5f257B7dde0852036BC94C323ccA", "1000000000000000000")).toString());
+    console.log((await recipeContract.callStatic.getPrice("0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619", "0x14bbe7D3826B5f257B7dde0852036BC94C323ccA", "1000000000000000000")).toString());
     
 }
 

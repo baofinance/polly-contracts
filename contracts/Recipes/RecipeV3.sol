@@ -382,8 +382,8 @@ contract RecipeV3 is Ownable {
             address customHopToken = customHops[tokens[i]];
             if(customHopToken != address(0)) {
                 //get price for hop
-                uint256 hopAmount = getPrice(customHopToken, tokens[i], amounts[i]);
-                inputAmount += getPrice(address(WETH), customHopToken, hopAmount);
+                BestPrice memory hopPrice = getBestPrice(customHopToken, tokens[i], amounts[i]);
+                inputAmount += getPrice(address(WETH), customHopToken, hopPrice.price);
             }else{
                 inputAmount += getPrice(address(WETH), tokens[i], amounts[i]);
             }
