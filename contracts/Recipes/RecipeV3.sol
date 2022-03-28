@@ -1,6 +1,5 @@
 pragma solidity ^0.8.1;
 
-import "./Interfaces/IRecipe.sol";
 import "./Interfaces/IBalancer.sol";
 import "./Interfaces/IUniRouter.sol";
 import "./Interfaces/ILendingRegistry.sol";
@@ -11,12 +10,11 @@ import "./Interfaces/IERC20Metadata.sol";
 import "./Interfaces/IPollyToken.sol";
 import "./Interfaces/IBentoBoxV1.sol";
 import "./Interfaces/IUniV3Router.sol";
-import "./Interfaces/ICurveSwaps.sol";
 import "./OpenZeppelin/SafeERC20.sol";
 import "./OpenZeppelin/Context.sol";
 import "./OpenZeppelin/Ownable.sol";
 
-abstract contract RecipeV3 is IRecipe, Ownable {
+contract RecipeV3 is Ownable {
     using SafeERC20 for IERC20;
 
     IERC20 immutable WETH;
@@ -27,6 +25,8 @@ abstract contract RecipeV3 is IRecipe, Ownable {
     //so we save info about the DEX state to prevent querying the price if it is not viable
     mapping(address => bytes32) balancerViable;
     mapping(address => uint16) uniFee;
+    // Adds a custom hop before reaching the destination token
+    mapping(address => address) public customHops;
 
     struct BestPrice{
         uint price;
@@ -37,7 +37,8 @@ abstract contract RecipeV3 is IRecipe, Ownable {
     uniOracle oracle = uniOracle(0xb27308f9F90D607463bb33eA1BeBb41C27CE5AB6);
     uniV3Router uniRouter = uniV3Router(0xE592427A0AEce92De3Edee1F18E0157C05861564);
     IUniRouter sushiRouter = IUniRouter(0x1b02dA8Cb0d097eB8D57A175b88c7D8b47997506);
-    ICurveSwaps curveRouter = ICurveSwaps(0x04aAB3e45Aa6De7783D67FCfB21Bccf2401Ca31D);
+
+    event HopUpdated(address indexed _token, address indexed _hop);
 
     constructor(
         address _weth,
@@ -116,10 +117,26 @@ abstract contract RecipeV3 is IRecipe, Ownable {
 
             return;
         }
-        BestPrice memory bestPrice = getBestPrice(_inputToken, _outputToken, _outputAmount);
 
+        address customHopToken = customHops[_outputToken];
+        //If we customHop token is set, we first swap to that token and then the outputToken
+        if(customHopToken != address(0)) {
+            
+            BestPrice memory hopInPrice = getBestPrice(customHopToken, _outputToken, _outputAmount);
+            
+            BestPrice memory wethInPrice = getBestPrice(_inputToken, customHopToken, hopInPrice.price);
+            //Swap weth for hopToken
+            dexSwap(_inputToken, customHopToken, hopInPrice.price, wethInPrice.ammIndex);
+            //Swap hopToken for outputToken
+            dexSwap(customHopToken, _outputToken, _outputAmount, hopInPrice.ammIndex);
+        }
         // else normal swap
-        dexSwap(_inputToken, _outputToken, _outputAmount, bestPrice.ammIndex);
+        else{
+            BestPrice memory bestPrice = getBestPrice(_inputToken, _outputToken, _outputAmount);
+            
+            dexSwap(_inputToken, _outputToken, _outputAmount, bestPrice.ammIndex);
+        }
+
     }
 
     function dexSwap(address _assetIn, address _assetOut, uint _amountOut, uint _ammIndex) public {
@@ -163,16 +180,6 @@ abstract contract RecipeV3 is IRecipe, Ownable {
             IERC20(_assetIn).approve(address(sushiRouter), 0);
             IERC20(_assetIn).approve(address(sushiRouter), type(uint256).max);
             sushiRouter.swapTokensForExactTokens(_amountOut,type(uint256).max,getRoute(_assetIn, _assetOut),address(this),block.timestamp + 1);
-            return;
-        }
-
-        //CURVE
-        if(_ammIndex == 3){
-            IERC20(_assetIn).approve(address(curveRouter), 0);
-            IERC20(_assetIn).approve(address(curveRouter), type(uint256).max);
-            address[] memory excludePools;
-            (address curvePool, uint256 expectedAmount) = curveRouter.get_best_rate(_assetIn, _assetOut, _amountOut, excludePools); //analyze gas cost
-            curveRouter.exchange(curvePool, _assetIn, _assetOut, _amountOut, expectedAmount, address(this)); //returns amount received in swap
             return;
         }
 
@@ -254,55 +261,17 @@ abstract contract RecipeV3 is IRecipe, Ownable {
     }
 
     function getBestPrice(address _assetIn, address _assetOut, uint _amountOut) public returns (BestPrice memory){
-        uint uniAmount1;
-        uint uniAmount2;
+        uint uniAmount;
         uint sushiAmount;
         uint balancerAmount;
-        uint curveAmount;
         BestPrice memory bestPrice;
 
         //GET UNI PRICE
-        //(Uni provides pools with different fees. The most popular being 0.05% and 0.3%)
-        //Unfortunately they have to be specified
-        if(uniFee[_assetOut] == 500){
-            try oracle.quoteExactOutputSingle(_assetIn,_assetOut,500,_amountOut,0) returns(uint256 returnAmount) {
-                uniAmount1 = returnAmount;
-            } catch {
-                uniAmount1 = type(uint256).max;
-            }
-            bestPrice.price = uniAmount1;
-            bestPrice.ammIndex = 0;
-        }
-        else if(uniFee[_assetOut] == 3000){
-            try oracle.quoteExactOutputSingle(_assetIn,_assetOut,3000,_amountOut,0) returns(uint256 returnAmount) {
-                uniAmount2 = returnAmount;
-            } catch {
-                uniAmount2 = type(uint256).max;
-            }
-            bestPrice.price = uniAmount2;
-            bestPrice.ammIndex = 1;
-        }
-        else{
-            try oracle.quoteExactOutputSingle(_assetIn,_assetOut,500,_amountOut,0) returns(uint256 returnAmount) {
-                uniAmount1 = returnAmount;
-            } catch {
-                uniAmount1 = type(uint256).max;
-            }
-            bestPrice.price = uniAmount1;
-            bestPrice.ammIndex = 0;
-            try oracle.quoteExactOutputSingle(_assetIn,_assetOut,3000,_amountOut,0) returns(uint256 returnAmount) {
-                uniAmount2 = returnAmount;
-            } catch {
-                uniAmount2 = type(uint256).max;
-            }
-            if(bestPrice.price>uniAmount2){
-                bestPrice.price = uniAmount2;
-                bestPrice.ammIndex = 1;
-
-            }
-
-        }
-
+        uint uniIndex;
+        (uniAmount,uniIndex) = getPriceUniV3(_assetIn,_assetOut,_amountOut,uniFee[_assetOut]);
+        bestPrice.price = uniAmount;
+        bestPrice.ammIndex = uniIndex;
+        
         //GET SUSHI PRICE
         try sushiRouter.getAmountsIn(_amountOut, getRoute(_assetIn, _assetOut)) returns(uint256[] memory amounts) {
             sushiAmount = amounts[0];
@@ -314,40 +283,12 @@ abstract contract RecipeV3 is IRecipe, Ownable {
             bestPrice.ammIndex = 2;
         }
 
-        //GET CURVE PRICE
-        address[] memory excludePools;
-        try curveRouter.get_best_rate(_assetIn, _assetOut, _amountOut, excludePools) returns (address _bestPool, uint256 amountOut) {
-            curveAmount = amountOut; //expected amount received in swap
-        } catch {
-            curveAmount = type(uint256).max;
-        }
-        if(bestPrice.price > curveAmount) {
-            bestPrice.price = curveAmount;
-            bestPrice.ammIndex = 3;
-        }
-
         //GET BALANCER PRICE
         if(balancerViable[_assetOut]!= ""){
-            //Get Balancer price
-            IBalancer.SwapKind kind = IBalancer.SwapKind.GIVEN_OUT;
-
-            address[] memory assets = new address[](2);
-            assets[0] = _assetIn;
-            assets[1] = _assetOut;
-
-            IBalancer.BatchSwapStep[] memory swapStep = new IBalancer.BatchSwapStep[](1);
-            swapStep[0] = IBalancer.BatchSwapStep(balancerViable[_assetOut], 0, 1, _amountOut, "");
-
-            IBalancer.FundManagement memory funds = IBalancer.FundManagement(payable(msg.sender),false,payable(msg.sender),false);
-
-            try balancer.queryBatchSwap(kind,swapStep,assets,funds) returns(int[] memory amounts) {
-                balancerAmount = uint(amounts[0]);
-            } catch {
-                balancerAmount = type(uint256).max;
-            }
+            balancerAmount = getPriceBalancer(_assetIn,_assetOut,_amountOut);
             if(bestPrice.price>balancerAmount){
                 bestPrice.price = balancerAmount;
-                bestPrice.ammIndex = 4;
+                bestPrice.ammIndex = 3;
             }
         }
 
@@ -371,6 +312,65 @@ abstract contract RecipeV3 is IRecipe, Ownable {
         return route;
     }
 
+    function getPriceBalancer(address _assetIn, address _assetOut, uint _amountOut) internal returns(uint balancerAmount){
+        
+        //Get Balancer price
+        IBalancer.SwapKind kind = IBalancer.SwapKind.GIVEN_OUT;
+
+        address[] memory assets = new address[](2);
+        assets[0] = _assetIn;
+        assets[1] = _assetOut;
+
+        IBalancer.BatchSwapStep[] memory swapStep = new IBalancer.BatchSwapStep[](1);
+        swapStep[0] = IBalancer.BatchSwapStep(balancerViable[_assetOut], 0, 1, _amountOut, "");
+
+        IBalancer.FundManagement memory funds = IBalancer.FundManagement(payable(msg.sender),false,payable(msg.sender),false);
+
+        try balancer.queryBatchSwap(kind,swapStep,assets,funds) returns(int[] memory amounts) {
+            balancerAmount = uint(amounts[0]);
+        } catch {
+            balancerAmount = type(uint256).max;
+        }
+        
+    }
+
+    function getPriceUniV3(address _assetIn, address _assetOut, uint _amountOut, uint16 _uniFee) internal returns(uint uniAmount, uint index){
+        //Uni provides pools with different fees. The most popular being 0.05% and 0.3%
+        //Unfortunately they have to be specified
+        if(_uniFee == 500){
+            try oracle.quoteExactOutputSingle(_assetIn,_assetOut,500,_amountOut,0) returns(uint256 returnAmount) {
+                uniAmount = returnAmount;
+            } catch {
+                uniAmount = type(uint256).max;
+            }
+            //index = 0; no need to set 0, as it is the default value
+        }
+        else if(_uniFee == 3000){
+            try oracle.quoteExactOutputSingle(_assetIn,_assetOut,3000,_amountOut,0) returns(uint256 returnAmount) {
+                uniAmount = returnAmount;
+            } catch {
+                uniAmount = type(uint256).max;
+            }
+            index = 1;
+        }
+        else{
+            try oracle.quoteExactOutputSingle(_assetIn,_assetOut,500,_amountOut,0) returns(uint256 returnAmount) {
+                uniAmount = returnAmount;
+            } catch {
+                uniAmount = type(uint256).max;
+            }
+            //index = 0
+            try oracle.quoteExactOutputSingle(_assetIn,_assetOut,3000,_amountOut,0) returns(uint256 returnAmount) {
+                if(uniAmount>returnAmount){
+                    index = 1;
+                    uniAmount = returnAmount;
+                }
+            } catch {
+                //uniAmount is either already type(uint256).max or lower
+            }
+        }
+    }
+
     // NOTE input token must be WETH
     function getPricePie(address _pie, uint256 _pieAmount) internal returns(uint256) {
         IPie pie = IPie(_pie);
@@ -379,7 +379,14 @@ abstract contract RecipeV3 is IRecipe, Ownable {
         uint256 inputAmount = 0;
 
         for(uint256 i = 0; i < tokens.length; i ++) {
-            inputAmount += getPrice(address(WETH), tokens[i], amounts[i]);
+            address customHopToken = customHops[tokens[i]];
+            if(customHopToken != address(0)) {
+                //get price for hop
+                BestPrice memory hopPrice = getBestPrice(customHopToken, tokens[i], amounts[i]);
+                inputAmount += getPrice(address(WETH), customHopToken, hopPrice.price);
+            }else{
+                inputAmount += getPrice(address(WETH), tokens[i], amounts[i]);
+            }
         }
 
         return inputAmount;
@@ -398,6 +405,10 @@ abstract contract RecipeV3 is IRecipe, Ownable {
     //////////////////////////
     ///Admin Functions ///////
     //////////////////////////
+
+    function setCustomHop(address _token, address _hop) external onlyOwner {
+        customHops[_token] = _hop;
+    }
 
     function setUniPoolMapping(address _outputAsset, uint16 _Fee) external onlyOwner {
         uniFee[_outputAsset] = _Fee;
