@@ -35,11 +35,16 @@ interface IKlimaStaking {
     function unstake(uint amount, bool trigger) external view returns (uint256);
 }
 
+interface IKlimaStakingHelper{
+    function stake(uint amount) external returns (uint256);
+}
+
 contract LendingLogicKLIMA is ILendingLogic {
 
     //using base 1e9
     uint blockTime = 22e8; //2.2 seconds per block
     uint secondsPerYear = 31536000e9;
+    IKlimaStakingHelper klimaStakingHelper = IKlimaStakingHelper(0x4D70a031Fc76DA6a9bC0C922101A05FA95c3A227);
     IKlimaStaking klimaStakingPool = IKlimaStaking(0x25d28a24Ceb6F81015bB0b2007D795ACAc411b4d);
     IERC20 klima = IERC20(0x4e78011Ce80ee02d2c3e649Fb657E45898257815);
     
@@ -66,15 +71,15 @@ contract LendingLogicKLIMA is ILendingLogic {
 
         // zero out approval to be sure
         targets[0] = _underlying;
-        data[0] = abi.encodeWithSelector(underlying.approve.selector, address(klimaStakingPool), 0);
+        data[0] = abi.encodeWithSelector(underlying.approve.selector, address(klimaStakingHelper), 0);
 
         // Set approval
         targets[1] = _underlying;
-        data[1] = abi.encodeWithSelector(underlying.approve.selector, address(klimaStakingPool), _amount);
+        data[1] = abi.encodeWithSelector(underlying.approve.selector, address(klimaStakingHelper), _amount);
 
         // Stake KLIMA
-        targets[2] = address(klimaStakingPool);
-        data[2] =  abi.encodeWithSelector(klimaStakingPool.stake.selector, _underlying, _tokenHolder);
+        targets[2] = address(klimaStakingHelper);
+        data[2] =  abi.encodeWithSelector(klimaStakingHelper.stake.selector, _amount, _tokenHolder);
 
         return(targets, data);
     }
@@ -95,7 +100,7 @@ contract LendingLogicKLIMA is ILendingLogic {
 
         //Unstake sKLIMA
         targets[2] = address(klimaStakingPool);
-        data[2] =  abi.encodeWithSelector(klimaStakingPool.unstake.selector, _wrapped, false);
+        data[2] =  abi.encodeWithSelector(klimaStakingPool.unstake.selector, _amount, false);
 
         return(targets, data);
     }
