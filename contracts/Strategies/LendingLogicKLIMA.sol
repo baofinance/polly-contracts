@@ -106,11 +106,11 @@ contract LendingLogicKLIMA is ILendingLogic {
     }
 
     function exchangeRate(address) external pure override returns(uint256) {
-        return 10**9;
+        return 1e18;
     }
 
     function exchangeRateView(address) external pure override returns(uint256) {
-        return 10**9;
+        return 1e18;
     }
 
     function fmul(
