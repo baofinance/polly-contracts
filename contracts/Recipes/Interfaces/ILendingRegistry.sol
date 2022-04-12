@@ -53,5 +53,5 @@ interface ILendingRegistry {
         @return targets Addresses of the contracts to call
         @return data Calldata for the calls
     */
-    function getUnlendTXData(address _wrapped, uint256 _amount) external view returns(address[] memory targets, bytes[] memory data);
+    function getUnlendTXData(address _wrapped, uint256 _amount, address _tokenHolder) external view returns(address[] memory targets, bytes[] memory data);
 }

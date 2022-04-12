@@ -55,4 +55,12 @@ interface uniOracle {
     uint256 amountOut,
     uint160 sqrtPriceLimitX96
   ) external returns (uint256 amountIn);
+
+  function quoteExactInputSingle(
+    address tokenIn,
+    address tokenOut,
+    uint24 fee,
+    uint256 amountIn,
+    uint160 sqrtPriceLimitX96
+  ) external returns (uint256 amountOut);
 }
