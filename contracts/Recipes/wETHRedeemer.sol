@@ -51,14 +51,14 @@ contract NestRedeem is Ownable {
         uint256 pieBalance = pie.balanceOf(address(this));
 
         // Get tokens inside the index, as well as the amounts received.
-        (address[] memory tokens, uint256[] memory amounts) = pie.calcTokensForAmount(pieBalance);
+        (address[] memory tokens,) = pie.calcTokensForAmount(pieBalance);
 
         // Dissolve index for the individual tokens
         pie.exitPool(pieBalance);
 
         // Exchange underlying tokens for WETH
         for(uint256 i = 0; i < tokens.length; i++) {
-            tokensToWeth(tokens[i],amounts[i]);
+            tokensToWeth(tokens[i],IERC20(tokens[i]).balanceOf(address(this)));
         }
 
         // Transfer redeemed WETH to msg.sender
@@ -91,19 +91,19 @@ contract NestRedeem is Ownable {
         address customHopToken = customHops[_token];
         //If we customHop token is set, we first swap from token -> hopToken -> WETH
         if(customHopToken != address(0)) {
-            BestPrice memory hopInPrice = getBestPrice(customHopToken, address(WETH), _amount);
+            BestPrice memory hopOutPrice = getBestPrice(_token, customHopToken, _amount);
             
-            BestPrice memory wethInPrice = getBestPrice(_token, customHopToken, hopInPrice.price);
+            BestPrice memory wethOutPrice = getBestPrice(customHopToken, address(WETH), hopOutPrice.price);
             //Swap weth for hopToken
-            dexSwap(_token, customHopToken, hopInPrice.price, wethInPrice.ammIndex);
+            dexSwap(_token, customHopToken, _amount, hopOutPrice.ammIndex);
             //Swap hopToken for outputToken
-            dexSwap(customHopToken, address(WETH), _amount, hopInPrice.ammIndex);
+            dexSwap(customHopToken, address(WETH), hopOutPrice.price, wethOutPrice.ammIndex);
         }
         // else normal swap
         else{
             BestPrice memory bestPrice = getBestPrice(_token, address(WETH), _amount);
             
-            dexSwap(address(WETH), _token, _amount, bestPrice.ammIndex);
+            dexSwap(_token, address(WETH), _amount, bestPrice.ammIndex);
         }
     }
 
@@ -122,22 +122,22 @@ contract NestRedeem is Ownable {
         
         //GET SUSHI PRICE
         try sushiRouter.getAmountsOut(_amountIn, getRoute(_assetIn, _assetOut)) returns(uint256[] memory amounts) {
-            sushiAmount = amounts[0];
+            sushiAmount = amounts[1];
         } catch {
             sushiAmount = 0;
         }
-        if(bestPrice.price>sushiAmount){
+        if(bestPrice.price<sushiAmount){
             bestPrice.price = sushiAmount;
             bestPrice.ammIndex = 2;
         }
 
         //GET QUICKSWAP PRICE
         try quickRouter.getAmountsOut(_amountIn, getRoute(_assetIn, _assetOut)) returns(uint256[] memory amounts) {
-            quickAmount = amounts[0];
+            quickAmount = amounts[1];
         } catch {
             quickAmount = 0;
         }
-        if(bestPrice.price>quickAmount){
+        if(bestPrice.price<quickAmount){
             bestPrice.price = quickAmount;
             bestPrice.ammIndex = 3;
         }
@@ -145,7 +145,7 @@ contract NestRedeem is Ownable {
         //GET BALANCER PRICE
         if(balancerViable[_assetIn]!= ""){
             balancerAmount = getPriceBalancer(_assetIn,_assetOut,_amountIn);
-            if(bestPrice.price>balancerAmount){
+            if(bestPrice.price<balancerAmount){
                 bestPrice.price = balancerAmount;
                 bestPrice.ammIndex = 4;
             }
@@ -310,5 +310,17 @@ contract NestRedeem is Ownable {
         route[1] = _outputToken;
 
         return route;
+    }
+
+    function setCustomHop(address _token, address _hop) external onlyOwner {
+        customHops[_token] = _hop;
+    }
+
+    function setUniPoolMapping(address _outputAsset, uint16 _Fee) external onlyOwner {
+        uniFee[_outputAsset] = _Fee;
+    }
+
+    function setBalancerPoolMapping(address _inputAsset, bytes32 _pool) external onlyOwner {
+        balancerViable[_inputAsset] = _pool;
     }
 }
