@@ -1,4 +1,5 @@
 require("@nomiclabs/hardhat-waffle");
+require("@nomiclabs/hardhat-etherscan");
 
 /**
  * @type import('hardhat/config').HardhatUserConfig
@@ -15,6 +16,11 @@ require("@nomiclabs/hardhat-waffle");
       //Consider any address posted here to be compromised
       //accounts: [""]
     }
+  },
+  etherscan: {
+    // Your API key for Etherscan
+    // Obtain one at https://etherscan.io/
+    //apiKey: ""
   },
   solidity: {
     compilers: [

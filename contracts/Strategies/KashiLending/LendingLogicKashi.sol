@@ -3,20 +3,20 @@ pragma solidity ^0.8.1;
 
 import "./Interfaces/IERC20.sol";
 import "./Interfaces/ILendingLogic.sol";
-import "./LendingRegistry.sol";
+import "./Interfaces/ILendingRegistry.sol";
 import "./Interfaces/IBentoBoxV1.sol";
 import "./Interfaces/IKashiPair.sol";
 import "hardhat/console.sol";
 
 contract LendingLogicKashi is ILendingLogic {
     
-    LendingRegistry public lendingRegistry;
+    ILendingRegistry public lendingRegistry;
     bytes32 public immutable protocolKey;
     IBentoBoxV1 public immutable bentoBox;
 
     constructor(address _lendingRegistry, bytes32 _protocolKey, address _bentoBox) {
         require(_lendingRegistry != address(0), "INVALID_LENDING_REGISTRY");
-        lendingRegistry = LendingRegistry(_lendingRegistry);
+        lendingRegistry = ILendingRegistry(_lendingRegistry);
         protocolKey = _protocolKey;
         bentoBox = IBentoBoxV1(_bentoBox);
     }

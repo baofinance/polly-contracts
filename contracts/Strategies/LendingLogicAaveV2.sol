@@ -2,11 +2,11 @@
 pragma experimental ABIEncoderV2;
 pragma solidity ^0.7.1;
 
-import "./OpenZeppelin/SafeMath.sol";
-import "./Interfaces/IERC20.sol";
-import "./Interfaces/ILendingLogic.sol";
-import "./Interfaces/IATokenV2.sol";
-import "./Interfaces/IAaveLendingPoolV2.sol";
+import "../OpenZeppelin/SafeMath.sol";
+import "../Interfaces/IERC20.sol";
+import "../Interfaces/ILendingLogic.sol";
+import "../Interfaces/IATokenV2.sol";
+import "../Interfaces/IAaveLendingPoolV2.sol";
 
 contract ATokenV2 is IATokenV2 {
     address public UNDERLYING_ASSET_ADDRESS;
