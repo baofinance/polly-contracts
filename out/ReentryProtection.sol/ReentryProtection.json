@@ -1,0 +1,405 @@
+{
+  "abi": [],
+  "bytecode": {
+    "object": "0x6080604052348015600f57600080fd5b50603f80601d6000396000f3fe6080604052600080fdfea2646970667358221220fa67ec4c34962d2c18bb15dbdddb6db791efba8046562a1a09e9aa799a79040a64736f6c63430007010033",
+    "sourceMap": "102:381:7:-:0;;;;;;;;;;;;;;;;;;;",
+    "linkReferences": {}
+  },
+  "deployedBytecode": {
+    "object": "0x6080604052600080fdfea2646970667358221220fa67ec4c34962d2c18bb15dbdddb6db791efba8046562a1a09e9aa799a79040a64736f6c63430007010033",
+    "sourceMap": "102:381:7:-:0;;;;;",
+    "linkReferences": {}
+  },
+  "ast": {
+    "absolutePath": "/home/freshpizza/Polly-Contracts/src/Diamond/ReentryProtection.sol",
+    "id": 2530,
+    "exportedSymbols": {
+      "ReentryProtection": [
+        2529
+      ]
+    },
+    "nodeType": "SourceUnit",
+    "src": "32:451:7",
+    "nodes": [
+      {
+        "id": 2497,
+        "nodeType": "PragmaDirective",
+        "src": "32:23:7",
+        "literals": [
+          "solidity",
+          "^",
+          "0.7",
+          ".1"
+        ]
+      },
+      {
+        "id": 2498,
+        "nodeType": "ImportDirective",
+        "src": "57:43:7",
+        "absolutePath": "/home/freshpizza/Polly-Contracts/src/Diamond/LibReentryProtectionStorage.sol",
+        "file": "./LibReentryProtectionStorage.sol",
+        "scope": 2530,
+        "sourceUnit": 2496,
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "id": 2529,
+        "nodeType": "ContractDefinition",
+        "src": "102:381:7",
+        "nodes": [
+          {
+            "id": 2528,
+            "nodeType": "ModifierDefinition",
+            "src": "133:348:7",
+            "body": {
+              "id": 2527,
+              "nodeType": "Block",
+              "src": "152:329:7",
+              "statements": [
+                {
+                  "assignments": [
+                    2503
+                  ],
+                  "declarations": [
+                    {
+                      "constant": false,
+                      "id": 2503,
+                      "mutability": "mutable",
+                      "name": "s",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 2527,
+                      "src": "207:47:7",
+                      "stateVariable": false,
+                      "storageLocation": "storage",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_struct$_RPStorage_$2483_storage_ptr",
+                        "typeString": "struct LibReentryProtectionStorage.RPStorage"
+                      },
+                      "typeName": {
+                        "id": 2502,
+                        "name": "LibReentryProtectionStorage.RPStorage",
+                        "nodeType": "UserDefinedTypeName",
+                        "referencedDeclaration": 2483,
+                        "src": "207:37:7",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_RPStorage_$2483_storage_ptr",
+                          "typeString": "struct LibReentryProtectionStorage.RPStorage"
+                        }
+                      },
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 2507,
+                  "initialValue": {
+                    "arguments": [],
+                    "expression": {
+                      "argumentTypes": [],
+                      "expression": {
+                        "id": 2504,
+                        "name": "LibReentryProtectionStorage",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 2495,
+                        "src": "257:27:7",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_type$_t_contract$_LibReentryProtectionStorage_$2495_$",
+                          "typeString": "type(library LibReentryProtectionStorage)"
+                        }
+                      },
+                      "id": 2505,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "memberName": "rpStorage",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 2494,
+                      "src": "257:37:7",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_internal_pure$__$returns$_t_struct$_RPStorage_$2483_storage_ptr_$",
+                        "typeString": "function () pure returns (struct LibReentryProtectionStorage.RPStorage storage pointer)"
+                      }
+                    },
+                    "id": 2506,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "257:39:7",
+                    "tryCall": false,
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_struct$_RPStorage_$2483_storage_ptr",
+                      "typeString": "struct LibReentryProtectionStorage.RPStorage storage pointer"
+                    }
+                  },
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "207:89:7"
+                },
+                {
+                  "expression": {
+                    "id": 2511,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "nodeType": "UnaryOperation",
+                    "operator": "++",
+                    "prefix": false,
+                    "src": "302:15:7",
+                    "subExpression": {
+                      "expression": {
+                        "id": 2508,
+                        "name": "s",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 2503,
+                        "src": "302:1:7",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_struct$_RPStorage_$2483_storage_ptr",
+                          "typeString": "struct LibReentryProtectionStorage.RPStorage storage pointer"
+                        }
+                      },
+                      "id": 2510,
+                      "isConstant": false,
+                      "isLValue": true,
+                      "isPure": false,
+                      "lValueRequested": true,
+                      "memberName": "lockCounter",
+                      "nodeType": "MemberAccess",
+                      "referencedDeclaration": 2482,
+                      "src": "302:13:7",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "id": 2512,
+                  "nodeType": "ExpressionStatement",
+                  "src": "302:15:7"
+                },
+                {
+                  "assignments": [
+                    2514
+                  ],
+                  "declarations": [
+                    {
+                      "constant": false,
+                      "id": 2514,
+                      "mutability": "mutable",
+                      "name": "lockValue",
+                      "nodeType": "VariableDeclaration",
+                      "scope": 2527,
+                      "src": "323:17:7",
+                      "stateVariable": false,
+                      "storageLocation": "default",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      },
+                      "typeName": {
+                        "id": 2513,
+                        "name": "uint256",
+                        "nodeType": "ElementaryTypeName",
+                        "src": "323:7:7",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        }
+                      },
+                      "visibility": "internal"
+                    }
+                  ],
+                  "id": 2517,
+                  "initialValue": {
+                    "expression": {
+                      "id": 2515,
+                      "name": "s",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 2503,
+                      "src": "343:1:7",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_struct$_RPStorage_$2483_storage_ptr",
+                        "typeString": "struct LibReentryProtectionStorage.RPStorage storage pointer"
+                      }
+                    },
+                    "id": 2516,
+                    "isConstant": false,
+                    "isLValue": true,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "memberName": "lockCounter",
+                    "nodeType": "MemberAccess",
+                    "referencedDeclaration": 2482,
+                    "src": "343:13:7",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "nodeType": "VariableDeclarationStatement",
+                  "src": "323:33:7"
+                },
+                {
+                  "id": 2518,
+                  "nodeType": "PlaceholderStatement",
+                  "src": "362:1:7"
+                },
+                {
+                  "expression": {
+                    "arguments": [
+                      {
+                        "commonType": {
+                          "typeIdentifier": "t_uint256",
+                          "typeString": "uint256"
+                        },
+                        "id": 2523,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "leftExpression": {
+                          "id": 2520,
+                          "name": "lockValue",
+                          "nodeType": "Identifier",
+                          "overloadedDeclarations": [],
+                          "referencedDeclaration": 2514,
+                          "src": "384:9:7",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_uint256",
+                            "typeString": "uint256"
+                          }
+                        },
+                        "nodeType": "BinaryOperation",
+                        "operator": "==",
+                        "rightExpression": {
+                          "expression": {
+                            "id": 2521,
+                            "name": "s",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 2503,
+                            "src": "397:1:7",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_struct$_RPStorage_$2483_storage_ptr",
+                              "typeString": "struct LibReentryProtectionStorage.RPStorage storage pointer"
+                            }
+                          },
+                          "id": 2522,
+                          "isConstant": false,
+                          "isLValue": true,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "memberName": "lockCounter",
+                          "nodeType": "MemberAccess",
+                          "referencedDeclaration": 2482,
+                          "src": "397:13:7",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_uint256",
+                            "typeString": "uint256"
+                          }
+                        },
+                        "src": "384:26:7",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_bool",
+                          "typeString": "bool"
+                        }
+                      },
+                      {
+                        "hexValue": "5265656e74727950726f74656374696f6e46616365742e6e6f5265656e7472793a207265656e747279206465746563746564",
+                        "id": 2524,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": true,
+                        "kind": "string",
+                        "lValueRequested": false,
+                        "nodeType": "Literal",
+                        "src": "418:52:7",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_stringliteral_e3802b0d669591fa5b70c79218a2d3642370e1dbffb98efe802d9a1fb3198bc1",
+                          "typeString": "literal_string \"ReentryProtectionFacet.noReentry: reentry detected\""
+                        },
+                        "value": "ReentryProtectionFacet.noReentry: reentry detected"
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_bool",
+                          "typeString": "bool"
+                        },
+                        {
+                          "typeIdentifier": "t_stringliteral_e3802b0d669591fa5b70c79218a2d3642370e1dbffb98efe802d9a1fb3198bc1",
+                          "typeString": "literal_string \"ReentryProtectionFacet.noReentry: reentry detected\""
+                        }
+                      ],
+                      "id": 2519,
+                      "name": "require",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [
+                        -18,
+                        -18
+                      ],
+                      "referencedDeclaration": -18,
+                      "src": "369:7:7",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_require_pure$_t_bool_$_t_string_memory_ptr_$returns$__$",
+                        "typeString": "function (bool,string memory) pure"
+                      }
+                    },
+                    "id": 2525,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "369:107:7",
+                    "tryCall": false,
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 2526,
+                  "nodeType": "ExpressionStatement",
+                  "src": "369:107:7"
+                }
+              ]
+            },
+            "name": "noReentry",
+            "parameters": {
+              "id": 2499,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "152:0:7"
+            },
+            "virtual": false,
+            "visibility": "internal"
+          }
+        ],
+        "abstract": false,
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "fullyImplemented": true,
+        "linearizedBaseContracts": [
+          2529
+        ],
+        "name": "ReentryProtection",
+        "scope": 2530
+      }
+    ],
+    "license": "MIT"
+  }
+}

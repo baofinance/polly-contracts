@@ -1,0 +1,3174 @@
+{
+  "abi": [
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "fee",
+          "type": "uint256"
+        }
+      ],
+      "name": "AnnualizedFeeSet",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "cap",
+          "type": "uint256"
+        }
+      ],
+      "name": "CapSet",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "share",
+          "type": "uint256"
+        }
+      ],
+      "name": "EntryFeeBeneficiaryShareSet",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "fee",
+          "type": "uint256"
+        }
+      ],
+      "name": "EntryFeeSet",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "share",
+          "type": "uint256"
+        }
+      ],
+      "name": "ExitFeeBeneficiaryShareSet",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "fee",
+          "type": "uint256"
+        }
+      ],
+      "name": "ExitFeeSet",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "beneficiary",
+          "type": "address"
+        }
+      ],
+      "name": "FeeBeneficiarySet",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "FeeCharged",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "lockBlock",
+          "type": "uint256"
+        }
+      ],
+      "name": "LockSet",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "who",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "PoolExited",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "who",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "PoolJoined",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "_token",
+          "type": "address"
+        }
+      ],
+      "name": "TokenAdded",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "_token",
+          "type": "address"
+        }
+      ],
+      "name": "TokenRemoved",
+      "type": "event"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_token",
+          "type": "address"
+        }
+      ],
+      "name": "addToken",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_token",
+          "type": "address"
+        }
+      ],
+      "name": "balance",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "calcOutStandingAnnualizedFee",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "calcTokensForAmount",
+      "outputs": [
+        {
+          "internalType": "address[]",
+          "name": "tokens",
+          "type": "address[]"
+        },
+        {
+          "internalType": "uint256[]",
+          "name": "amounts",
+          "type": "uint256[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "calcTokensForAmountExit",
+      "outputs": [
+        {
+          "internalType": "address[]",
+          "name": "tokens",
+          "type": "address[]"
+        },
+        {
+          "internalType": "uint256[]",
+          "name": "amounts",
+          "type": "uint256[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "chargeOutstandingAnnualizedFee",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "exitPool",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getAnnualizedFee",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getCap",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getEntryFee",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getEntryFeeBeneficiaryShare",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getExitFee",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getExitFeeBeneficiaryShare",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getFeeBeneficiary",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getLock",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getLockBlock",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_token",
+          "type": "address"
+        }
+      ],
+      "name": "getTokenInPool",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getTokens",
+      "outputs": [
+        {
+          "internalType": "address[]",
+          "name": "",
+          "type": "address[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "joinPool",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_token",
+          "type": "address"
+        }
+      ],
+      "name": "removeToken",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_fee",
+          "type": "uint256"
+        }
+      ],
+      "name": "setAnnualizedFee",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_maxCap",
+          "type": "uint256"
+        }
+      ],
+      "name": "setCap",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_fee",
+          "type": "uint256"
+        }
+      ],
+      "name": "setEntryFee",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_share",
+          "type": "uint256"
+        }
+      ],
+      "name": "setEntryFeeBeneficiaryShare",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_fee",
+          "type": "uint256"
+        }
+      ],
+      "name": "setExitFee",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_share",
+          "type": "uint256"
+        }
+      ],
+      "name": "setExitFeeBeneficiaryShare",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_beneficiary",
+          "type": "address"
+        }
+      ],
+      "name": "setFeeBeneficiary",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_lock",
+          "type": "uint256"
+        }
+      ],
+      "name": "setLock",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "bytecode": {
+    "object": "0x",
+    "sourceMap": "",
+    "linkReferences": {}
+  },
+  "deployedBytecode": {
+    "object": "0x",
+    "sourceMap": "",
+    "linkReferences": {}
+  },
+  "ast": {
+    "absolutePath": "/home/freshpizza/Polly-Contracts/src/Recipes/Interfaces/IBasketFacet.sol",
+    "id": 844,
+    "exportedSymbols": {
+      "IBasketFacet": [
+        843
+      ]
+    },
+    "nodeType": "SourceUnit",
+    "src": "32:6084:4",
+    "nodes": [
+      {
+        "id": 602,
+        "nodeType": "PragmaDirective",
+        "src": "32:23:4",
+        "literals": [
+          "solidity",
+          "^",
+          "0.8",
+          ".1"
+        ]
+      },
+      {
+        "id": 603,
+        "nodeType": "PragmaDirective",
+        "src": "56:33:4",
+        "literals": [
+          "experimental",
+          "ABIEncoderV2"
+        ]
+      },
+      {
+        "id": 843,
+        "nodeType": "ContractDefinition",
+        "src": "91:6025:4",
+        "nodes": [
+          {
+            "id": 607,
+            "nodeType": "EventDefinition",
+            "src": "121:41:4",
+            "anonymous": false,
+            "eventSelector": "784c8f4dbf0ffedd6e72c76501c545a70f8b203b30a26ce542bf92ba87c248a4",
+            "name": "TokenAdded",
+            "nameLocation": "127:10:4",
+            "parameters": {
+              "id": 606,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 605,
+                  "indexed": true,
+                  "mutability": "mutable",
+                  "name": "_token",
+                  "nameLocation": "154:6:4",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 607,
+                  "src": "138:22:4",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 604,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "138:7:4",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "137:24:4"
+            }
+          },
+          {
+            "id": 611,
+            "nodeType": "EventDefinition",
+            "src": "167:43:4",
+            "anonymous": false,
+            "eventSelector": "4c910b69fe65a61f7531b9c5042b2329ca7179c77290aa7e2eb3afa3c8511fd3",
+            "name": "TokenRemoved",
+            "nameLocation": "173:12:4",
+            "parameters": {
+              "id": 610,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 609,
+                  "indexed": true,
+                  "mutability": "mutable",
+                  "name": "_token",
+                  "nameLocation": "202:6:4",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 611,
+                  "src": "186:22:4",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 608,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "186:7:4",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "185:24:4"
+            }
+          },
+          {
+            "id": 615,
+            "nodeType": "EventDefinition",
+            "src": "215:31:4",
+            "anonymous": false,
+            "eventSelector": "565a4bfd76b3419546eefb0f3228d436837362a9b57e0c3a03227225dfec023d",
+            "name": "EntryFeeSet",
+            "nameLocation": "221:11:4",
+            "parameters": {
+              "id": 614,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 613,
+                  "indexed": false,
+                  "mutability": "mutable",
+                  "name": "fee",
+                  "nameLocation": "241:3:4",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 615,
+                  "src": "233:11:4",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 612,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "233:7:4",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "232:13:4"
+            }
+          },
+          {
+            "id": 619,
+            "nodeType": "EventDefinition",
+            "src": "251:30:4",
+            "anonymous": false,
+            "eventSelector": "b087f15d44c22304a275c2b80bad7d5ccfd7059fa7678aa84549b55f614a158c",
+            "name": "ExitFeeSet",
+            "nameLocation": "257:10:4",
+            "parameters": {
+              "id": 618,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 617,
+                  "indexed": false,
+                  "mutability": "mutable",
+                  "name": "fee",
+                  "nameLocation": "276:3:4",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 619,
+                  "src": "268:11:4",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 616,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "268:7:4",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "267:13:4"
+            }
+          },
+          {
+            "id": 623,
+            "nodeType": "EventDefinition",
+            "src": "286:36:4",
+            "anonymous": false,
+            "eventSelector": "b28ff79de60b96320a73afead226d63eff6efb0af3c1ce70c7e2e5489419e113",
+            "name": "AnnualizedFeeSet",
+            "nameLocation": "292:16:4",
+            "parameters": {
+              "id": 622,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 621,
+                  "indexed": false,
+                  "mutability": "mutable",
+                  "name": "fee",
+                  "nameLocation": "317:3:4",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 623,
+                  "src": "309:11:4",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 620,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "309:7:4",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "308:13:4"
+            }
+          },
+          {
+            "id": 627,
+            "nodeType": "EventDefinition",
+            "src": "327:53:4",
+            "anonymous": false,
+            "eventSelector": "f7015098f8d6fa48f0560725ffd5f81bf687ee5ac45153b590bdcb04648bbdd3",
+            "name": "FeeBeneficiarySet",
+            "nameLocation": "333:17:4",
+            "parameters": {
+              "id": 626,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 625,
+                  "indexed": true,
+                  "mutability": "mutable",
+                  "name": "beneficiary",
+                  "nameLocation": "367:11:4",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 627,
+                  "src": "351:27:4",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 624,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "351:7:4",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "350:29:4"
+            }
+          },
+          {
+            "id": 631,
+            "nodeType": "EventDefinition",
+            "src": "385:49:4",
+            "anonymous": false,
+            "eventSelector": "34099db0e58e33c67a0ceae8361ed3a1d587d9fb194626eb7d65ecd51fa4f4d7",
+            "name": "EntryFeeBeneficiaryShareSet",
+            "nameLocation": "391:27:4",
+            "parameters": {
+              "id": 630,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 629,
+                  "indexed": false,
+                  "mutability": "mutable",
+                  "name": "share",
+                  "nameLocation": "427:5:4",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 631,
+                  "src": "419:13:4",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 628,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "419:7:4",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "418:15:4"
+            }
+          },
+          {
+            "id": 635,
+            "nodeType": "EventDefinition",
+            "src": "439:48:4",
+            "anonymous": false,
+            "eventSelector": "5dfdebaeccd5926e0513268bf319e64f404ccc739f1344dbd895cd6a1c4ede8c",
+            "name": "ExitFeeBeneficiaryShareSet",
+            "nameLocation": "445:26:4",
+            "parameters": {
+              "id": 634,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 633,
+                  "indexed": false,
+                  "mutability": "mutable",
+                  "name": "share",
+                  "nameLocation": "480:5:4",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 635,
+                  "src": "472:13:4",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 632,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "472:7:4",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "471:15:4"
+            }
+          },
+          {
+            "id": 641,
+            "nodeType": "EventDefinition",
+            "src": "493:54:4",
+            "anonymous": false,
+            "eventSelector": "7a011ddbb8da163de89faccb018bb75c616e6ac270738b8bf1785f08ae1b2d6f",
+            "name": "PoolJoined",
+            "nameLocation": "499:10:4",
+            "parameters": {
+              "id": 640,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 637,
+                  "indexed": true,
+                  "mutability": "mutable",
+                  "name": "who",
+                  "nameLocation": "526:3:4",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 641,
+                  "src": "510:19:4",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 636,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "510:7:4",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 639,
+                  "indexed": false,
+                  "mutability": "mutable",
+                  "name": "amount",
+                  "nameLocation": "539:6:4",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 641,
+                  "src": "531:14:4",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 638,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "531:7:4",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "509:37:4"
+            }
+          },
+          {
+            "id": 647,
+            "nodeType": "EventDefinition",
+            "src": "552:54:4",
+            "anonymous": false,
+            "eventSelector": "bc865856a1e9f1dfe2abde98edc2eefe87b6c391a47032388ef36d8c2474aad3",
+            "name": "PoolExited",
+            "nameLocation": "558:10:4",
+            "parameters": {
+              "id": 646,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 643,
+                  "indexed": true,
+                  "mutability": "mutable",
+                  "name": "who",
+                  "nameLocation": "585:3:4",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 647,
+                  "src": "569:19:4",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 642,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "569:7:4",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 645,
+                  "indexed": false,
+                  "mutability": "mutable",
+                  "name": "amount",
+                  "nameLocation": "598:6:4",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 647,
+                  "src": "590:14:4",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 644,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "590:7:4",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "568:37:4"
+            }
+          },
+          {
+            "id": 651,
+            "nodeType": "EventDefinition",
+            "src": "611:33:4",
+            "anonymous": false,
+            "eventSelector": "ccac4111799e8a37144a6ae9e90ea146dcd86f34f155783a8ce97c546ad8c2fe",
+            "name": "FeeCharged",
+            "nameLocation": "617:10:4",
+            "parameters": {
+              "id": 650,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 649,
+                  "indexed": false,
+                  "mutability": "mutable",
+                  "name": "amount",
+                  "nameLocation": "636:6:4",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 651,
+                  "src": "628:14:4",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 648,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "628:7:4",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "627:16:4"
+            }
+          },
+          {
+            "id": 655,
+            "nodeType": "EventDefinition",
+            "src": "649:33:4",
+            "anonymous": false,
+            "eventSelector": "c96ac8f962bbb0ee952304839108c72982a49173fa73e62ede62c943e10f5742",
+            "name": "LockSet",
+            "nameLocation": "655:7:4",
+            "parameters": {
+              "id": 654,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 653,
+                  "indexed": false,
+                  "mutability": "mutable",
+                  "name": "lockBlock",
+                  "nameLocation": "671:9:4",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 655,
+                  "src": "663:17:4",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 652,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "663:7:4",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "662:19:4"
+            }
+          },
+          {
+            "id": 659,
+            "nodeType": "EventDefinition",
+            "src": "687:26:4",
+            "anonymous": false,
+            "eventSelector": "9872d5eb566b79923d043f1b59aca655ca80a2bb5b6bca4824e515b0e398902f",
+            "name": "CapSet",
+            "nameLocation": "693:6:4",
+            "parameters": {
+              "id": 658,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 657,
+                  "indexed": false,
+                  "mutability": "mutable",
+                  "name": "cap",
+                  "nameLocation": "708:3:4",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 659,
+                  "src": "700:11:4",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 656,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "700:7:4",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "699:13:4"
+            }
+          },
+          {
+            "id": 665,
+            "nodeType": "FunctionDefinition",
+            "src": "847:44:4",
+            "documentation": {
+              "id": 660,
+              "nodeType": "StructuredDocumentation",
+              "src": "719:123:4",
+              "text": "@notice Sets entry fee paid when minting\n@param _fee Amount of fee. 1e18 == 100%, capped at 10%"
+            },
+            "functionSelector": "eb770d0c",
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "setEntryFee",
+            "nameLocation": "856:11:4",
+            "parameters": {
+              "id": 663,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 662,
+                  "mutability": "mutable",
+                  "name": "_fee",
+                  "nameLocation": "876:4:4",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 665,
+                  "src": "868:12:4",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 661,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "868:7:4",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "867:14:4"
+            },
+            "returnParameters": {
+              "id": 664,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "890:0:4"
+            },
+            "scope": 843,
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "id": 671,
+            "nodeType": "FunctionDefinition",
+            "src": "980:54:4",
+            "documentation": {
+              "id": 666,
+              "nodeType": "StructuredDocumentation",
+              "src": "897:78:4",
+              "text": "@notice Get the entry fee\n@return Current entry fee"
+            },
+            "functionSelector": "e586a4f0",
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getEntryFee",
+            "nameLocation": "989:11:4",
+            "parameters": {
+              "id": 667,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1000:2:4"
+            },
+            "returnParameters": {
+              "id": 670,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 669,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 671,
+                  "src": "1025:7:4",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 668,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1025:7:4",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1024:9:4"
+            },
+            "scope": 843,
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "id": 677,
+            "nodeType": "FunctionDefinition",
+            "src": "1169:43:4",
+            "documentation": {
+              "id": 672,
+              "nodeType": "StructuredDocumentation",
+              "src": "1040:124:4",
+              "text": "@notice Set the exit fee paid when exiting\n@param _fee Amount of fee. 1e18 == 100%, capped at 10%"
+            },
+            "functionSelector": "e5a583a9",
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "setExitFee",
+            "nameLocation": "1178:10:4",
+            "parameters": {
+              "id": 675,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 674,
+                  "mutability": "mutable",
+                  "name": "_fee",
+                  "nameLocation": "1197:4:4",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 677,
+                  "src": "1189:12:4",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 673,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1189:7:4",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1188:14:4"
+            },
+            "returnParameters": {
+              "id": 676,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1211:0:4"
+            },
+            "scope": 843,
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "id": 683,
+            "nodeType": "FunctionDefinition",
+            "src": "1299:53:4",
+            "documentation": {
+              "id": 678,
+              "nodeType": "StructuredDocumentation",
+              "src": "1218:76:4",
+              "text": "@notice Get the exit fee\n@return Current exit fee"
+            },
+            "functionSelector": "ecb0116a",
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getExitFee",
+            "nameLocation": "1308:10:4",
+            "parameters": {
+              "id": 679,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1318:2:4"
+            },
+            "returnParameters": {
+              "id": 682,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 681,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 683,
+                  "src": "1343:7:4",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 680,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1343:7:4",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1342:9:4"
+            },
+            "scope": 843,
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "id": 689,
+            "nodeType": "FunctionDefinition",
+            "src": "1511:49:4",
+            "documentation": {
+              "id": 684,
+              "nodeType": "StructuredDocumentation",
+              "src": "1358:148:4",
+              "text": "@notice Set the annualized fee. Often referred to as streaming fee\n@param _fee Amount of fee. 1e18 == 100%, capped at 10%"
+            },
+            "functionSelector": "ef512424",
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "setAnnualizedFee",
+            "nameLocation": "1520:16:4",
+            "parameters": {
+              "id": 687,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 686,
+                  "mutability": "mutable",
+                  "name": "_fee",
+                  "nameLocation": "1545:4:4",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 689,
+                  "src": "1537:12:4",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 685,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1537:7:4",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1536:14:4"
+            },
+            "returnParameters": {
+              "id": 688,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1559:0:4"
+            },
+            "scope": 843,
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "id": 695,
+            "nodeType": "FunctionDefinition",
+            "src": "1661:59:4",
+            "documentation": {
+              "id": 690,
+              "nodeType": "StructuredDocumentation",
+              "src": "1566:90:4",
+              "text": "@notice Get the annualized fee.\n@return Current annualized fee."
+            },
+            "functionSelector": "ad293cf2",
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getAnnualizedFee",
+            "nameLocation": "1670:16:4",
+            "parameters": {
+              "id": 691,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1686:2:4"
+            },
+            "returnParameters": {
+              "id": 694,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 693,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 695,
+                  "src": "1711:7:4",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 692,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1711:7:4",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1710:9:4"
+            },
+            "scope": 843,
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "id": 701,
+            "nodeType": "FunctionDefinition",
+            "src": "1793:58:4",
+            "documentation": {
+              "id": 696,
+              "nodeType": "StructuredDocumentation",
+              "src": "1726:62:4",
+              "text": "@notice Set the address receiving the fees."
+            },
+            "functionSelector": "5a0a3d82",
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "setFeeBeneficiary",
+            "nameLocation": "1802:17:4",
+            "parameters": {
+              "id": 699,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 698,
+                  "mutability": "mutable",
+                  "name": "_beneficiary",
+                  "nameLocation": "1828:12:4",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 701,
+                  "src": "1820:20:4",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 697,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1820:7:4",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1819:22:4"
+            },
+            "returnParameters": {
+              "id": 700,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1850:0:4"
+            },
+            "scope": 843,
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "id": 707,
+            "nodeType": "FunctionDefinition",
+            "src": "1956:60:4",
+            "documentation": {
+              "id": 702,
+              "nodeType": "StructuredDocumentation",
+              "src": "1857:94:4",
+              "text": "@notice Get the fee benificiary\n@return The current fee beneficiary"
+            },
+            "functionSelector": "d908c3e5",
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getFeeBeneficiary",
+            "nameLocation": "1965:17:4",
+            "parameters": {
+              "id": 703,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1982:2:4"
+            },
+            "returnParameters": {
+              "id": 706,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 705,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 707,
+                  "src": "2007:7:4",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 704,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2007:7:4",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "2006:9:4"
+            },
+            "scope": 843,
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "id": 713,
+            "nodeType": "FunctionDefinition",
+            "src": "2173:62:4",
+            "documentation": {
+              "id": 708,
+              "nodeType": "StructuredDocumentation",
+              "src": "2022:146:4",
+              "text": "@notice Set the fee beneficiaries share of the entry fee\n@notice _share Share of the fee. 1e18 == 100%. Capped at 100% "
+            },
+            "functionSelector": "8a8257dd",
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "setEntryFeeBeneficiaryShare",
+            "nameLocation": "2182:27:4",
+            "parameters": {
+              "id": 711,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 710,
+                  "mutability": "mutable",
+                  "name": "_share",
+                  "nameLocation": "2218:6:4",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 713,
+                  "src": "2210:14:4",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 709,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2210:7:4",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "2209:16:4"
+            },
+            "returnParameters": {
+              "id": 712,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "2234:0:4"
+            },
+            "scope": 843,
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "id": 719,
+            "nodeType": "FunctionDefinition",
+            "src": "2340:70:4",
+            "documentation": {
+              "id": 714,
+              "nodeType": "StructuredDocumentation",
+              "src": "2241:94:4",
+              "text": "@notice Get the entry fee beneficiary share\n@return Feeshare amount"
+            },
+            "functionSelector": "9d3f7dd4",
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getEntryFeeBeneficiaryShare",
+            "nameLocation": "2349:27:4",
+            "parameters": {
+              "id": 715,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "2376:2:4"
+            },
+            "returnParameters": {
+              "id": 718,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 717,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 719,
+                  "src": "2401:7:4",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 716,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2401:7:4",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "2400:9:4"
+            },
+            "scope": 843,
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "id": 725,
+            "nodeType": "FunctionDefinition",
+            "src": "2566:61:4",
+            "documentation": {
+              "id": 720,
+              "nodeType": "StructuredDocumentation",
+              "src": "2416:145:4",
+              "text": "@notice Set the fee beneficiaries share of the exit fee\n@notice _share Share of the fee. 1e18 == 100%. Capped at 100% "
+            },
+            "functionSelector": "fff3087c",
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "setExitFeeBeneficiaryShare",
+            "nameLocation": "2575:26:4",
+            "parameters": {
+              "id": 723,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 722,
+                  "mutability": "mutable",
+                  "name": "_share",
+                  "nameLocation": "2610:6:4",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 725,
+                  "src": "2602:14:4",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 721,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2602:7:4",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "2601:16:4"
+            },
+            "returnParameters": {
+              "id": 724,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "2626:0:4"
+            },
+            "scope": 843,
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "id": 731,
+            "nodeType": "FunctionDefinition",
+            "src": "2731:69:4",
+            "documentation": {
+              "id": 726,
+              "nodeType": "StructuredDocumentation",
+              "src": "2633:93:4",
+              "text": "@notice Get the exit fee beneficiary share\n@return Feeshare amount"
+            },
+            "functionSelector": "366254e8",
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getExitFeeBeneficiaryShare",
+            "nameLocation": "2740:26:4",
+            "parameters": {
+              "id": 727,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "2766:2:4"
+            },
+            "returnParameters": {
+              "id": 730,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 729,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 731,
+                  "src": "2791:7:4",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 728,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2791:7:4",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "2790:9:4"
+            },
+            "scope": 843,
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "id": 737,
+            "nodeType": "FunctionDefinition",
+            "src": "2957:71:4",
+            "documentation": {
+              "id": 732,
+              "nodeType": "StructuredDocumentation",
+              "src": "2806:146:4",
+              "text": "@notice Calculate the oustanding annualized fee\n@return Amount of pool tokens to be minted to charge the annualized fee"
+            },
+            "functionSelector": "ec9c2b39",
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "calcOutStandingAnnualizedFee",
+            "nameLocation": "2966:28:4",
+            "parameters": {
+              "id": 733,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "2994:2:4"
+            },
+            "returnParameters": {
+              "id": 736,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 735,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 737,
+                  "src": "3019:7:4",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 734,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "3019:7:4",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "3018:9:4"
+            },
+            "scope": 843,
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "id": 741,
+            "nodeType": "FunctionDefinition",
+            "src": "3092:51:4",
+            "documentation": {
+              "id": 738,
+              "nodeType": "StructuredDocumentation",
+              "src": "3034:53:4",
+              "text": "@notice Charges the annualized fee"
+            },
+            "functionSelector": "5d44c9cb",
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "chargeOutstandingAnnualizedFee",
+            "nameLocation": "3101:30:4",
+            "parameters": {
+              "id": 739,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "3131:2:4"
+            },
+            "returnParameters": {
+              "id": 740,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "3142:0:4"
+            },
+            "scope": 843,
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "id": 747,
+            "nodeType": "FunctionDefinition",
+            "src": "3287:44:4",
+            "documentation": {
+              "id": 742,
+              "nodeType": "StructuredDocumentation",
+              "src": "3149:133:4",
+              "text": "@notice Pulls underlying from caller and mints the pool token\n@param _amount Amount of pool tokens to mint"
+            },
+            "functionSelector": "34e7a19f",
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "joinPool",
+            "nameLocation": "3296:8:4",
+            "parameters": {
+              "id": 745,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 744,
+                  "mutability": "mutable",
+                  "name": "_amount",
+                  "nameLocation": "3313:7:4",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 747,
+                  "src": "3305:15:4",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 743,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "3305:7:4",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "3304:17:4"
+            },
+            "returnParameters": {
+              "id": 746,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "3330:0:4"
+            },
+            "scope": 843,
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "id": 753,
+            "nodeType": "FunctionDefinition",
+            "src": "3432:44:4",
+            "documentation": {
+              "id": 748,
+              "nodeType": "StructuredDocumentation",
+              "src": "3337:90:4",
+              "text": "@notice Burns pool tokens from the caller and returns underlying assets"
+            },
+            "functionSelector": "be1d24ad",
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "exitPool",
+            "nameLocation": "3441:8:4",
+            "parameters": {
+              "id": 751,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 750,
+                  "mutability": "mutable",
+                  "name": "_amount",
+                  "nameLocation": "3458:7:4",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 753,
+                  "src": "3450:15:4",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 749,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "3450:7:4",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "3449:17:4"
+            },
+            "returnParameters": {
+              "id": 752,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "3475:0:4"
+            },
+            "scope": 843,
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "id": 759,
+            "nodeType": "FunctionDefinition",
+            "src": "3635:48:4",
+            "documentation": {
+              "id": 754,
+              "nodeType": "StructuredDocumentation",
+              "src": "3482:148:4",
+              "text": "@notice Get if the pool is locked or not. (not accepting exit and entry)\n@return Boolean indicating if the pool is locked"
+            },
+            "functionSelector": "7e5852d9",
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getLock",
+            "nameLocation": "3644:7:4",
+            "parameters": {
+              "id": 755,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "3651:2:4"
+            },
+            "returnParameters": {
+              "id": 758,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 757,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 759,
+                  "src": "3677:4:4",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  },
+                  "typeName": {
+                    "id": 756,
+                    "name": "bool",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "3677:4:4",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "3676:6:4"
+            },
+            "scope": 843,
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "id": 765,
+            "nodeType": "FunctionDefinition",
+            "src": "3796:56:4",
+            "documentation": {
+              "id": 760,
+              "nodeType": "StructuredDocumentation",
+              "src": "3689:102:4",
+              "text": "@notice Get the block until which the pool is locked\n@return The lock block"
+            },
+            "functionSelector": "560ad134",
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getLockBlock",
+            "nameLocation": "3805:12:4",
+            "parameters": {
+              "id": 761,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "3817:2:4"
+            },
+            "returnParameters": {
+              "id": 764,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 763,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 765,
+                  "src": "3843:7:4",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 762,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "3843:7:4",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "3842:9:4"
+            },
+            "scope": 843,
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "id": 771,
+            "nodeType": "FunctionDefinition",
+            "src": "3954:41:4",
+            "documentation": {
+              "id": 766,
+              "nodeType": "StructuredDocumentation",
+              "src": "3858:91:4",
+              "text": "@notice Set the lock block\n@param _lock Block height of the lock"
+            },
+            "functionSelector": "d3e15747",
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "setLock",
+            "nameLocation": "3963:7:4",
+            "parameters": {
+              "id": 769,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 768,
+                  "mutability": "mutable",
+                  "name": "_lock",
+                  "nameLocation": "3979:5:4",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 771,
+                  "src": "3971:13:4",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 767,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "3971:7:4",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "3970:15:4"
+            },
+            "returnParameters": {
+              "id": 770,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "3994:0:4"
+            },
+            "scope": 843,
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "id": 777,
+            "nodeType": "FunctionDefinition",
+            "src": "4102:50:4",
+            "documentation": {
+              "id": 772,
+              "nodeType": "StructuredDocumentation",
+              "src": "4001:96:4",
+              "text": "@notice Get the maximum of pool tokens that can be minted\n@return Cap"
+            },
+            "functionSelector": "554d578d",
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getCap",
+            "nameLocation": "4111:6:4",
+            "parameters": {
+              "id": 773,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "4117:2:4"
+            },
+            "returnParameters": {
+              "id": 776,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 775,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 777,
+                  "src": "4143:7:4",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 774,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "4143:7:4",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "4142:9:4"
+            },
+            "scope": 843,
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "id": 783,
+            "nodeType": "FunctionDefinition",
+            "src": "4271:42:4",
+            "documentation": {
+              "id": 778,
+              "nodeType": "StructuredDocumentation",
+              "src": "4158:108:4",
+              "text": "@notice Set the maximum of pool tokens that can be minted\n@param _maxCap Max cap "
+            },
+            "functionSelector": "47786d37",
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "setCap",
+            "nameLocation": "4280:6:4",
+            "parameters": {
+              "id": 781,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 780,
+                  "mutability": "mutable",
+                  "name": "_maxCap",
+                  "nameLocation": "4295:7:4",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 783,
+                  "src": "4287:15:4",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 779,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "4287:7:4",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "4286:17:4"
+            },
+            "returnParameters": {
+              "id": 782,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "4312:0:4"
+            },
+            "scope": 843,
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "id": 791,
+            "nodeType": "FunctionDefinition",
+            "src": "4480:65:4",
+            "documentation": {
+              "id": 784,
+              "nodeType": "StructuredDocumentation",
+              "src": "4319:156:4",
+              "text": "@notice Get the amount of tokens owned by the pool\n@param _token Addres of the token\n@return Amount owned by the contract"
+            },
+            "functionSelector": "e3d670d7",
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "balance",
+            "nameLocation": "4489:7:4",
+            "parameters": {
+              "id": 787,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 786,
+                  "mutability": "mutable",
+                  "name": "_token",
+                  "nameLocation": "4505:6:4",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 791,
+                  "src": "4497:14:4",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 785,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "4497:7:4",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "4496:16:4"
+            },
+            "returnParameters": {
+              "id": 790,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 789,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 791,
+                  "src": "4536:7:4",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 788,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "4536:7:4",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "4535:9:4"
+            },
+            "scope": 843,
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "id": 798,
+            "nodeType": "FunctionDefinition",
+            "src": "4653:62:4",
+            "documentation": {
+              "id": 792,
+              "nodeType": "StructuredDocumentation",
+              "src": "4551:97:4",
+              "text": "@notice Get the tokens in the pool\n@return Array of tokens in the pool"
+            },
+            "functionSelector": "aa6ca808",
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getTokens",
+            "nameLocation": "4662:9:4",
+            "parameters": {
+              "id": 793,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "4671:2:4"
+            },
+            "returnParameters": {
+              "id": 797,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 796,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 798,
+                  "src": "4697:16:4",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_array$_t_address_$dyn_memory_ptr",
+                    "typeString": "address[]"
+                  },
+                  "typeName": {
+                    "baseType": {
+                      "id": 794,
+                      "name": "address",
+                      "nodeType": "ElementaryTypeName",
+                      "src": "4697:7:4",
+                      "stateMutability": "nonpayable",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      }
+                    },
+                    "id": 795,
+                    "nodeType": "ArrayTypeName",
+                    "src": "4697:9:4",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_array$_t_address_$dyn_storage_ptr",
+                      "typeString": "address[]"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "4696:18:4"
+            },
+            "scope": 843,
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "id": 804,
+            "nodeType": "FunctionDefinition",
+            "src": "4867:43:4",
+            "documentation": {
+              "id": 799,
+              "nodeType": "StructuredDocumentation",
+              "src": "4721:141:4",
+              "text": "@notice Add a token to the pool. Should have at least a balance of 10**6\n@param _token Address of the token to add"
+            },
+            "functionSelector": "d48bfca7",
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "addToken",
+            "nameLocation": "4876:8:4",
+            "parameters": {
+              "id": 802,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 801,
+                  "mutability": "mutable",
+                  "name": "_token",
+                  "nameLocation": "4893:6:4",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 804,
+                  "src": "4885:14:4",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 800,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "4885:7:4",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "4884:16:4"
+            },
+            "returnParameters": {
+              "id": 803,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "4909:0:4"
+            },
+            "scope": 843,
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "id": 810,
+            "nodeType": "FunctionDefinition",
+            "src": "5030:46:4",
+            "documentation": {
+              "id": 805,
+              "nodeType": "StructuredDocumentation",
+              "src": "4916:109:4",
+              "text": "@notice Removes a token from the pool\n@param _token Address of the token to remove"
+            },
+            "functionSelector": "5fa7b584",
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "removeToken",
+            "nameLocation": "5039:11:4",
+            "parameters": {
+              "id": 808,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 807,
+                  "mutability": "mutable",
+                  "name": "_token",
+                  "nameLocation": "5059:6:4",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 810,
+                  "src": "5051:14:4",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 806,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "5051:7:4",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "5050:16:4"
+            },
+            "returnParameters": {
+              "id": 809,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "5075:0:4"
+            },
+            "scope": 843,
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "id": 818,
+            "nodeType": "FunctionDefinition",
+            "src": "5243:69:4",
+            "documentation": {
+              "id": 811,
+              "nodeType": "StructuredDocumentation",
+              "src": "5082:156:4",
+              "text": "@notice Checks if a token was added to the pool\n@param _token address of the token\n@return If token is in the pool or not"
+            },
+            "functionSelector": "aecb9356",
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getTokenInPool",
+            "nameLocation": "5252:14:4",
+            "parameters": {
+              "id": 814,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 813,
+                  "mutability": "mutable",
+                  "name": "_token",
+                  "nameLocation": "5275:6:4",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 818,
+                  "src": "5267:14:4",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 812,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "5267:7:4",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "5266:16:4"
+            },
+            "returnParameters": {
+              "id": 817,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 816,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 818,
+                  "src": "5306:4:4",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  },
+                  "typeName": {
+                    "id": 815,
+                    "name": "bool",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "5306:4:4",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "5305:6:4"
+            },
+            "scope": 843,
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "id": 830,
+            "nodeType": "FunctionDefinition",
+            "src": "5561:144:4",
+            "documentation": {
+              "id": 819,
+              "nodeType": "StructuredDocumentation",
+              "src": "5318:238:4",
+              "text": "@notice Calculate the amounts of underlying needed to mint that pool amount.\n@param _amount Amount of pool tokens to mint\n@return tokens Tokens needed\n@return amounts Amounts of underlying needed"
+            },
+            "functionSelector": "371babdc",
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "calcTokensForAmount",
+            "nameLocation": "5570:19:4",
+            "parameters": {
+              "id": 822,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 821,
+                  "mutability": "mutable",
+                  "name": "_amount",
+                  "nameLocation": "5598:7:4",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 830,
+                  "src": "5590:15:4",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 820,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "5590:7:4",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "5589:17:4"
+            },
+            "returnParameters": {
+              "id": 829,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 825,
+                  "mutability": "mutable",
+                  "name": "tokens",
+                  "nameLocation": "5671:6:4",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 830,
+                  "src": "5654:23:4",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_array$_t_address_$dyn_memory_ptr",
+                    "typeString": "address[]"
+                  },
+                  "typeName": {
+                    "baseType": {
+                      "id": 823,
+                      "name": "address",
+                      "nodeType": "ElementaryTypeName",
+                      "src": "5654:7:4",
+                      "stateMutability": "nonpayable",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      }
+                    },
+                    "id": 824,
+                    "nodeType": "ArrayTypeName",
+                    "src": "5654:9:4",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_array$_t_address_$dyn_storage_ptr",
+                      "typeString": "address[]"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 828,
+                  "mutability": "mutable",
+                  "name": "amounts",
+                  "nameLocation": "5696:7:4",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 830,
+                  "src": "5679:24:4",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_array$_t_uint256_$dyn_memory_ptr",
+                    "typeString": "uint256[]"
+                  },
+                  "typeName": {
+                    "baseType": {
+                      "id": 826,
+                      "name": "uint256",
+                      "nodeType": "ElementaryTypeName",
+                      "src": "5679:7:4",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "id": 827,
+                    "nodeType": "ArrayTypeName",
+                    "src": "5679:9:4",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_array$_t_uint256_$dyn_storage_ptr",
+                      "typeString": "uint256[]"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "5653:51:4"
+            },
+            "scope": 843,
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "id": 842,
+            "nodeType": "FunctionDefinition",
+            "src": "5966:148:4",
+            "documentation": {
+              "id": 831,
+              "nodeType": "StructuredDocumentation",
+              "src": "5711:250:4",
+              "text": "@notice Calculate the amounts of underlying to receive when burning that pool amount\n@param _amount Amount of pool tokens to burn\n@return tokens Tokens returned\n@return amounts Amounts of underlying returned"
+            },
+            "functionSelector": "23817b8e",
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "calcTokensForAmountExit",
+            "nameLocation": "5975:23:4",
+            "parameters": {
+              "id": 834,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 833,
+                  "mutability": "mutable",
+                  "name": "_amount",
+                  "nameLocation": "6007:7:4",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 842,
+                  "src": "5999:15:4",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 832,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "5999:7:4",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "5998:17:4"
+            },
+            "returnParameters": {
+              "id": 841,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 837,
+                  "mutability": "mutable",
+                  "name": "tokens",
+                  "nameLocation": "6080:6:4",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 842,
+                  "src": "6063:23:4",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_array$_t_address_$dyn_memory_ptr",
+                    "typeString": "address[]"
+                  },
+                  "typeName": {
+                    "baseType": {
+                      "id": 835,
+                      "name": "address",
+                      "nodeType": "ElementaryTypeName",
+                      "src": "6063:7:4",
+                      "stateMutability": "nonpayable",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      }
+                    },
+                    "id": 836,
+                    "nodeType": "ArrayTypeName",
+                    "src": "6063:9:4",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_array$_t_address_$dyn_storage_ptr",
+                      "typeString": "address[]"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 840,
+                  "mutability": "mutable",
+                  "name": "amounts",
+                  "nameLocation": "6105:7:4",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 842,
+                  "src": "6088:24:4",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_array$_t_uint256_$dyn_memory_ptr",
+                    "typeString": "uint256[]"
+                  },
+                  "typeName": {
+                    "baseType": {
+                      "id": 838,
+                      "name": "uint256",
+                      "nodeType": "ElementaryTypeName",
+                      "src": "6088:7:4",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "id": 839,
+                    "nodeType": "ArrayTypeName",
+                    "src": "6088:9:4",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_array$_t_uint256_$dyn_storage_ptr",
+                      "typeString": "uint256[]"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "6062:51:4"
+            },
+            "scope": 843,
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          }
+        ],
+        "abstract": false,
+        "baseContracts": [],
+        "canonicalName": "IBasketFacet",
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "fullyImplemented": false,
+        "linearizedBaseContracts": [
+          843
+        ],
+        "name": "IBasketFacet",
+        "nameLocation": "101:12:4",
+        "scope": 844,
+        "usedErrors": []
+      }
+    ],
+    "license": "MIT"
+  }
+}

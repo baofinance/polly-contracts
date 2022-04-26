@@ -1,0 +1,1061 @@
+{
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "enum IBalancer.SwapKind",
+          "name": "kind",
+          "type": "uint8"
+        },
+        {
+          "components": [
+            {
+              "internalType": "bytes32",
+              "name": "poolId",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "uint256",
+              "name": "assetInIndex",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "assetOutIndex",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "amount",
+              "type": "uint256"
+            },
+            {
+              "internalType": "bytes",
+              "name": "userData",
+              "type": "bytes"
+            }
+          ],
+          "internalType": "struct IBalancer.BatchSwapStep[]",
+          "name": "swaps",
+          "type": "tuple[]"
+        },
+        {
+          "internalType": "address[]",
+          "name": "assets",
+          "type": "address[]"
+        },
+        {
+          "components": [
+            {
+              "internalType": "address",
+              "name": "sender",
+              "type": "address"
+            },
+            {
+              "internalType": "bool",
+              "name": "fromInternalBalance",
+              "type": "bool"
+            },
+            {
+              "internalType": "address payable",
+              "name": "recipient",
+              "type": "address"
+            },
+            {
+              "internalType": "bool",
+              "name": "toInternalBalance",
+              "type": "bool"
+            }
+          ],
+          "internalType": "struct IBalancer.FundManagement",
+          "name": "funds",
+          "type": "tuple"
+        }
+      ],
+      "name": "queryBatchSwap",
+      "outputs": [
+        {
+          "internalType": "int256[]",
+          "name": "assetDeltas",
+          "type": "int256[]"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "components": [
+            {
+              "internalType": "bytes32",
+              "name": "poolId",
+              "type": "bytes32"
+            },
+            {
+              "internalType": "enum IBalancer.SwapKind",
+              "name": "kind",
+              "type": "uint8"
+            },
+            {
+              "internalType": "address",
+              "name": "assetIn",
+              "type": "address"
+            },
+            {
+              "internalType": "address",
+              "name": "assetOut",
+              "type": "address"
+            },
+            {
+              "internalType": "uint256",
+              "name": "amount",
+              "type": "uint256"
+            },
+            {
+              "internalType": "bytes",
+              "name": "userData",
+              "type": "bytes"
+            }
+          ],
+          "internalType": "struct IBalancer.SingleSwap",
+          "name": "singleSwap",
+          "type": "tuple"
+        },
+        {
+          "components": [
+            {
+              "internalType": "address",
+              "name": "sender",
+              "type": "address"
+            },
+            {
+              "internalType": "bool",
+              "name": "fromInternalBalance",
+              "type": "bool"
+            },
+            {
+              "internalType": "address payable",
+              "name": "recipient",
+              "type": "address"
+            },
+            {
+              "internalType": "bool",
+              "name": "toInternalBalance",
+              "type": "bool"
+            }
+          ],
+          "internalType": "struct IBalancer.FundManagement",
+          "name": "funds",
+          "type": "tuple"
+        },
+        {
+          "internalType": "uint256",
+          "name": "limit",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "deadline",
+          "type": "uint256"
+        }
+      ],
+      "name": "swap",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "payable",
+      "type": "function"
+    }
+  ],
+  "bytecode": {
+    "object": "0x",
+    "sourceMap": "",
+    "linkReferences": {}
+  },
+  "deployedBytecode": {
+    "object": "0x",
+    "sourceMap": "",
+    "linkReferences": {}
+  },
+  "ast": {
+    "absolutePath": "/home/freshpizza/Polly-Contracts/src/Recipes/Interfaces/IBalancer.sol",
+    "id": 5963,
+    "exportedSymbols": {
+      "IBalancer": [
+        5962
+      ]
+    },
+    "nodeType": "SourceUnit",
+    "src": "32:1014:0",
+    "nodes": [
+      {
+        "id": 5890,
+        "nodeType": "PragmaDirective",
+        "src": "32:23:0",
+        "literals": [
+          "solidity",
+          "^",
+          "0.8",
+          ".1"
+        ]
+      },
+      {
+        "id": 5962,
+        "nodeType": "ContractDefinition",
+        "src": "57:989:0",
+        "nodes": [
+          {
+            "id": 5893,
+            "nodeType": "EnumDefinition",
+            "src": "82:37:0",
+            "canonicalName": "IBalancer.SwapKind",
+            "members": [
+              {
+                "id": 5891,
+                "name": "GIVEN_IN",
+                "nodeType": "EnumValue",
+                "src": "98:8:0"
+              },
+              {
+                "id": 5892,
+                "name": "GIVEN_OUT",
+                "nodeType": "EnumValue",
+                "src": "108:9:0"
+              }
+            ],
+            "name": "SwapKind"
+          },
+          {
+            "id": 5904,
+            "nodeType": "StructDefinition",
+            "src": "125:161:0",
+            "canonicalName": "IBalancer.BatchSwapStep",
+            "members": [
+              {
+                "constant": false,
+                "id": 5895,
+                "mutability": "mutable",
+                "name": "poolId",
+                "nodeType": "VariableDeclaration",
+                "scope": 5904,
+                "src": "156:14:0",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_bytes32",
+                  "typeString": "bytes32"
+                },
+                "typeName": {
+                  "id": 5894,
+                  "name": "bytes32",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "156:7:0",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 5897,
+                "mutability": "mutable",
+                "name": "assetInIndex",
+                "nodeType": "VariableDeclaration",
+                "scope": 5904,
+                "src": "180:20:0",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 5896,
+                  "name": "uint256",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "180:7:0",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 5899,
+                "mutability": "mutable",
+                "name": "assetOutIndex",
+                "nodeType": "VariableDeclaration",
+                "scope": 5904,
+                "src": "210:21:0",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 5898,
+                  "name": "uint256",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "210:7:0",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 5901,
+                "mutability": "mutable",
+                "name": "amount",
+                "nodeType": "VariableDeclaration",
+                "scope": 5904,
+                "src": "241:14:0",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 5900,
+                  "name": "uint256",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "241:7:0",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 5903,
+                "mutability": "mutable",
+                "name": "userData",
+                "nodeType": "VariableDeclaration",
+                "scope": 5904,
+                "src": "265:14:0",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_bytes_storage_ptr",
+                  "typeString": "bytes"
+                },
+                "typeName": {
+                  "id": 5902,
+                  "name": "bytes",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "265:5:0",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_storage_ptr",
+                    "typeString": "bytes"
+                  }
+                },
+                "visibility": "internal"
+              }
+            ],
+            "name": "BatchSwapStep",
+            "scope": 5962,
+            "visibility": "public"
+          },
+          {
+            "id": 5918,
+            "nodeType": "StructDefinition",
+            "src": "314:171:0",
+            "canonicalName": "IBalancer.SingleSwap",
+            "members": [
+              {
+                "constant": false,
+                "id": 5906,
+                "mutability": "mutable",
+                "name": "poolId",
+                "nodeType": "VariableDeclaration",
+                "scope": 5918,
+                "src": "342:14:0",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_bytes32",
+                  "typeString": "bytes32"
+                },
+                "typeName": {
+                  "id": 5905,
+                  "name": "bytes32",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "342:7:0",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes32",
+                    "typeString": "bytes32"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 5909,
+                "mutability": "mutable",
+                "name": "kind",
+                "nodeType": "VariableDeclaration",
+                "scope": 5918,
+                "src": "366:13:0",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_enum$_SwapKind_$5893",
+                  "typeString": "enum IBalancer.SwapKind"
+                },
+                "typeName": {
+                  "id": 5908,
+                  "nodeType": "UserDefinedTypeName",
+                  "pathNode": {
+                    "id": 5907,
+                    "name": "SwapKind",
+                    "nodeType": "IdentifierPath",
+                    "referencedDeclaration": 5893,
+                    "src": "366:8:0"
+                  },
+                  "referencedDeclaration": 5893,
+                  "src": "366:8:0",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_enum$_SwapKind_$5893",
+                    "typeString": "enum IBalancer.SwapKind"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 5911,
+                "mutability": "mutable",
+                "name": "assetIn",
+                "nodeType": "VariableDeclaration",
+                "scope": 5918,
+                "src": "389:15:0",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_address",
+                  "typeString": "address"
+                },
+                "typeName": {
+                  "id": 5910,
+                  "name": "address",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "389:7:0",
+                  "stateMutability": "nonpayable",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 5913,
+                "mutability": "mutable",
+                "name": "assetOut",
+                "nodeType": "VariableDeclaration",
+                "scope": 5918,
+                "src": "414:16:0",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_address",
+                  "typeString": "address"
+                },
+                "typeName": {
+                  "id": 5912,
+                  "name": "address",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "414:7:0",
+                  "stateMutability": "nonpayable",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 5915,
+                "mutability": "mutable",
+                "name": "amount",
+                "nodeType": "VariableDeclaration",
+                "scope": 5918,
+                "src": "440:14:0",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_uint256",
+                  "typeString": "uint256"
+                },
+                "typeName": {
+                  "id": 5914,
+                  "name": "uint256",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "440:7:0",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 5917,
+                "mutability": "mutable",
+                "name": "userData",
+                "nodeType": "VariableDeclaration",
+                "scope": 5918,
+                "src": "464:14:0",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_bytes_storage_ptr",
+                  "typeString": "bytes"
+                },
+                "typeName": {
+                  "id": 5916,
+                  "name": "bytes",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "464:5:0",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_storage_ptr",
+                    "typeString": "bytes"
+                  }
+                },
+                "visibility": "internal"
+              }
+            ],
+            "name": "SingleSwap",
+            "scope": 5962,
+            "visibility": "public"
+          },
+          {
+            "id": 5927,
+            "nodeType": "StructDefinition",
+            "src": "491:154:0",
+            "canonicalName": "IBalancer.FundManagement",
+            "members": [
+              {
+                "constant": false,
+                "id": 5920,
+                "mutability": "mutable",
+                "name": "sender",
+                "nodeType": "VariableDeclaration",
+                "scope": 5927,
+                "src": "523:14:0",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_address",
+                  "typeString": "address"
+                },
+                "typeName": {
+                  "id": 5919,
+                  "name": "address",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "523:7:0",
+                  "stateMutability": "nonpayable",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 5922,
+                "mutability": "mutable",
+                "name": "fromInternalBalance",
+                "nodeType": "VariableDeclaration",
+                "scope": 5927,
+                "src": "547:24:0",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_bool",
+                  "typeString": "bool"
+                },
+                "typeName": {
+                  "id": 5921,
+                  "name": "bool",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "547:4:0",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 5924,
+                "mutability": "mutable",
+                "name": "recipient",
+                "nodeType": "VariableDeclaration",
+                "scope": 5927,
+                "src": "581:25:0",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_address_payable",
+                  "typeString": "address payable"
+                },
+                "typeName": {
+                  "id": 5923,
+                  "name": "address",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "581:15:0",
+                  "stateMutability": "payable",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address_payable",
+                    "typeString": "address payable"
+                  }
+                },
+                "visibility": "internal"
+              },
+              {
+                "constant": false,
+                "id": 5926,
+                "mutability": "mutable",
+                "name": "toInternalBalance",
+                "nodeType": "VariableDeclaration",
+                "scope": 5927,
+                "src": "616:22:0",
+                "stateVariable": false,
+                "storageLocation": "default",
+                "typeDescriptions": {
+                  "typeIdentifier": "t_bool",
+                  "typeString": "bool"
+                },
+                "typeName": {
+                  "id": 5925,
+                  "name": "bool",
+                  "nodeType": "ElementaryTypeName",
+                  "src": "616:4:0",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  }
+                },
+                "visibility": "internal"
+              }
+            ],
+            "name": "FundManagement",
+            "scope": 5962,
+            "visibility": "public"
+          },
+          {
+            "id": 5942,
+            "nodeType": "FunctionDefinition",
+            "src": "651:179:0",
+            "functionSelector": "52bbbe29",
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "swap",
+            "parameters": {
+              "id": 5938,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 5930,
+                  "mutability": "mutable",
+                  "name": "singleSwap",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 5942,
+                  "src": "674:28:0",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_struct$_SingleSwap_$5918_memory_ptr",
+                    "typeString": "struct IBalancer.SingleSwap"
+                  },
+                  "typeName": {
+                    "id": 5929,
+                    "nodeType": "UserDefinedTypeName",
+                    "pathNode": {
+                      "id": 5928,
+                      "name": "SingleSwap",
+                      "nodeType": "IdentifierPath",
+                      "referencedDeclaration": 5918,
+                      "src": "674:10:0"
+                    },
+                    "referencedDeclaration": 5918,
+                    "src": "674:10:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_struct$_SingleSwap_$5918_storage_ptr",
+                      "typeString": "struct IBalancer.SingleSwap"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 5933,
+                  "mutability": "mutable",
+                  "name": "funds",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 5942,
+                  "src": "712:27:0",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_struct$_FundManagement_$5927_memory_ptr",
+                    "typeString": "struct IBalancer.FundManagement"
+                  },
+                  "typeName": {
+                    "id": 5932,
+                    "nodeType": "UserDefinedTypeName",
+                    "pathNode": {
+                      "id": 5931,
+                      "name": "FundManagement",
+                      "nodeType": "IdentifierPath",
+                      "referencedDeclaration": 5927,
+                      "src": "712:14:0"
+                    },
+                    "referencedDeclaration": 5927,
+                    "src": "712:14:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_struct$_FundManagement_$5927_storage_ptr",
+                      "typeString": "struct IBalancer.FundManagement"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 5935,
+                  "mutability": "mutable",
+                  "name": "limit",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 5942,
+                  "src": "749:13:0",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 5934,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "749:7:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 5937,
+                  "mutability": "mutable",
+                  "name": "deadline",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 5942,
+                  "src": "772:16:0",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 5936,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "772:7:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "664:130:0"
+            },
+            "returnParameters": {
+              "id": 5941,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 5940,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 5942,
+                  "src": "821:7:0",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 5939,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "821:7:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "820:9:0"
+            },
+            "scope": 5962,
+            "stateMutability": "payable",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "id": 5961,
+            "nodeType": "FunctionDefinition",
+            "src": "836:208:0",
+            "functionSelector": "f84d066e",
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "queryBatchSwap",
+            "parameters": {
+              "id": 5956,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 5945,
+                  "mutability": "mutable",
+                  "name": "kind",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 5961,
+                  "src": "869:13:0",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_enum$_SwapKind_$5893",
+                    "typeString": "enum IBalancer.SwapKind"
+                  },
+                  "typeName": {
+                    "id": 5944,
+                    "nodeType": "UserDefinedTypeName",
+                    "pathNode": {
+                      "id": 5943,
+                      "name": "SwapKind",
+                      "nodeType": "IdentifierPath",
+                      "referencedDeclaration": 5893,
+                      "src": "869:8:0"
+                    },
+                    "referencedDeclaration": 5893,
+                    "src": "869:8:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_enum$_SwapKind_$5893",
+                      "typeString": "enum IBalancer.SwapKind"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 5949,
+                  "mutability": "mutable",
+                  "name": "swaps",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 5961,
+                  "src": "892:28:0",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_array$_t_struct$_BatchSwapStep_$5904_memory_ptr_$dyn_memory_ptr",
+                    "typeString": "struct IBalancer.BatchSwapStep[]"
+                  },
+                  "typeName": {
+                    "baseType": {
+                      "id": 5947,
+                      "nodeType": "UserDefinedTypeName",
+                      "pathNode": {
+                        "id": 5946,
+                        "name": "BatchSwapStep",
+                        "nodeType": "IdentifierPath",
+                        "referencedDeclaration": 5904,
+                        "src": "892:13:0"
+                      },
+                      "referencedDeclaration": 5904,
+                      "src": "892:13:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_struct$_BatchSwapStep_$5904_storage_ptr",
+                        "typeString": "struct IBalancer.BatchSwapStep"
+                      }
+                    },
+                    "id": 5948,
+                    "nodeType": "ArrayTypeName",
+                    "src": "892:15:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_array$_t_struct$_BatchSwapStep_$5904_storage_$dyn_storage_ptr",
+                      "typeString": "struct IBalancer.BatchSwapStep[]"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 5952,
+                  "mutability": "mutable",
+                  "name": "assets",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 5961,
+                  "src": "930:23:0",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_array$_t_address_$dyn_memory_ptr",
+                    "typeString": "address[]"
+                  },
+                  "typeName": {
+                    "baseType": {
+                      "id": 5950,
+                      "name": "address",
+                      "nodeType": "ElementaryTypeName",
+                      "src": "930:7:0",
+                      "stateMutability": "nonpayable",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      }
+                    },
+                    "id": 5951,
+                    "nodeType": "ArrayTypeName",
+                    "src": "930:9:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_array$_t_address_$dyn_storage_ptr",
+                      "typeString": "address[]"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 5955,
+                  "mutability": "mutable",
+                  "name": "funds",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 5961,
+                  "src": "963:27:0",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_struct$_FundManagement_$5927_memory_ptr",
+                    "typeString": "struct IBalancer.FundManagement"
+                  },
+                  "typeName": {
+                    "id": 5954,
+                    "nodeType": "UserDefinedTypeName",
+                    "pathNode": {
+                      "id": 5953,
+                      "name": "FundManagement",
+                      "nodeType": "IdentifierPath",
+                      "referencedDeclaration": 5927,
+                      "src": "963:14:0"
+                    },
+                    "referencedDeclaration": 5927,
+                    "src": "963:14:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_struct$_FundManagement_$5927_storage_ptr",
+                      "typeString": "struct IBalancer.FundManagement"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "859:137:0"
+            },
+            "returnParameters": {
+              "id": 5960,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 5959,
+                  "mutability": "mutable",
+                  "name": "assetDeltas",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 5961,
+                  "src": "1015:27:0",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_array$_t_int256_$dyn_memory_ptr",
+                    "typeString": "int256[]"
+                  },
+                  "typeName": {
+                    "baseType": {
+                      "id": 5957,
+                      "name": "int256",
+                      "nodeType": "ElementaryTypeName",
+                      "src": "1015:6:0",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_int256",
+                        "typeString": "int256"
+                      }
+                    },
+                    "id": 5958,
+                    "nodeType": "ArrayTypeName",
+                    "src": "1015:8:0",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_array$_t_int256_$dyn_storage_ptr",
+                      "typeString": "int256[]"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1014:29:0"
+            },
+            "scope": 5962,
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          }
+        ],
+        "abstract": false,
+        "baseContracts": [],
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "fullyImplemented": false,
+        "linearizedBaseContracts": [
+          5962
+        ],
+        "name": "IBalancer",
+        "scope": 5963
+      }
+    ],
+    "license": "MIT"
+  }
+}

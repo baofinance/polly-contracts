@@ -12,7 +12,6 @@ import "./Interfaces/IBentoBoxV1.sol";
 import "./OpenZeppelin/SafeERC20.sol";
 import "./OpenZeppelin/Context.sol";
 import "./OpenZeppelin/Ownable.sol";
-import "hardhat/console.sol";
 
 contract UniPieRecipeV2 is IRecipe, Ownable {
     using SafeERC20 for IERC20;
@@ -107,7 +106,6 @@ contract UniPieRecipeV2 is IRecipe, Ownable {
     }
 
     function swap(address _inputToken, address _outputToken, uint256 _outputAmount) internal {
-        console.log("Buying", _outputToken, "with", _inputToken);
 
         if(_inputToken == _outputToken) {
             return;
@@ -122,7 +120,6 @@ contract UniPieRecipeV2 is IRecipe, Ownable {
         }
 
         if(pieRegistry.inRegistry(_outputToken)) {
-            // console.log("Swapping to PIE", _outputToken);
             swapPie(_outputToken, _outputAmount);
             return;
         }
@@ -159,9 +156,6 @@ contract UniPieRecipeV2 is IRecipe, Ownable {
             IERC20 token = IERC20(tokens[i]);
             token.approve(_pie, 0);
             token.approve(_pie, amounts[i]+1);
-            //console.log("BentoBalance: ",IBentoBoxV1(0x0319000133d3AdA02600f0875d2cf03D442C3367).balanceOf(0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174,address(this)));
-            //console.log("TokenBalance: ",token.balanceOf(address(this)));
-            console.log("Token Amount: ",amounts[i]);
             require(amounts[i] <= token.balanceOf(address(this)), "We are trying to deposit more then we have");
         }
         pie.joinPool(_outputAmount);

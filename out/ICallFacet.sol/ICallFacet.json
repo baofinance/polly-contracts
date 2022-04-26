@@ -1,0 +1,1118 @@
+{
+  "abi": [
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "caller",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "target",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "bytes",
+          "name": "data",
+          "type": "bytes"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "value",
+          "type": "uint256"
+        }
+      ],
+      "name": "Call",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "caller",
+          "type": "address"
+        }
+      ],
+      "name": "CallerAdded",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "caller",
+          "type": "address"
+        }
+      ],
+      "name": "CallerRemoved",
+      "type": "event"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_caller",
+          "type": "address"
+        }
+      ],
+      "name": "addCaller",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address[]",
+          "name": "_targets",
+          "type": "address[]"
+        },
+        {
+          "internalType": "bytes[]",
+          "name": "_calldata",
+          "type": "bytes[]"
+        },
+        {
+          "internalType": "uint256[]",
+          "name": "_values",
+          "type": "uint256[]"
+        }
+      ],
+      "name": "call",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address[]",
+          "name": "_targets",
+          "type": "address[]"
+        },
+        {
+          "internalType": "bytes[]",
+          "name": "_calldata",
+          "type": "bytes[]"
+        }
+      ],
+      "name": "callNoValue",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_caller",
+          "type": "address"
+        }
+      ],
+      "name": "canCall",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getCallers",
+      "outputs": [
+        {
+          "internalType": "address[]",
+          "name": "",
+          "type": "address[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_caller",
+          "type": "address"
+        }
+      ],
+      "name": "removeCaller",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_target",
+          "type": "address"
+        },
+        {
+          "internalType": "bytes",
+          "name": "_calldata",
+          "type": "bytes"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_value",
+          "type": "uint256"
+        }
+      ],
+      "name": "singleCall",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "bytecode": {
+    "object": "0x",
+    "sourceMap": "",
+    "linkReferences": {}
+  },
+  "deployedBytecode": {
+    "object": "0x",
+    "sourceMap": "",
+    "linkReferences": {}
+  },
+  "ast": {
+    "absolutePath": "/home/freshpizza/Polly-Contracts/src/Recipes/Interfaces/ICallFacet.sol",
+    "id": 1302,
+    "exportedSymbols": {
+      "ICallFacet": [
+        1301
+      ]
+    },
+    "nodeType": "SourceUnit",
+    "src": "32:2287:6",
+    "nodes": [
+      {
+        "id": 1221,
+        "nodeType": "PragmaDirective",
+        "src": "32:23:6",
+        "literals": [
+          "solidity",
+          "^",
+          "0.8",
+          ".1"
+        ]
+      },
+      {
+        "id": 1222,
+        "nodeType": "PragmaDirective",
+        "src": "56:33:6",
+        "literals": [
+          "experimental",
+          "ABIEncoderV2"
+        ]
+      },
+      {
+        "id": 1301,
+        "nodeType": "ContractDefinition",
+        "src": "91:2228:6",
+        "nodes": [
+          {
+            "id": 1226,
+            "nodeType": "EventDefinition",
+            "src": "119:42:6",
+            "anonymous": false,
+            "eventSelector": "f7762e85af7b409451f9a76004c5f755642902434eb11351ae67eb9746888b69",
+            "name": "CallerAdded",
+            "nameLocation": "125:11:6",
+            "parameters": {
+              "id": 1225,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1224,
+                  "indexed": true,
+                  "mutability": "mutable",
+                  "name": "caller",
+                  "nameLocation": "153:6:6",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1226,
+                  "src": "137:22:6",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 1223,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "137:7:6",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "136:24:6"
+            }
+          },
+          {
+            "id": 1230,
+            "nodeType": "EventDefinition",
+            "src": "166:44:6",
+            "anonymous": false,
+            "eventSelector": "50c35a67b454d38c20800d5b55e320f58f4c9c86a28d8ab20f03045d1a38d99a",
+            "name": "CallerRemoved",
+            "nameLocation": "172:13:6",
+            "parameters": {
+              "id": 1229,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1228,
+                  "indexed": true,
+                  "mutability": "mutable",
+                  "name": "caller",
+                  "nameLocation": "202:6:6",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1230,
+                  "src": "186:22:6",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 1227,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "186:7:6",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "185:24:6"
+            }
+          },
+          {
+            "id": 1240,
+            "nodeType": "EventDefinition",
+            "src": "215:86:6",
+            "anonymous": false,
+            "eventSelector": "5445265cc9b8dc4940d92d42eeac90ded88956778eff9bfe9ec1968137473627",
+            "name": "Call",
+            "nameLocation": "221:4:6",
+            "parameters": {
+              "id": 1239,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1232,
+                  "indexed": true,
+                  "mutability": "mutable",
+                  "name": "caller",
+                  "nameLocation": "242:6:6",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1240,
+                  "src": "226:22:6",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 1231,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "226:7:6",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1234,
+                  "indexed": true,
+                  "mutability": "mutable",
+                  "name": "target",
+                  "nameLocation": "266:6:6",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1240,
+                  "src": "250:22:6",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 1233,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "250:7:6",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1236,
+                  "indexed": false,
+                  "mutability": "mutable",
+                  "name": "data",
+                  "nameLocation": "280:4:6",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1240,
+                  "src": "274:10:6",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_memory_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 1235,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "274:5:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1238,
+                  "indexed": false,
+                  "mutability": "mutable",
+                  "name": "value",
+                  "nameLocation": "294:5:6",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1240,
+                  "src": "286:13:6",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1237,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "286:7:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "225:75:6"
+            }
+          },
+          {
+            "id": 1253,
+            "nodeType": "FunctionDefinition",
+            "src": "635:132:6",
+            "documentation": {
+              "id": 1241,
+              "nodeType": "StructuredDocumentation",
+              "src": "307:323:6",
+              "text": "@notice Lets whitelisted callers execute a batch of arbitrary calls from the pool. Reverts if one of the calls fails\n@param _targets Array of addresses of targets to call\n@param _calldata Array of calldata for each call\n@param _values Array of amounts of ETH to send with the call"
+            },
+            "functionSelector": "30c9473c",
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "call",
+            "nameLocation": "644:4:6",
+            "parameters": {
+              "id": 1251,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1244,
+                  "mutability": "mutable",
+                  "name": "_targets",
+                  "nameLocation": "675:8:6",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1253,
+                  "src": "658:25:6",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_array$_t_address_$dyn_memory_ptr",
+                    "typeString": "address[]"
+                  },
+                  "typeName": {
+                    "baseType": {
+                      "id": 1242,
+                      "name": "address",
+                      "nodeType": "ElementaryTypeName",
+                      "src": "658:7:6",
+                      "stateMutability": "nonpayable",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      }
+                    },
+                    "id": 1243,
+                    "nodeType": "ArrayTypeName",
+                    "src": "658:9:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_array$_t_address_$dyn_storage_ptr",
+                      "typeString": "address[]"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1247,
+                  "mutability": "mutable",
+                  "name": "_calldata",
+                  "nameLocation": "708:9:6",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1253,
+                  "src": "693:24:6",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_array$_t_bytes_memory_ptr_$dyn_memory_ptr",
+                    "typeString": "bytes[]"
+                  },
+                  "typeName": {
+                    "baseType": {
+                      "id": 1245,
+                      "name": "bytes",
+                      "nodeType": "ElementaryTypeName",
+                      "src": "693:5:6",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_bytes_storage_ptr",
+                        "typeString": "bytes"
+                      }
+                    },
+                    "id": 1246,
+                    "nodeType": "ArrayTypeName",
+                    "src": "693:7:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_array$_t_bytes_storage_$dyn_storage_ptr",
+                      "typeString": "bytes[]"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1250,
+                  "mutability": "mutable",
+                  "name": "_values",
+                  "nameLocation": "744:7:6",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1253,
+                  "src": "727:24:6",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_array$_t_uint256_$dyn_memory_ptr",
+                    "typeString": "uint256[]"
+                  },
+                  "typeName": {
+                    "baseType": {
+                      "id": 1248,
+                      "name": "uint256",
+                      "nodeType": "ElementaryTypeName",
+                      "src": "727:7:6",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "id": 1249,
+                    "nodeType": "ArrayTypeName",
+                    "src": "727:9:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_array$_t_uint256_$dyn_storage_ptr",
+                      "typeString": "uint256[]"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "648:109:6"
+            },
+            "returnParameters": {
+              "id": 1252,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "766:0:6"
+            },
+            "scope": 1301,
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "id": 1263,
+            "nodeType": "FunctionDefinition",
+            "src": "1057:105:6",
+            "documentation": {
+              "id": 1254,
+              "nodeType": "StructuredDocumentation",
+              "src": "773:279:6",
+              "text": "@notice Lets whitelisted callers execute a batch of arbitrary calls from the pool without sending any Ether. Reverts if one of the calls fail\n@param _targets Array of addresses of targets to call\n@param _calldata Array of calldata for each call"
+            },
+            "functionSelector": "bd509fd5",
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "callNoValue",
+            "nameLocation": "1066:11:6",
+            "parameters": {
+              "id": 1261,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1257,
+                  "mutability": "mutable",
+                  "name": "_targets",
+                  "nameLocation": "1104:8:6",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1263,
+                  "src": "1087:25:6",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_array$_t_address_$dyn_memory_ptr",
+                    "typeString": "address[]"
+                  },
+                  "typeName": {
+                    "baseType": {
+                      "id": 1255,
+                      "name": "address",
+                      "nodeType": "ElementaryTypeName",
+                      "src": "1087:7:6",
+                      "stateMutability": "nonpayable",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      }
+                    },
+                    "id": 1256,
+                    "nodeType": "ArrayTypeName",
+                    "src": "1087:9:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_array$_t_address_$dyn_storage_ptr",
+                      "typeString": "address[]"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1260,
+                  "mutability": "mutable",
+                  "name": "_calldata",
+                  "nameLocation": "1137:9:6",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1263,
+                  "src": "1122:24:6",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_array$_t_bytes_memory_ptr_$dyn_memory_ptr",
+                    "typeString": "bytes[]"
+                  },
+                  "typeName": {
+                    "baseType": {
+                      "id": 1258,
+                      "name": "bytes",
+                      "nodeType": "ElementaryTypeName",
+                      "src": "1122:5:6",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_bytes_storage_ptr",
+                        "typeString": "bytes"
+                      }
+                    },
+                    "id": 1259,
+                    "nodeType": "ArrayTypeName",
+                    "src": "1122:7:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_array$_t_bytes_storage_$dyn_storage_ptr",
+                      "typeString": "bytes[]"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1077:75:6"
+            },
+            "returnParameters": {
+              "id": 1262,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1161:0:6"
+            },
+            "scope": 1301,
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "id": 1273,
+            "nodeType": "FunctionDefinition",
+            "src": "1454:118:6",
+            "documentation": {
+              "id": 1264,
+              "nodeType": "StructuredDocumentation",
+              "src": "1168:281:6",
+              "text": "@notice Lets whitelisted callers execute a single arbitrary call from the pool. Reverts if the call fails\n@param _target Address of the target to call\n@param _calldata Calldata of the call\n@param _value Amount of ETH to send with the call"
+            },
+            "functionSelector": "98a9884d",
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "singleCall",
+            "nameLocation": "1463:10:6",
+            "parameters": {
+              "id": 1271,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1266,
+                  "mutability": "mutable",
+                  "name": "_target",
+                  "nameLocation": "1491:7:6",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1273,
+                  "src": "1483:15:6",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 1265,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1483:7:6",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1268,
+                  "mutability": "mutable",
+                  "name": "_calldata",
+                  "nameLocation": "1523:9:6",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1273,
+                  "src": "1508:24:6",
+                  "stateVariable": false,
+                  "storageLocation": "calldata",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bytes_calldata_ptr",
+                    "typeString": "bytes"
+                  },
+                  "typeName": {
+                    "id": 1267,
+                    "name": "bytes",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1508:5:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bytes_storage_ptr",
+                      "typeString": "bytes"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 1270,
+                  "mutability": "mutable",
+                  "name": "_value",
+                  "nameLocation": "1550:6:6",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1273,
+                  "src": "1542:14:6",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1269,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1542:7:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1473:89:6"
+            },
+            "returnParameters": {
+              "id": 1272,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1571:0:6"
+            },
+            "scope": 1301,
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "id": 1279,
+            "nodeType": "FunctionDefinition",
+            "src": "1713:45:6",
+            "documentation": {
+              "id": 1274,
+              "nodeType": "StructuredDocumentation",
+              "src": "1578:130:6",
+              "text": "@notice Add a whitelisted caller. Can only be called by the contract owner\n@param _caller Caller to add"
+            },
+            "functionSelector": "747293fb",
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "addCaller",
+            "nameLocation": "1722:9:6",
+            "parameters": {
+              "id": 1277,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1276,
+                  "mutability": "mutable",
+                  "name": "_caller",
+                  "nameLocation": "1740:7:6",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1279,
+                  "src": "1732:15:6",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 1275,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1732:7:6",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1731:17:6"
+            },
+            "returnParameters": {
+              "id": 1278,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1757:0:6"
+            },
+            "scope": 1301,
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "id": 1285,
+            "nodeType": "FunctionDefinition",
+            "src": "1865:48:6",
+            "documentation": {
+              "id": 1280,
+              "nodeType": "StructuredDocumentation",
+              "src": "1764:96:6",
+              "text": "@notice Remove a whitelisted caller. Can only be called by the contract owner"
+            },
+            "functionSelector": "eef21cd2",
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "removeCaller",
+            "nameLocation": "1874:12:6",
+            "parameters": {
+              "id": 1283,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1282,
+                  "mutability": "mutable",
+                  "name": "_caller",
+                  "nameLocation": "1895:7:6",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1285,
+                  "src": "1887:15:6",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 1281,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "1887:7:6",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "1886:17:6"
+            },
+            "returnParameters": {
+              "id": 1284,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "1912:0:6"
+            },
+            "scope": 1301,
+            "stateMutability": "nonpayable",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "id": 1293,
+            "nodeType": "FunctionDefinition",
+            "src": "2081:63:6",
+            "documentation": {
+              "id": 1286,
+              "nodeType": "StructuredDocumentation",
+              "src": "1919:157:6",
+              "text": "@notice Checks if an address is a whitelisted caller\n@param _caller Address to check\n@return If the address is whitelisted"
+            },
+            "functionSelector": "cb6e7a89",
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "canCall",
+            "nameLocation": "2090:7:6",
+            "parameters": {
+              "id": 1289,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1288,
+                  "mutability": "mutable",
+                  "name": "_caller",
+                  "nameLocation": "2106:7:6",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1293,
+                  "src": "2098:15:6",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 1287,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2098:7:6",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "2097:17:6"
+            },
+            "returnParameters": {
+              "id": 1292,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1291,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1293,
+                  "src": "2138:4:6",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  },
+                  "typeName": {
+                    "id": 1290,
+                    "name": "bool",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2138:4:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "2137:6:6"
+            },
+            "scope": 1301,
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          },
+          {
+            "id": 1300,
+            "nodeType": "FunctionDefinition",
+            "src": "2254:63:6",
+            "documentation": {
+              "id": 1294,
+              "nodeType": "StructuredDocumentation",
+              "src": "2150:99:6",
+              "text": "@notice Get all whitelisted callers\n@return Array of whitelisted callers"
+            },
+            "functionSelector": "dd8d4c40",
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "getCallers",
+            "nameLocation": "2263:10:6",
+            "parameters": {
+              "id": 1295,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "2273:2:6"
+            },
+            "returnParameters": {
+              "id": 1299,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1298,
+                  "mutability": "mutable",
+                  "name": "",
+                  "nameLocation": "-1:-1:-1",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1300,
+                  "src": "2299:16:6",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_array$_t_address_$dyn_memory_ptr",
+                    "typeString": "address[]"
+                  },
+                  "typeName": {
+                    "baseType": {
+                      "id": 1296,
+                      "name": "address",
+                      "nodeType": "ElementaryTypeName",
+                      "src": "2299:7:6",
+                      "stateMutability": "nonpayable",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_address",
+                        "typeString": "address"
+                      }
+                    },
+                    "id": 1297,
+                    "nodeType": "ArrayTypeName",
+                    "src": "2299:9:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_array$_t_address_$dyn_storage_ptr",
+                      "typeString": "address[]"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "2298:18:6"
+            },
+            "scope": 1301,
+            "stateMutability": "view",
+            "virtual": false,
+            "visibility": "external"
+          }
+        ],
+        "abstract": false,
+        "baseContracts": [],
+        "canonicalName": "ICallFacet",
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "fullyImplemented": false,
+        "linearizedBaseContracts": [
+          1301
+        ],
+        "name": "ICallFacet",
+        "nameLocation": "101:10:6",
+        "scope": 1302,
+        "usedErrors": []
+      }
+    ],
+    "license": "MIT"
+  }
+}
