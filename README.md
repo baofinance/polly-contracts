@@ -3,61 +3,48 @@ Deployed Nest- (PieDao) contracts
 
 # Deployed Contract Addresses
 
-PieFactory: 0x6A10bB7Ac83Fdd9ceCDb13A8CFC3FC0A017912E2
+Contract  	  					| Address									|Etherscan 																		|
+--------------------------------| ------------------------------------------|-------------------------------------------------------------------------------|
+Pie/Nest Registry  				| 0x51E2F57C346e189c5a41e785d1563f93CCb8FaA1|[Link](https://polygonscan.com/address/0x51E2F57C346e189c5a41e785d1563f93CCb8FaA1)|
+Lending Registry  				| 0xc94BC5C62C53E88d67C3874f5E8f91c6a99656ca|[Link](https://polygonscan.com/address/0xc94BC5C62C53E88d67C3874f5E8f91c6a99656ca)|
+Pie/Nest Factory  				| 0x6A10bB7Ac83Fdd9ceCDb13A8CFC3FC0A017912E2|[Link](https://polygonscan.com/address/0x6A10bB7Ac83Fdd9ceCDb13A8CFC3FC0A017912E2)|
+Basket Facet					| 0xE4f21842E5D7faD1FB360B7623946376db94fEF3|[Link](https://polygonscan.com/address/0xE4f21842E5D7faD1FB360B7623946376db94fEF3)|
+ERC20 Facet     				| 0x92f0049c548B9ff3fe28F2FBd576c6DAF20bEcf2|[Link](https://polygonscan.com/address/0x92f0049c548B9ff3fe28F2FBd576c6DAF20bEcf2)|								
+CallFacet						| 0x1F3A8584691847edD43BC1eDCE83F9B1B7d7555B|[Link](https://polygonscan.com/address/0x1F3A8584691847edD43BC1eDCE83F9B1B7d7555B)|	
+Ownership Facet					| 0xe3fAA5d1feCbc4402Ff4a08684e3BcF70732C2e0|[Link](https://polygonscan.com/address/0xe3fAA5d1feCbc4402Ff4a08684e3BcF70732C2e0)|	
+Diamond Cut Facet				| 0x828125Ec1dAa708677b844ABb05f339741C81d25|[Link](https://polygonscan.com/address/0x828125Ec1dAa708677b844ABb05f339741C81d25)|						
+Diamond Loup Facet				| 0xdC1C3eE57e8D7a898671aF2634E57B6cc7c81F57|[Link](https://polygonscan.com/address/0xdC1C3eE57e8D7a898671aF2634E57B6cc7c81F57)|							
+Diamond		   					| 0x0589C472C35Fc7CaE089DBbAEFB050dD642Ce481|[Link](https://polygonscan.com/address/0x0589C472C35Fc7CaE089DBbAEFB050dD642Ce481)|						
+AAVELendingStrategy				| 0x9eda65278543E2497701Fd5964D86b880d2DCB98|[Link](https://polygonscan.com/address/0x9eda65278543E2497701Fd5964D86b880d2DCB98)|																			|	
+AAVELendingPool  				| 0x8dFf5E27EA6b7AC08EbFdf9eB090F32ee9a30fcf|[Link](https://polygonscan.com/address/0x8dFf5E27EA6b7AC08EbFdf9eB090F32ee9a30fcf)|
+CreamLendingStrategy  			| 0x58aFFd9251e7147d46eb8614893dA2B37AdfcB28|[Link](https://polygonscan.com/address/0x58aFFd9251e7147d46eb8614893dA2B37AdfcB28)|
+KashiLendingStrategy  			| 0x7F9d1B200cBA0D99e200e211E5fafFBE880DF41F|[Link](https://polygonscan.com/address/0x7F9d1B200cBA0D99e200e211E5fafFBE880DF41F)|
+KLIMALendingStrategy  			| 0x2b374dCe80764E8489e68117b8121F58460Eb520|[Link](https://polygonscan.com/address/0x2b374dCe80764E8489e68117b8121F58460Eb520)|
+Recipe  						| 0x2E62EE5005c4069e82d37479f42D1a7Aa2C1B8ba|[Link](https://polygonscan.com/address/0x2E62EE5005c4069e82d37479f42D1a7Aa2C1B8ba)|
+RecipeV2  						| 0x0C9DF041582741b9Ae384F31209A6Dc7ea6B9Bcb|[Link](https://polygonscan.com/address/0x0C9DF041582741b9Ae384F31209A6Dc7ea6B9Bcb)|
+RecipeV3  						| 0x606dC2ab9672eF70704BC3B3A9654B2136796754|[Link](https://polygonscan.com/address/0x606dC2ab9672eF70704BC3B3A9654B2136796754)|
 
-Diamond: 0x0589C472C35Fc7CaE089DBbAEFB050dD642Ce481
+# Deployed Nests
 
-DiamondCutFacet: 0x828125Ec1dAa708677b844ABb05f339741C81d25
+Contract  	  					| Address									|Etherscan 																		|
+--------------------------------| ------------------------------------------|-------------------------------------------------------------------------------|
+nDEFI							| 0xd3f07EA86DDf7BAebEfd49731D7Bbd207FedC53B|[Link](https://polygonscan.com/address/0xd3f07EA86DDf7BAebEfd49731D7Bbd207FedC53B)|
+nDEFI LendingManager  			| 0x3f323a6E3Bddff52529fA9ac94CFCc6E755A0242|[Link](https://polygonscan.com/address/0x3f323a6E3Bddff52529fA9ac94CFCc6E755A0242)|
+nSTBL							| 0x9Bf320bd1796a7495BB6187f9EB4Db2679b74eD3|[Link](https://polygonscan.com/address/0x9Bf320bd1796a7495BB6187f9EB4Db2679b74eD3)|
+nSTBL LendingManager  			| 0x8924F050699a15D33a34dD90215EBEe0aD72e9C3|[Link](https://polygonscan.com/address/0x8924F050699a15D33a34dD90215EBEe0aD72e9C3)|
+nINFR							| 0x14bbe7D3826B5f257B7dde0852036BC94C323ccA|[Link](https://polygonscan.com/address/0x14bbe7D3826B5f257B7dde0852036BC94C323ccA)|
+nINFR LendingManager  			| 0x4aF15f5A013352C682Bc2C9a073bCD76459EB255|[Link](https://polygonscan.com/address/0x4aF15f5A013352C682Bc2C9a073bCD76459EB255)|
+nPOLY							| 0x6B1E22bC4d28DAc283197CF44347639c8360ECE6|[Link](https://polygonscan.com/address/0x6B1E22bC4d28DAc283197CF44347639c8360ECE6)|
+nPOLY LendingManager  			| 0x3fC9EDb3A6cF05511dB305c53BedCe2138B72E82|[Link](https://polygonscan.com/address/0x3fC9EDb3A6cF05511dB305c53BedCe2138B72E82)|
 
-DiamondLoupFacet: 0xdC1C3eE57e8D7a898671aF2634E57B6cc7c81F57
+# Protocol Codes
 
-OwnershipFacet: 0xe3fAA5d1feCbc4402Ff4a08684e3BcF70732C2e0
-
-BasketFacet: 0xE4f21842E5D7faD1FB360B7623946376db94fEF3
-
-ERC20Facet: 0x92f0049c548B9ff3fe28F2FBd576c6DAF20bEcf2
-
-CallFacet: 0x1F3A8584691847edD43BC1eDCE83F9B1B7d7555B
-
-LendingRegistry: 0xc94BC5C62C53E88d67C3874f5E8f91c6a99656ca
-
-PieRegistry: 0x51E2F57C346e189c5a41e785d1563f93CCb8FaA1
-
-Rebalancer: 0xC47D9A6725fFEE67727d3aE8fFa2630A47d649C4
-
-AAVELendingPool: 0x8dFf5E27EA6b7AC08EbFdf9eB090F32ee9a30fcf
-
-AAVELendingLogic:					0x9eda65278543E2497701Fd5964D86b880d2DCB98<br />
-Protocol: 						0x0000000000000000000000009eda65278543E2497701Fd5964D86b880d2DCB98<br />
-
-CREAMLendingLogic:					0x58aFFd9251e7147d46eb8614893dA2B37AdfcB28<br />
-Protocol: 						0x0000000000000000000000001d7a03b6e011561074c9da9572a374bd15928d18<br />
-
-KashiLendingLogic:					0x7F9d1B200cBA0D99e200e211E5fafFBE880DF41F<br />
-Protocol: 						0x000000000000000000000000d3f07ea86ddf7baebefd49731d7bbd207fedc53b<br />
-
-KLIMALendingLogic: 					0x2b374dCe80764E8489e68117b8121F58460Eb520<br />
-Protocol:						0x0000000000000000000000000000000000000000000000000000000000000001<br />
-
-Recipe: 0x2E62EE5005c4069e82d37479f42D1a7Aa2C1B8ba <br />
-
-RecipeV2: 0x0C9DF041582741b9Ae384F31209A6Dc7ea6B9Bcb <br />
-
-RecipeV3: 0x606dC2ab9672eF70704BC3B3A9654B2136796754 <br />
-
-PProxy/Nest: <br />    
-
-0:    Polly nDefi Nest (nDEFI): 		0xd3f07EA86DDf7BAebEfd49731D7Bbd207FedC53B  <br />
-		LendingManager:					 	0x3f323a6E3Bddff52529fA9ac94CFCc6E755A0242 <br />
-
-1:    Polly nStable Nest (nSTBL): 		0x9Bf320bd1796a7495BB6187f9EB4Db2679b74eD3<br />
-		LendingManager:						0x8924F050699a15D33a34dD90215EBEe0aD72e9C3 <br />
-		
-2:	  Polly nPOLY Nest (nPOLY): 		0x14bbe7D3826B5f257B7dde0852036BC94C323ccA<br />
-		LendingManager:						0x4aF15f5A013352C682Bc2C9a073bCD76459EB255<br />
-		
-3:	  Polly nINFR Nest (nINFR): 		0x6B1E22bC4d28DAc283197CF44347639c8360ECE6<br />
-		LendingManager:						0x3fC9EDb3A6cF05511dB305c53BedCe2138B72E82<br />
+Contract  	  					| Protocol Code									                    |
+--------------------------------| ------------------------------------------------------------------|
+Cream 							| 0x0000000000000000000000001d7a03b6e011561074c9da9572a374bd15928d18|
+AAVE  							| 0x0000000000000000000000009eda65278543E2497701Fd5964D86b880d2DCB98|
+Kashi  							| 0x000000000000000000000000d3f07ea86ddf7baebefd49731d7bbd207fedc53b|
+KLIMA  							| 0x0000000000000000000000000000000000000000000000000000000000000001|
 
 
 #KashiLending Notes: 
