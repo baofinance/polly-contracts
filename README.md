@@ -1,121 +1,6 @@
 # NestContracts
 Deployed Nest- (PieDao) contracts
 
-# Contract Changes
-
-1. 	Originaly the recipe always looks at Uniswap and SushiSwap to identify the best price. The new Recipe does not check the prices and only trades on SushiSwap.
-
-2.  The contracts where ported as is from the PieDaos implementation on Main net with a few exceptions:
-	On the Polygon network the Aave protocol requires the sender to state the address where the amTokens or underlying tokens should be send when depositing or withdrawing.
-
-
-	This required small changes in the following contracts:<br />
-	**ILendingLogic.so**
-	```
-		function lend(address _underlying, uint256 _amount, address _tokenHolder) external view returns(address[] memory targets, bytes[] memory data);
-	
-		function unlend(address _wrapped, uint256 _amount, address _tokenHolder) external view returns(address[] memory targets, bytes[] memory data);
-	```
-
-	**LendingRegestry.sol**
-	```
-	function getLendTXData(address _underlying, uint256 _amount, address _tokenHolder, bytes32 _protocol) external view returns(address[] memory targets, bytes[] memory data) {
-		ILendingLogic lendingLogic = ILendingLogic(protocolToLogic[_protocol]);
-		require(address(lendingLogic) != address(0), "NO_LENDING_LOGIC_SET");
-		return lendingLogic.lend(_underlying, _amount, _tokenHolder);
-	}
-	```
-	**AaveLendingLogic.sol**
-	```
-	function lend(address _underlying,uint256 _amount, address _tokenHolder) external view override returns(address[] memory targets, bytes[] memory data) {
-		IERC20 underlying = IERC20(_underlying);
-		targets = new address[](3);
-		data = new bytes[](3);
-		// zero out approval to be sure
-		targets[0] = _underlying;
-		data[0] = abi.encodeWithSelector(underlying.approve.selector, address(lendingPool), 0);
-		// Set approval
-		targets[1] = _underlying;
-		data[1] = abi.encodeWithSelector(underlying.approve.selector, address(lendingPool), _amount);
-		// Deposit into Aave
-		targets[2] = address(lendingPool);
-		data[2] =  abi.encodeWithSelector(lendingPool.deposit.selector, _underlying, _amount, _tokenHolder, referralCode);
-		return(targets, data);
-	}
-	function unlend(address _wrapped, uint256 _amount,address _tokenHolder) external view override returns(address[] memory targets, bytes[] memory data) {
-		ATokenV2 wrapped = ATokenV2(_wrapped);
-		targets = new address[](1);
-		data = new bytes[](1);
-		targets[0] = address(lendingPool);
-		data[0] = abi.encodeWithSelector(
-			lendingPool.withdraw.selector,
-			wrapped.UNDERLYING_ASSET_ADDRESS(),
-			_amount,
-			_tokenHolder
-		);
-		return(targets, data);
-	}
-	```
-	**CREAMLendingLogic.sol**
-	```
-	function lend(address _underlying, uint256 _amount, address _tokenHolder) external view override returns(address[] memory targets, bytes[] memory data) {
-		IERC20 underlying = IERC20(_underlying);
-		targets = new address[](3);
-		data = new bytes[](3);
-		address cToken = lendingRegistry.underlyingToProtocolWrapped(_underlying, protocolKey);
-		// zero out approval to be sure
-		targets[0] = _underlying;
-		data[0] = abi.encodeWithSelector(underlying.approve.selector, cToken, 0);
-		// Set approval
-		targets[1] = _underlying;
-		data[1] = abi.encodeWithSelector(underlying.approve.selector, cToken, _amount);
-		// Deposit into Compound
-		targets[2] = cToken;
-		data[2] =  abi.encodeWithSelector(ICToken.mint.selector, _amount);
-		return(targets, data);
-	}
-	function unlend(address _wrapped, uint256 _amount, address _tokenHolder) external view override returns(address[] memory targets, bytes[] memory data) {
-		targets = new address[](1);
-		data = new bytes[](1);
-		targets[0] = _wrapped;
-		data[0] = abi.encodeWithSelector(ICToken.redeem.selector, _amount);
-		return(targets, data);
-	}
-	```
-	**LendingManger.sol**
-
-	Changing the LendingManager requires increased vigilants, as it has direct access to the Nests funds. 	
-	This is the only change made to the LendingManager:
-
-	BEFORE CHANGE	
-	```
-        ) = lendingRegistry.getLendTXData(_underlying, amount, _protocol);
-	```	
-
-	AFTER CHANGE	
-	```
-        ) = lendingRegistry.getLendTXData(_underlying, amount, address(basket),_protocol);
-	```
-	The `basket` constant is set on deployment and cannot be changed retroactively. 
-	It is the address of the nest/index that the LendingManager is assigned to.
-	
-	**Recipe contracts**
-
-	The "Recipe" contract is used to swap the users wETH for the index assets and lend them in a specific protocol when needed.
-	As the recipe does not have access to any funds deposited in the index, we felt like more liberties could be made adjusting the code.
-	The following is a change that allows us to take an entry fee that is exchanged for polly and then burned:
-	```
-	if(remainingInputBalance > 0 && feeAmount != 0) {
-		WETH.approve(address(sushiRouter), 0);
-		WETH.approve(address(sushiRouter), type(uint256).max);
-		address[] memory route = getRoute(address(WETH), baoAddress);
-		uint256 estimatedAmount = sushiRouter.getAmountsOut(feeAmount, route)[1];
-		sushiRouter.swapExactTokensForTokens(feeAmount, estimatedAmount, route, address(this), block.timestamp + 1);
-		baoToken.burn(baoToken.balanceOf(address(this)));    
-    }
-	```
-	The recipe will likely see several adjustments in the future as the ecosystem changes and we have to adjust how we swap/lend assets.
-
 # Deployed Contract Addresses
 
 PieFactory: 0x6A10bB7Ac83Fdd9ceCDb13A8CFC3FC0A017912E2
@@ -174,13 +59,6 @@ PProxy/Nest: <br />
 3:	  Polly nINFR Nest (nINFR): 		0x6B1E22bC4d28DAc283197CF44347639c8360ECE6<br />
 		LendingManager:						0x3fC9EDb3A6cF05511dB305c53BedCe2138B72E82<br />
 
-# Regarding LendingLogic:
-
-There is one central LendingRegistry which dictates to which protocol underlying assets are to be lend.<br />
-Each nest requires an individual LendingManger.<br />
-This LendingManager is used to change lending strategies for individual tokens within a nest.<br />
-There is only one AAVELendingLogic/CREAMLendingLogic/KashiLendingLogic contract required for all nests.<br />
-For each lending strategy we have to generate a unique Protocol Hash that is saved in the LendingRegistry <br />
 
 #KashiLending Notes: 
 
@@ -192,7 +70,7 @@ MasterContract: 0xb527c5295c4bc348cbb3a2e96b2494fd292075a7 <br />
 
 # Setting Up Facets
 
-The PieFactory includes a method called "addFacet()". With this function we add the methods of the facets to the Diamond mappings so that it knows where to deligate certain function calls.<br />
+The PieFactory includes a method `addFacet()`. With this function we add the methods of the facets to the Diamond mappings so that it knows where to deligate certain function calls.<br />
 Formating the addFacet() inputs can be quite time consuming. <br />
 
 The following is a template where only the facet addresses have to be added:
