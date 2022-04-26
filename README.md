@@ -3,7 +3,7 @@ Deployed Nest- (PieDao) contracts
 
 # Deployed Contract Addresses
 
-Contract  	  					| Address									|Etherscan 																		|
+Contract  	  					| Address									|Polygonscan 																		|
 --------------------------------| ------------------------------------------|-------------------------------------------------------------------------------|
 Pie/Nest Registry  				| 0x51E2F57C346e189c5a41e785d1563f93CCb8FaA1|[Link](https://polygonscan.com/address/0x51E2F57C346e189c5a41e785d1563f93CCb8FaA1)|
 Lending Registry  				| 0xc94BC5C62C53E88d67C3874f5E8f91c6a99656ca|[Link](https://polygonscan.com/address/0xc94BC5C62C53E88d67C3874f5E8f91c6a99656ca)|
@@ -26,7 +26,7 @@ RecipeV3  						| 0x606dC2ab9672eF70704BC3B3A9654B2136796754|[Link](https://poly
 
 # Deployed Nests
 
-Contract  	  					| Address									|Etherscan 																		|
+Contract  	  					| Address									|Polygonscan 																		|
 --------------------------------| ------------------------------------------|-------------------------------------------------------------------------------|
 nDEFI							| 0xd3f07EA86DDf7BAebEfd49731D7Bbd207FedC53B|[Link](https://polygonscan.com/address/0xd3f07EA86DDf7BAebEfd49731D7Bbd207FedC53B)|
 nDEFI LendingManager  			| 0x3f323a6E3Bddff52529fA9ac94CFCc6E755A0242|[Link](https://polygonscan.com/address/0x3f323a6E3Bddff52529fA9ac94CFCc6E755A0242)|
