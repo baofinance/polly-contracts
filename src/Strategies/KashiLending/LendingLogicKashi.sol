@@ -6,7 +6,6 @@ import "./Interfaces/ILendingLogic.sol";
 import "./Interfaces/ILendingRegistry.sol";
 import "./Interfaces/IBentoBoxV1.sol";
 import "./Interfaces/IKashiPair.sol";
-import "hardhat/console.sol";
 
 contract LendingLogicKashi is ILendingLogic {
     
