@@ -1,9 +1,9 @@
 const { ethers } = require("hardhat");
 
 const weth = "0x7ceb23fd6bc0add59e62ac25578270cff1b9f619";
-const bentoBox = "0x0319000133d3AdA02600f0875d2cf03D442C3367";
 const lendingRegistry = "0xc94BC5C62C53E88d67C3874f5E8f91c6a99656ca";
 const nestRegistry = "0x51E2F57C346e189c5a41e785d1563f93CCb8FaA1";
+const bentoBox = "0x0319000133d3AdA02600f0875d2cf03D442C3367";
 //Kashi Lending Master Contract
 const masterContract = "0xB527C5295c4Bc348cBb3a2E96B2494fD292075a7";
 
@@ -14,15 +14,15 @@ async function main() {
     /*
     await hre.network.provider.request({
         method: "hardhat_impersonateAccount",
-        params: ["0xab0C9BC6bcBaad9391C530f33f9294DEc38ae189"],
+        params: [""],
     });
 
-    const admin = await ethers.getSigner("0xab0C9BC6bcBaad9391C530f33f9294DEc38ae189");
+    const admin = await ethers.getSigner("");
     */
-    const recipeContract = await ethers.getContractAt("contracts/Recipes/RecipeV3.sol:RecipeV3","0x606dC2ab9672eF70704BC3B3A9654B2136796754");
+    //const recipeContract = await ethers.getContractAt("contracts/Recipes/RecipeV3.sol:RecipeV3","0x606dC2ab9672eF70704BC3B3A9654B2136796754");
     
    
-    /*console.log("deploying....");
+    console.log("deploying....");
     //Deploy Recipe
     const recipeFactory = await ethers.getContractFactory("contracts/Recipes/RecipeV3.sol:RecipeV3");
     recipeContract = await recipeFactory.deploy(weth,lendingRegistry,nestRegistry,bentoBox,masterContract);
@@ -59,7 +59,7 @@ async function main() {
     transaction = await recipeContract.setCustomHop("0xFbdd194376de19a88118e84E279b977f165d01b8", "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174");
     await transaction.wait();
     transaction = await recipeContract.setCustomHop("0x4e78011Ce80ee02d2c3e649Fb657E45898257815", "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174");
-    await transaction.wait();*/
+    await transaction.wait();
     /*
     //console.log("baking....");
     //Weth approval
@@ -71,7 +71,7 @@ async function main() {
     transaction = await recipeContract.connect(admin).bake("0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619","0x14bbe7D3826B5f257B7dde0852036BC94C323ccA","5000000000000000","1000000000000000000");
     await transaction.wait()*/
     //console.log("Getting nest price")
-    console.log((await recipeContract.callStatic.getPrice("0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619", "0x14bbe7D3826B5f257B7dde0852036BC94C323ccA", "1000000000000000000")).toString());
+    //console.log((await recipeContract.callStatic.getPrice("0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619", "0x14bbe7D3826B5f257B7dde0852036BC94C323ccA", "100000000000000000000")).toString());
     
 }
 

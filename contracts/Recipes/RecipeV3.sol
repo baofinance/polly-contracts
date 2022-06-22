@@ -296,15 +296,6 @@ contract RecipeV3 is Ownable {
     }
 
     function getRoute(address _inputToken, address _outputToken) internal returns(address[] memory route) {
-        // if both input and output are not WETH
-        if(_inputToken != address(WETH) && _outputToken != address(WETH)) {
-            route = new address[](3);
-            route[0] = _inputToken;
-            route[1] = address(WETH);
-            route[2] = _outputToken;
-            return route;
-        }
-
         route = new address[](2);
         route[0] = _inputToken;
         route[1] = _outputToken;

@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.7;
 
-import "../Interfaces/IERC20.sol";
-import "../Interfaces/ILendingLogic.sol";
+import "./KashiLending/Interfaces/IERC20.sol";
+import "./KashiLending/Interfaces/ILendingLogic.sol";
 
 interface IsKLIMA {
     function rebase( uint256 klimaProfit_, uint epoch_) external returns (uint256);
