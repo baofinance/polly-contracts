@@ -50,7 +50,7 @@ async function main() {
     await transaction.wait();
     transaction = await recipeContract.setUniPoolMapping("0xb33EaAd8d922B1083446DC23f610c2567fB5180f",3000);
     await transaction.wait();
-    transaction = await recipeContract.setUniPoolMapping("0x172370d5Cd63279eFa6d502DAB29171933a610AF",3000);
+    transaction = await recipeContract.setUniPoolMapping("0x172370d5Cd63279eFa6d502DAB29171933a610AF",10000);
     await transaction.wait();
     transaction = await recipeContract.setUniPoolMapping("0x53E0bca35eC356BD5ddDFebbD1Fc0fD03FaBad39",3000);
     await transaction.wait();

@@ -35,6 +35,7 @@ contract RecipeV3 is Ownable {
 
     IBalancer balancer = IBalancer(0xBA12222222228d8Ba445958a75a0704d566BF2C8);
     uniOracle oracle = uniOracle(0xb27308f9F90D607463bb33eA1BeBb41C27CE5AB6);
+    IUniRouter quickRouter = IUniRouter(0xa5E0829CaCEd8fFDD4De3c43696c57F7D7A678ff);
     uniV3Router uniRouter = uniV3Router(0xE592427A0AEce92De3Edee1F18E0157C05861564);
     IUniRouter sushiRouter = IUniRouter(0x1b02dA8Cb0d097eB8D57A175b88c7D8b47997506);
 
@@ -182,6 +183,13 @@ contract RecipeV3 is Ownable {
             sushiRouter.swapTokensForExactTokens(_amountOut,type(uint256).max,getRoute(_assetIn, _assetOut),address(this),block.timestamp + 1);
             return;
         }
+        //Quickswap
+        if(_ammIndex == 3){
+            IERC20(_assetIn).approve(address(quickRouter), 0);
+            IERC20(_assetIn).approve(address(quickRouter), type(uint256).max);
+            quickRouter.swapTokensForExactTokens(_amountOut,type(uint256).max,getRoute(_assetIn, _assetOut),address(this),block.timestamp + 1);
+            return;
+        }
 
         //Balancer
         IBalancer.SwapKind kind = IBalancer.SwapKind.GIVEN_OUT;
@@ -263,6 +271,7 @@ contract RecipeV3 is Ownable {
     function getBestPrice(address _assetIn, address _assetOut, uint _amountOut) public returns (BestPrice memory){
         uint uniAmount;
         uint sushiAmount;
+        uint quickAmount;
         uint balancerAmount;
         BestPrice memory bestPrice;
 
@@ -283,12 +292,23 @@ contract RecipeV3 is Ownable {
             bestPrice.ammIndex = 2;
         }
 
+        //GET QUICKSWAP PRICE
+        try quickRouter.getAmountsIn(_amountOut, getRoute(_assetIn, _assetOut)) returns(uint256[] memory amounts) {
+            quickAmount = amounts[0];
+        } catch {
+            quickAmount = type(uint256).max;
+        }
+        if(bestPrice.price>quickAmount){
+            bestPrice.price = quickAmount;
+            bestPrice.ammIndex = 3;
+        }
+
         //GET BALANCER PRICE
         if(balancerViable[_assetOut]!= ""){
             balancerAmount = getPriceBalancer(_assetIn,_assetOut,_amountOut);
             if(bestPrice.price>balancerAmount){
                 bestPrice.price = balancerAmount;
-                bestPrice.ammIndex = 3;
+                bestPrice.ammIndex = 4;
             }
         }
 
@@ -296,6 +316,7 @@ contract RecipeV3 is Ownable {
     }
 
     function getRoute(address _inputToken, address _outputToken) internal returns(address[] memory route) {
+
         route = new address[](2);
         route[0] = _inputToken;
         route[1] = _outputToken;
@@ -370,10 +391,18 @@ contract RecipeV3 is Ownable {
         uint256 inputAmount = 0;
 
         for(uint256 i = 0; i < tokens.length; i ++) {
+            if(amounts[i] == 0){
+                inputAmount += 0;
+                continue;
+            }
             address customHopToken = customHops[tokens[i]];
             if(customHopToken != address(0)) {
                 //get price for hop
                 BestPrice memory hopPrice = getBestPrice(customHopToken, tokens[i], amounts[i]);
+                if(hopPrice.price == type(uint256).max){
+                    inputAmount += 0;
+                    continue;
+                }
                 inputAmount += getPrice(address(WETH), customHopToken, hopPrice.price);
             }else{
                 inputAmount += getPrice(address(WETH), tokens[i], amounts[i]);
